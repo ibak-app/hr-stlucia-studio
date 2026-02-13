@@ -34,7 +34,7 @@ CREATE TABLE profiles (
   experience_years INTEGER,
   education_level TEXT,
   current_employer TEXT,
-  current_role TEXT,
+  current_job_title TEXT,
   desired_roles TEXT[],
   desired_salary_min INTEGER,
   desired_salary_max INTEGER,
