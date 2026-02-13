@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npx *)",
+      "Bash(python *)",
+      "Bash(git *)",
+      "Bash(mkdir *)",
+      "Bash(ls *)"
+    ],
+    "deny": [
+      "Bash(rm -rf /)*",
+      "Bash(git push --force)*"
+    ]
+  }
+}
