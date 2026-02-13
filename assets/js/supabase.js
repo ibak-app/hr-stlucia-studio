@@ -57,6 +57,22 @@ const Auth = {
     });
   },
 
+  async signInWithGoogle() {
+    var sb = getSupabase();
+    if (!sb) return { error: { message: 'Supabase not initialized' } };
+
+    return await sb.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin + '/dashboard.html',
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent'
+        }
+      }
+    });
+  },
+
   async signOut() {
     var sb = getSupabase();
     if (!sb) return;

@@ -96,6 +96,10 @@
     }
     .logout-link button:hover { color: var(--error); }
   </style>
+  <!-- Analytics: Plausible -->
+  <script defer data-domain="talent.stlucia.studio" src="https://plausible.io/js/script.js"></script>
+  <!-- Analytics: Facebook Pixel (replace YOUR_PIXEL_ID) -->
+  <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','YOUR_PIXEL_ID');fbq('track','PageView');</script>
 </head>
 <body>
 
@@ -220,13 +224,22 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="assets/js/supabase.js"></script>
   <script src="assets/js/app.js"></script>
+  <script src="assets/js/analytics.js"></script>
   <script src="assets/js/auth.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       App.requireAuth();
 
-      App.onAuthReady(function(user, profile) {
+      App.onAuthReady(async function(user, profile) {
         if (!user) return;
+
+        // Handle OAuth callback — create profile if new Google user
+        await AuthUI.handleOAuthCallback();
+        // Reload profile in case it was just created
+        if (!profile) {
+          await App.loadProfile();
+          profile = App.getProfile();
+        }
 
         // Welcome message
         var welcomeEl = document.getElementById('welcome-name');

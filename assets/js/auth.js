@@ -57,6 +57,41 @@ var AuthUI = (function() {
     return { success: true, message: 'Check your email for a login link.' };
   }
 
+  // ---- Google Login ----
+  async function handleGoogleLogin() {
+    var result = await Auth.signInWithGoogle();
+    if (result.error) {
+      App.showToast(result.error.message, 'error');
+      return;
+    }
+    // Redirect is handled by Supabase OAuth flow
+  }
+
+  // ---- Handle OAuth Callback (create profile for new Google users) ----
+  async function handleOAuthCallback() {
+    var user = App.getUser();
+    if (!user) return;
+
+    // Check if profile exists
+    var existing = await DB.getProfile(user.id);
+    if (existing.data) return; // already has profile
+
+    // New Google user — create profile from auth metadata
+    var meta = user.user_metadata || {};
+    var profileData = {
+      user_id: user.id,
+      email: user.email || meta.email || '',
+      first_name: meta.full_name ? meta.full_name.split(' ')[0] : (meta.name || ''),
+      last_name: meta.full_name ? meta.full_name.split(' ').slice(1).join(' ') : '',
+      photo_url: meta.avatar_url || meta.picture || '',
+      source: localStorage.getItem('talent_utm') || localStorage.getItem('talent_ref') || 'google',
+      referral_code: App.generateReferralCode()
+    };
+
+    await DB.upsertProfile(profileData);
+    await DB.trackEvent('signup_complete', { method: 'google' });
+  }
+
   // ---- Logout ----
   async function handleLogout() {
     await Auth.signOut();
@@ -339,6 +374,8 @@ var AuthUI = (function() {
     getSelectedTags: getSelectedTags,
     handleLogout: handleLogout,
     handleSignup: handleSignup,
-    handleLogin: handleLogin
+    handleLogin: handleLogin,
+    handleGoogleLogin: handleGoogleLogin,
+    handleOAuthCallback: handleOAuthCallback
   };
 })();
