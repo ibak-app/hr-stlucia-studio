@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>For Employers — Talent by St. Lucia Studio</title>
+  <meta name="description" content="Access Saint Lucia's largest pre-screened talent pool with video profiles. Hire faster, hire better.">
+  <meta name="theme-color" content="#0D7377">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .employer-hero {
+      padding-top: calc(var(--nav-height) + var(--spacing-2xl));
+      padding-bottom: var(--spacing-2xl);
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      color: var(--text-inverse);
+      text-align: center;
+    }
+    .employer-hero h1 {
+      color: var(--text-inverse);
+      font-size: 32px;
+      margin-bottom: var(--spacing-sm);
+    }
+    .employer-hero p {
+      color: rgba(255,255,255,0.8);
+      max-width: 520px;
+      margin: 0 auto var(--spacing-lg);
+      font-size: 17px;
+    }
+    .benefit-list {
+      text-align: left;
+      max-width: 480px;
+      margin: var(--spacing-xl) auto 0;
+    }
+    .benefit-list li {
+      display: flex;
+      gap: var(--spacing-sm);
+      padding: var(--spacing-sm) 0;
+      font-size: 15px;
+      color: rgba(255,255,255,0.85);
+    }
+    .benefit-list li svg { flex-shrink: 0; margin-top: 2px; }
+    .waitlist-form {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: var(--spacing-xl) var(--spacing-md);
+    }
+    .waitlist-card {
+      background: var(--bg);
+      border-radius: var(--radius-xl);
+      padding: var(--spacing-xl);
+      box-shadow: var(--shadow-md);
+    }
+    .waitlist-card h2 {
+      text-align: center;
+      margin-bottom: var(--spacing-xs);
+    }
+    .waitlist-card > p {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: var(--spacing-lg);
+    }
+    .pricing-preview {
+      text-align: center;
+      padding: var(--spacing-xl) var(--spacing-md);
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .pricing-preview h2 { margin-bottom: var(--spacing-sm); }
+    .pricing-preview > p {
+      color: var(--text-muted);
+      margin-bottom: var(--spacing-xl);
+    }
+    .price-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+    }
+    .price-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-lg);
+      text-align: center;
+    }
+    .price-card--featured {
+      border-color: var(--primary);
+      position: relative;
+    }
+    .price-card__badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+    }
+    .price-card__name { font-weight: 700; margin-bottom: var(--spacing-xs); }
+    .price-card__price {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    .price-card__price span {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+    .price-card__features {
+      text-align: left;
+      margin: var(--spacing-md) 0;
+    }
+    .price-card__features li {
+      display: flex;
+      gap: 8px;
+      padding: 4px 0;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    @media (min-width: 600px) {
+      .employer-hero h1 { font-size: 42px; }
+      .price-cards { grid-template-columns: 1fr 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="/" class="nav__logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <rect width="28" height="28" rx="6" fill="#0D7377"/>
+          <text x="14" y="19" text-anchor="middle" font-size="16" font-weight="800" fill="#FFD166">T</text>
+        </svg>
+        Talent<span>.SL</span>
+      </a>
+      <div class="nav__cta">
+        <a href="signup.html" class="btn btn--primary btn--sm">I'm Talent</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="employer-hero">
+    <div class="container">
+      <h1>Hire Saint Lucia's Best Talent</h1>
+      <p>Access a growing pool of pre-screened professionals with video profiles. See who they are before the first interview.</p>
+
+      <ul class="benefit-list">
+        <li>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFD166" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Search by skill, sector, experience, and location
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFD166" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Watch 60-second video resumes before scheduling interviews
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFD166" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Save candidates to shortlists and compare talent
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFD166" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Reduce time-to-hire with video screening
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFD166" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Access local and diaspora talent in one place
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Pricing Preview -->
+  <section class="section section--alt">
+    <div class="pricing-preview">
+      <h2>Simple, Transparent Pricing</h2>
+      <p>Employer access is coming soon. Here's what to expect.</p>
+
+      <div class="price-cards">
+        <div class="price-card">
+          <div class="price-card__name">Starter</div>
+          <div class="price-card__price">$99<span>/mo</span></div>
+          <ul class="price-card__features">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Browse all profiles</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Watch video resumes</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 10 contact reveals / month</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 1 job posting</li>
+          </ul>
+        </div>
+
+        <div class="price-card price-card--featured">
+          <div class="price-card__badge">Most Popular</div>
+          <div class="price-card__name">Professional</div>
+          <div class="price-card__price">$249<span>/mo</span></div>
+          <ul class="price-card__features">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Everything in Starter</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 50 contact reveals / month</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 5 job postings</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Shortlist & compare</li>
+          </ul>
+        </div>
+
+        <div class="price-card">
+          <div class="price-card__name">Enterprise</div>
+          <div class="price-card__price">$499<span>/mo</span></div>
+          <ul class="price-card__features">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Everything in Professional</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Unlimited contacts</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Unlimited job postings</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Priority support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Waitlist Form -->
+  <section class="section">
+    <div class="waitlist-form">
+      <div class="waitlist-card">
+        <h2>Get Early Access</h2>
+        <p>Join the employer waitlist. Be the first to access Saint Lucia's talent pool.</p>
+
+        <form id="employer-waitlist" novalidate>
+          <div class="form-group">
+            <label class="form-label form-label--required" for="emp-name">Your Name</label>
+            <input type="text" id="emp-name" name="name" class="form-input" required placeholder="Full name">
+            <div class="form-error"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label form-label--required" for="emp-email">Work Email</label>
+            <input type="email" id="emp-email" name="email" class="form-input" required placeholder="you@company.com">
+            <div class="form-error"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="emp-company">Company Name</label>
+            <input type="text" id="emp-company" name="company" class="form-input" placeholder="Your company">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="emp-notes">What roles are you hiring for?</label>
+            <textarea id="emp-notes" name="notes" class="form-input" rows="3" placeholder="e.g. Front desk staff, accountant, IT manager..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--full" id="waitlist-btn">Join Employer Waitlist</button>
+        </form>
+
+        <div id="waitlist-success" class="hidden" style="text-align: center; padding: var(--spacing-xl) 0;">
+          <div style="width:56px;height:56px;border-radius:50%;background:var(--success);display:flex;align-items:center;justify-content:center;margin:0 auto var(--spacing-md);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>You're on the list!</h3>
+          <p class="text-muted" style="font-size: 14px;">We'll reach out when employer access is ready. Thank you for your interest.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <p>&copy; 2026 St. Lucia Studio. All rights reserved.</p>
+        <div style="display:flex;gap:var(--spacing-md);">
+          <a href="privacy.html" style="color:rgba(255,255,255,0.6);font-size:13px;">Privacy</a>
+          <a href="terms.html" style="color:rgba(255,255,255,0.6);font-size:13px;">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="assets/js/supabase.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var form = document.getElementById('employer-waitlist');
+      var btn = document.getElementById('waitlist-btn');
+      var successEl = document.getElementById('waitlist-success');
+
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        if (!App.validateForm(form)) return;
+
+        App.setLoading(btn, true);
+        var data = App.getFormData(form);
+        data.type = 'employer';
+
+        var result = await DB.joinWaitlist(data);
+        App.setLoading(btn, false);
+
+        if (result.error) {
+          App.showToast('Something went wrong. Please try again.', 'error');
+        } else {
+          form.classList.add('hidden');
+          successEl.classList.remove('hidden');
+          DB.trackEvent('employer_waitlist', { company: data.company });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

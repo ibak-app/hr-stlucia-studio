@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Create Your Profile — Talent by St. Lucia Studio</title>
+  <meta name="description" content="Create your professional profile and video resume. Get discovered by top employers in Saint Lucia.">
+  <meta name="theme-color" content="#0D7377">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .signup-page {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      padding-top: var(--nav-height);
+      background: var(--bg-alt);
+    }
+    .signup-container {
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+      padding: var(--spacing-lg) var(--spacing-md) var(--spacing-3xl);
+      flex: 1;
+    }
+    .signup-header {
+      text-align: center;
+      margin-bottom: var(--spacing-lg);
+    }
+    .signup-header h1 {
+      font-size: 24px;
+      margin-bottom: var(--spacing-xs);
+    }
+    .signup-header p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    .step-label {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: var(--spacing-sm);
+    }
+    .signup-card {
+      background: var(--bg);
+      border-radius: var(--radius-xl);
+      padding: var(--spacing-xl) var(--spacing-lg);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+    }
+    .signup-step h2 {
+      font-size: 20px;
+      margin-bottom: var(--spacing-xs);
+    }
+    .signup-step > p {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: var(--spacing-lg);
+    }
+    .btn-row {
+      display: flex;
+      gap: var(--spacing-sm);
+      margin-top: var(--spacing-lg);
+    }
+    .btn-row .btn { flex: 1; }
+    .password-wrapper {
+      position: relative;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 13px;
+      font-family: inherit;
+      padding: 4px 8px;
+    }
+    .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-sm);
+      margin-top: var(--spacing-sm);
+    }
+    .tags-container .tag {
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .char-count {
+      text-align: right;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .login-link {
+      text-align: center;
+      margin-top: var(--spacing-lg);
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .login-link a {
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="/" class="nav__logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <rect width="28" height="28" rx="6" fill="#0D7377"/>
+          <text x="14" y="19" text-anchor="middle" font-size="16" font-weight="800" fill="#FFD166">T</text>
+        </svg>
+        Talent<span>.SL</span>
+      </a>
+      <div class="nav__cta">
+        <a href="login.html" class="btn btn--ghost btn--sm">Log In</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="signup-page">
+    <div class="signup-container">
+
+      <div class="signup-header">
+        <h1>Create Your Profile</h1>
+        <p>It only takes 2 minutes. Let's get you discovered.</p>
+      </div>
+
+      <!-- Progress -->
+      <div class="step-label">Step 1 of 3</div>
+      <div class="progress mb-lg">
+        <div class="progress__bar" style="width: 33%"></div>
+      </div>
+
+      <!-- Step Dots -->
+      <div class="steps mb-lg">
+        <div class="step step--active">
+          <div class="step__dot">1</div>
+        </div>
+        <div class="step">
+          <div class="step__line"></div>
+          <div class="step__dot">2</div>
+        </div>
+        <div class="step">
+          <div class="step__line"></div>
+          <div class="step__dot">3</div>
+        </div>
+      </div>
+
+      <div class="signup-card">
+        <form id="signup-form" novalidate>
+
+          <!-- Step 1: Account -->
+          <div class="signup-step" data-step="1">
+            <h2>Let's start with the basics</h2>
+            <p>Your name and contact info. This is how employers will reach you.</p>
+
+            <div class="grid grid--2 gap-sm">
+              <div class="form-group">
+                <label class="form-label form-label--required" for="first_name">First Name</label>
+                <input type="text" id="first_name" name="first_name" class="form-input" required autocomplete="given-name" placeholder="e.g. Marcus">
+                <div class="form-error"></div>
+              </div>
+              <div class="form-group">
+                <label class="form-label form-label--required" for="last_name">Last Name</label>
+                <input type="text" id="last_name" name="last_name" class="form-input" required autocomplete="family-name" placeholder="e.g. Joseph">
+                <div class="form-error"></div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label form-label--required" for="email">Email</label>
+              <input type="email" id="email" name="email" class="form-input" required autocomplete="email" placeholder="you@example.com">
+              <div class="form-error"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" class="form-input" autocomplete="tel" placeholder="+1 758 XXX XXXX">
+              <div class="form-hint">Optional but helps employers contact you faster.</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label form-label--required" for="password">Create Password</label>
+              <div class="password-wrapper">
+                <input type="password" id="password" name="password" class="form-input" required minlength="6" autocomplete="new-password" placeholder="At least 6 characters">
+                <button type="button" class="toggle-password">Show</button>
+              </div>
+              <div class="form-error"></div>
+            </div>
+
+            <button type="button" class="btn btn--primary btn--full" data-next>Continue</button>
+
+            <div class="login-link">
+              Already have an account? <a href="login.html">Log in</a>
+            </div>
+          </div>
+
+          <!-- Step 2: Professional -->
+          <div class="signup-step hidden" data-step="2">
+            <h2>Tell us about your career</h2>
+            <p>What do you do? Help employers find you by adding your skills and experience.</p>
+
+            <div class="form-group">
+              <label class="form-label" for="headline">Professional Headline</label>
+              <input type="text" id="headline" name="headline" class="form-input" maxlength="120" placeholder="e.g. Experienced Hotel Manager | Tourism Professional">
+              <div class="form-hint">A short title that describes you professionally.</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Skills</label>
+              <div class="form-hint mb-sm">Select all that apply or type your own.</div>
+              <div class="tags-container" id="skills-tags"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Sectors of Interest</label>
+              <div class="tags-container" id="sector-tags"></div>
+            </div>
+
+            <div class="grid grid--2 gap-sm">
+              <div class="form-group">
+                <label class="form-label" for="experience_years">Years of Experience</label>
+                <select id="experience_years" name="experience_years" class="form-input">
+                  <option value="">Select</option>
+                  <option value="0">Less than 1 year</option>
+                  <option value="1">1-2 years</option>
+                  <option value="3">3-5 years</option>
+                  <option value="6">6-10 years</option>
+                  <option value="11">10+ years</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="education_level">Education Level</label>
+                <select id="education_level" name="education_level" class="form-input">
+                  <option value="">Select</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="btn-row">
+              <button type="button" class="btn btn--outline" data-prev>Back</button>
+              <button type="button" class="btn btn--primary" data-next>Continue</button>
+            </div>
+          </div>
+
+          <!-- Step 3: Summary -->
+          <div class="signup-step hidden" data-step="3">
+            <h2>Write a short summary</h2>
+            <p>Tell employers about yourself. What makes you great at what you do?</p>
+
+            <div class="form-group">
+              <label class="form-label" for="summary">About You</label>
+              <textarea id="summary" name="summary" class="form-input" rows="6" maxlength="2000" placeholder="I am a dedicated professional with experience in... I am passionate about... I am looking for opportunities in..."></textarea>
+              <div class="char-count"><span id="summary-count">0</span> / 2,000</div>
+              <div class="form-hint">Tip: Mention your top skills, years of experience, and what kind of role you're looking for.</div>
+            </div>
+
+            <div class="btn-row">
+              <button type="button" class="btn btn--outline" data-prev>Back</button>
+              <button type="button" class="btn btn--accent" data-finish>Complete Profile</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="assets/js/supabase.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Populate education dropdown
+      var eduSelect = document.getElementById('education_level');
+      if (eduSelect) {
+        App.EDUCATION_LEVELS.forEach(function(level) {
+          var opt = document.createElement('option');
+          opt.value = level.value;
+          opt.textContent = level.label;
+          eduSelect.appendChild(opt);
+        });
+      }
+
+      // Init tag selectors
+      AuthUI.initTagSelector('skills-tags', App.COMMON_SKILLS);
+      AuthUI.initTagSelector('sector-tags', App.SECTORS);
+
+      // Summary character counter
+      var summary = document.getElementById('summary');
+      var counter = document.getElementById('summary-count');
+      if (summary && counter) {
+        summary.addEventListener('input', function() {
+          counter.textContent = this.value.length;
+        });
+      }
+
+      // Init signup form
+      AuthUI.initSignupForm();
+
+      // If already logged in, skip to step 2 or dashboard
+      App.onAuthReady(function(user) {
+        if (user && App.getProfile()) {
+          var profile = App.getProfile();
+          if (profile.summary) {
+            window.location.href = 'dashboard.html';
+          }
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

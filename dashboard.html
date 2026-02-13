@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Dashboard — Talent by St. Lucia Studio</title>
+  <meta name="theme-color" content="#0D7377">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .action-cards {
+      display: grid;
+      gap: var(--spacing-md);
+    }
+    .action-card {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+      padding: var(--spacing-md) var(--spacing-lg);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      text-decoration: none;
+      color: var(--text);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .action-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+      color: var(--text);
+    }
+    .action-card__icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 20px;
+    }
+    .action-card__icon--teal { background: rgba(13,115,119,0.1); color: var(--primary); }
+    .action-card__icon--gold { background: rgba(244,161,0,0.1); color: var(--accent); }
+    .action-card__icon--green { background: rgba(6,214,160,0.1); color: #05b386; }
+    .action-card__icon--coral { background: rgba(239,71,111,0.1); color: var(--error); }
+    .action-card__body { flex: 1; }
+    .action-card__title { font-weight: 600; font-size: 15px; }
+    .action-card__desc { font-size: 13px; color: var(--text-muted); }
+    .action-card__arrow {
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+    .action-card--done {
+      opacity: 0.6;
+    }
+    .action-card--done .action-card__icon {
+      background: rgba(6,214,160,0.15);
+      color: var(--success);
+    }
+    .tips-card {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      border-radius: var(--radius-xl);
+      padding: var(--spacing-xl) var(--spacing-lg);
+      color: var(--text-inverse);
+      margin-top: var(--spacing-lg);
+    }
+    .tips-card h3 { color: var(--text-inverse); margin-bottom: var(--spacing-sm); }
+    .tips-card p { color: rgba(255,255,255,0.8); font-size: 14px; line-height: 1.6; }
+    .tips-card ul { margin-top: var(--spacing-sm); }
+    .tips-card li {
+      font-size: 14px;
+      color: rgba(255,255,255,0.85);
+      padding: 4px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+    .tips-card li::before {
+      content: '\2713';
+      position: absolute;
+      left: 0;
+      color: var(--accent-light);
+      font-weight: 700;
+    }
+    .logout-link {
+      text-align: center;
+      margin-top: var(--spacing-xl);
+    }
+    .logout-link button {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 14px;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 8px 16px;
+    }
+    .logout-link button:hover { color: var(--error); }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="/" class="nav__logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <rect width="28" height="28" rx="6" fill="#0D7377"/>
+          <text x="14" y="19" text-anchor="middle" font-size="16" font-weight="800" fill="#FFD166">T</text>
+        </svg>
+        Talent<span>.SL</span>
+      </a>
+      <div class="nav__links">
+        <a href="profile.html">Profile</a>
+        <a href="video.html">Video Resume</a>
+      </div>
+      <div class="nav__cta">
+        <a href="profile.html" class="btn btn--primary btn--sm">Edit Profile</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="dashboard">
+    <div class="container">
+
+      <!-- Welcome -->
+      <div class="dashboard__welcome">
+        <h1 id="welcome-name">Welcome back!</h1>
+        <p class="text-muted" id="welcome-subtitle">Here's an overview of your talent profile.</p>
+      </div>
+
+      <!-- Completeness -->
+      <div class="completeness">
+        <div class="completeness__header">
+          <div>
+            <h3>Profile Completeness</h3>
+            <p class="text-sm text-muted" id="completeness-message">Complete your profile to get noticed.</p>
+          </div>
+          <div class="completeness__score" id="completeness-score">0%</div>
+        </div>
+        <div class="progress">
+          <div class="progress__bar" id="completeness-bar" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Action Cards -->
+      <div class="action-cards" id="action-cards">
+        <a href="profile.html" class="action-card" id="action-profile">
+          <div class="action-card__icon action-card__icon--teal">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div class="action-card__body">
+            <div class="action-card__title">Complete Your Profile</div>
+            <div class="action-card__desc">Add your headline, skills, and experience.</div>
+          </div>
+          <div class="action-card__arrow">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </a>
+
+        <a href="video.html" class="action-card" id="action-video">
+          <div class="action-card__icon action-card__icon--gold">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          </div>
+          <div class="action-card__body">
+            <div class="action-card__title">Record Video Resume</div>
+            <div class="action-card__desc">60-second video that shows the real you.</div>
+          </div>
+          <div class="action-card__arrow">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </a>
+
+        <a href="profile.html#resume-upload" class="action-card" id="action-resume">
+          <div class="action-card__icon action-card__icon--green">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div class="action-card__body">
+            <div class="action-card__title">Upload PDF Resume</div>
+            <div class="action-card__desc">Add your traditional resume as a backup.</div>
+          </div>
+          <div class="action-card__arrow">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </a>
+
+        <a href="success.html" class="action-card" id="action-share">
+          <div class="action-card__icon action-card__icon--coral">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          </div>
+          <div class="action-card__body">
+            <div class="action-card__title">Share Your Profile</div>
+            <div class="action-card__desc">Spread the word and earn priority placement.</div>
+          </div>
+          <div class="action-card__arrow">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </a>
+      </div>
+
+      <!-- Tips -->
+      <div class="tips-card">
+        <h3>Pro Tips</h3>
+        <p>Profiles with these elements get more employer views:</p>
+        <ul>
+          <li>A professional headline (e.g. "Senior Accountant | 8 years experience")</li>
+          <li>A clear, well-written summary (at least 100 words)</li>
+          <li>A video resume — profiles with video get 3x more views</li>
+          <li>At least 5 skills tagged on your profile</li>
+        </ul>
+      </div>
+
+      <!-- Logout -->
+      <div class="logout-link">
+        <button type="button" id="logout-btn">Log Out</button>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="assets/js/supabase.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      App.requireAuth();
+
+      App.onAuthReady(function(user, profile) {
+        if (!user) return;
+
+        // Welcome message
+        var welcomeEl = document.getElementById('welcome-name');
+        if (profile && profile.first_name) {
+          welcomeEl.textContent = 'Welcome, ' + profile.first_name + '!';
+        }
+
+        // Completeness
+        if (profile) {
+          var score = App.calculateCompleteness(profile);
+          document.getElementById('completeness-score').textContent = score + '%';
+          document.getElementById('completeness-bar').style.width = score + '%';
+
+          var msg = document.getElementById('completeness-message');
+          if (score >= 100) msg.textContent = 'Your profile is complete. Great job!';
+          else if (score >= 75) msg.textContent = 'Almost there! Add a few more details.';
+          else if (score >= 50) msg.textContent = "You're halfway. Keep building your profile.";
+          else msg.textContent = 'Complete your profile to get noticed by employers.';
+
+          // Mark completed actions
+          if (profile.headline && profile.skills && profile.skills.length > 0) {
+            document.getElementById('action-profile').classList.add('action-card--done');
+          }
+          if (profile.video_url) {
+            document.getElementById('action-video').classList.add('action-card--done');
+          }
+          if (profile.resume_file_url) {
+            document.getElementById('action-resume').classList.add('action-card--done');
+          }
+        }
+      });
+
+      // Logout
+      document.getElementById('logout-btn').addEventListener('click', function() {
+        AuthUI.handleLogout();
+      });
+    });
+  </script>
+
+</body>
+</html>

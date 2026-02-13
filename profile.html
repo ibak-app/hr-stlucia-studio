@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>My Profile — Talent by St. Lucia Studio</title>
+  <meta name="theme-color" content="#0D7377">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .profile-page {
+      padding-top: calc(var(--nav-height) + var(--spacing-lg));
+      padding-bottom: var(--spacing-3xl);
+      min-height: 100vh;
+      background: var(--bg-alt);
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-xl);
+    }
+    .profile-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(13,115,119,0.1);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+      flex-shrink: 0;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .profile-avatar input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .profile-section {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-lg);
+      margin-bottom: var(--spacing-md);
+    }
+    .profile-section__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-md);
+    }
+    .profile-section__header h2 {
+      font-size: 18px;
+    }
+    .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-sm);
+    }
+    .tags-container .tag {
+      cursor: pointer;
+      user-select: none;
+    }
+    .save-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: var(--spacing-md);
+      padding-bottom: calc(var(--spacing-md) + env(safe-area-inset-bottom, 0));
+      z-index: 100;
+      display: none;
+    }
+    .save-bar.visible {
+      display: block;
+    }
+    .save-bar .container {
+      display: flex;
+      gap: var(--spacing-sm);
+      max-width: 520px;
+    }
+    .save-bar .btn { flex: 1; }
+    .file-upload {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-xl);
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+    .file-upload:hover {
+      border-color: var(--primary);
+      background: rgba(13,115,119,0.03);
+    }
+    .file-upload input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .file-upload__icon {
+      color: var(--text-muted);
+      margin-bottom: var(--spacing-sm);
+    }
+    .file-upload__text {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .file-upload__text strong {
+      color: var(--primary);
+    }
+    .char-count {
+      text-align: right;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .video-preview-card {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: #000;
+      aspect-ratio: 16/9;
+      margin-bottom: var(--spacing-sm);
+    }
+    .video-preview-card video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="/" class="nav__logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <rect width="28" height="28" rx="6" fill="#0D7377"/>
+          <text x="14" y="19" text-anchor="middle" font-size="16" font-weight="800" fill="#FFD166">T</text>
+        </svg>
+        Talent<span>.SL</span>
+      </a>
+      <div class="nav__links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="video.html">Video Resume</a>
+      </div>
+      <div class="nav__cta">
+        <a href="dashboard.html" class="btn btn--ghost btn--sm">Dashboard</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="profile-page">
+    <div class="container" style="max-width: 580px;">
+
+      <!-- Header -->
+      <div class="profile-header">
+        <div class="profile-avatar" id="avatar">
+          <span id="avatar-initials">?</span>
+          <input type="file" accept="image/*" id="photo-upload" title="Upload photo">
+        </div>
+        <div>
+          <h1 style="font-size: 22px;" id="profile-name">Your Profile</h1>
+          <p class="text-sm text-muted" id="profile-headline">Add a headline to stand out</p>
+        </div>
+      </div>
+
+      <form id="profile-form" novalidate>
+
+        <!-- Basic Info -->
+        <div class="profile-section">
+          <div class="profile-section__header">
+            <h2>Basic Info</h2>
+          </div>
+
+          <div class="grid grid--2 gap-sm">
+            <div class="form-group">
+              <label class="form-label form-label--required" for="first_name">First Name</label>
+              <input type="text" id="first_name" name="first_name" class="form-input" required>
+              <div class="form-error"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label form-label--required" for="last_name">Last Name</label>
+              <input type="text" id="last_name" name="last_name" class="form-input" required>
+              <div class="form-error"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" class="form-input" placeholder="+1 758 XXX XXXX">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="location">Current Location</label>
+            <input type="text" id="location" name="location" class="form-input" placeholder="e.g. Castries, Saint Lucia">
+          </div>
+
+          <div class="form-group">
+            <label class="form-check">
+              <input type="checkbox" name="wants_to_relocate" id="wants_to_relocate">
+              <span>I'm open to relocating to Saint Lucia</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Professional -->
+        <div class="profile-section">
+          <div class="profile-section__header">
+            <h2>Professional Details</h2>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="headline">Headline</label>
+            <input type="text" id="headline" name="headline" class="form-input" maxlength="120" placeholder="e.g. Experienced Hotel Manager | Tourism Professional">
+            <div class="form-hint">120 characters max. This appears below your name.</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="summary">About You</label>
+            <textarea id="summary" name="summary" class="form-input" rows="5" maxlength="2000" placeholder="Write a short summary about yourself..."></textarea>
+            <div class="char-count"><span id="summary-count">0</span> / 2,000</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Skills</label>
+            <div class="tags-container" id="skills-tags"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Sectors</label>
+            <div class="tags-container" id="sector-tags"></div>
+          </div>
+
+          <div class="grid grid--2 gap-sm">
+            <div class="form-group">
+              <label class="form-label" for="experience_years">Experience</label>
+              <select id="experience_years" name="experience_years" class="form-input">
+                <option value="">Select</option>
+                <option value="0">Less than 1 year</option>
+                <option value="1">1-2 years</option>
+                <option value="3">3-5 years</option>
+                <option value="6">6-10 years</option>
+                <option value="11">10+ years</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="education_level">Education</label>
+              <select id="education_level" name="education_level" class="form-input">
+                <option value="">Select</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="availability">Availability</label>
+            <select id="availability" name="availability" class="form-input">
+              <option value="">Select</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Video Resume -->
+        <div class="profile-section">
+          <div class="profile-section__header">
+            <h2>Video Resume</h2>
+          </div>
+
+          <div id="video-preview-area" class="hidden">
+            <div class="video-preview-card">
+              <video id="video-player" controls playsinline></video>
+            </div>
+          </div>
+
+          <a href="video.html" class="btn btn--outline btn--full" id="video-cta">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            Record Video Resume
+          </a>
+        </div>
+
+        <!-- Resume Upload -->
+        <div class="profile-section" id="resume-upload">
+          <div class="profile-section__header">
+            <h2>PDF Resume</h2>
+          </div>
+
+          <div id="resume-status" class="hidden mb-md">
+            <div class="alert alert--success">
+              <span>Resume uploaded successfully.</span>
+            </div>
+          </div>
+
+          <div class="file-upload">
+            <input type="file" accept=".pdf" id="resume-file">
+            <div class="file-upload__icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 12 15 15"/></svg>
+            </div>
+            <p class="file-upload__text"><strong>Tap to upload</strong> your resume (PDF, max 10MB)</p>
+          </div>
+        </div>
+
+      </form>
+
+      <!-- Save Bar -->
+      <div class="save-bar" id="save-bar">
+        <div class="container" style="max-width: 580px;">
+          <button type="button" class="btn btn--outline" id="cancel-btn">Cancel</button>
+          <button type="button" class="btn btn--primary" id="save-btn">Save Changes</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="assets/js/supabase.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      App.requireAuth();
+
+      var form = document.getElementById('profile-form');
+      var saveBar = document.getElementById('save-bar');
+      var dirty = false;
+      var originalData = {};
+
+      // Populate dropdowns
+      var eduSelect = document.getElementById('education_level');
+      App.EDUCATION_LEVELS.forEach(function(l) {
+        var opt = document.createElement('option');
+        opt.value = l.value;
+        opt.textContent = l.label;
+        eduSelect.appendChild(opt);
+      });
+
+      var availSelect = document.getElementById('availability');
+      App.AVAILABILITY_OPTIONS.forEach(function(a) {
+        var opt = document.createElement('option');
+        opt.value = a.value;
+        opt.textContent = a.label;
+        availSelect.appendChild(opt);
+      });
+
+      // Init tag selectors
+      AuthUI.initTagSelector('skills-tags', App.COMMON_SKILLS);
+      AuthUI.initTagSelector('sector-tags', App.SECTORS);
+
+      // Summary counter
+      var summary = document.getElementById('summary');
+      var counter = document.getElementById('summary-count');
+      summary.addEventListener('input', function() {
+        counter.textContent = this.value.length;
+      });
+
+      // Detect changes
+      form.addEventListener('input', function() {
+        dirty = true;
+        saveBar.classList.add('visible');
+      });
+
+      // Tag clicks mark dirty
+      document.querySelectorAll('.tags-container').forEach(function(c) {
+        c.addEventListener('click', function() {
+          dirty = true;
+          saveBar.classList.add('visible');
+        });
+      });
+
+      // Load profile data
+      App.onAuthReady(function(user, profile) {
+        if (!user || !profile) return;
+
+        // Set form values
+        App.setFormData(form, profile);
+
+        // Set header
+        var name = (profile.first_name || '') + ' ' + (profile.last_name || '');
+        document.getElementById('profile-name').textContent = name.trim() || 'Your Profile';
+        document.getElementById('profile-headline').textContent = profile.headline || 'Add a headline to stand out';
+
+        // Initials
+        var initials = (profile.first_name || '?')[0] + (profile.last_name || '')[0];
+        document.getElementById('avatar-initials').textContent = initials.toUpperCase();
+
+        // Photo
+        if (profile.photo_url) {
+          var avatar = document.getElementById('avatar');
+          avatar.innerHTML = '<img src="' + profile.photo_url + '" alt="Profile photo"><input type="file" accept="image/*" id="photo-upload" title="Upload photo">';
+          bindPhotoUpload();
+        }
+
+        // Select saved skills
+        if (profile.skills) {
+          profile.skills.forEach(function(skill) {
+            var tag = document.querySelector('#skills-tags .tag[data-value="' + skill + '"]');
+            if (tag) tag.classList.add('tag--selected');
+          });
+        }
+
+        // Select saved sectors
+        if (profile.sectors) {
+          profile.sectors.forEach(function(sector) {
+            var tag = document.querySelector('#sector-tags .tag[data-value="' + sector + '"]');
+            if (tag) tag.classList.add('tag--selected');
+          });
+        }
+
+        // Summary count
+        if (profile.summary) {
+          counter.textContent = profile.summary.length;
+        }
+
+        // Video
+        if (profile.video_url) {
+          document.getElementById('video-preview-area').classList.remove('hidden');
+          document.getElementById('video-player').src = profile.video_url;
+          document.getElementById('video-cta').textContent = 'Re-record Video';
+        }
+
+        // Resume
+        if (profile.resume_file_url) {
+          document.getElementById('resume-status').classList.remove('hidden');
+        }
+
+        // Experience years select
+        if (profile.experience_years !== null && profile.experience_years !== undefined) {
+          var expSelect = document.getElementById('experience_years');
+          var options = expSelect.querySelectorAll('option');
+          options.forEach(function(opt) {
+            if (parseInt(opt.value) === profile.experience_years) opt.selected = true;
+          });
+        }
+
+        dirty = false;
+        saveBar.classList.remove('visible');
+      });
+
+      // Save
+      document.getElementById('save-btn').addEventListener('click', async function() {
+        var user = App.getUser();
+        if (!user) return;
+
+        if (!App.validateForm(form)) {
+          App.showToast('Please fix the errors above.', 'error');
+          return;
+        }
+
+        var btn = this;
+        App.setLoading(btn, true);
+
+        var data = App.getFormData(form);
+        data.skills = AuthUI.getSelectedTags('skills-tags');
+        data.sectors = AuthUI.getSelectedTags('sector-tags');
+        data.experience_years = data.experience_years ? parseInt(data.experience_years) : null;
+
+        var result = await DB.updateProfile(user.id, data);
+
+        App.setLoading(btn, false);
+
+        if (result.error) {
+          App.showToast('Error saving profile: ' + result.error.message, 'error');
+        } else {
+          App.showToast('Profile saved!', 'success');
+          dirty = false;
+          saveBar.classList.remove('visible');
+
+          // Update header
+          var name = (data.first_name || '') + ' ' + (data.last_name || '');
+          document.getElementById('profile-name').textContent = name.trim();
+          document.getElementById('profile-headline').textContent = data.headline || 'Add a headline';
+        }
+      });
+
+      // Cancel
+      document.getElementById('cancel-btn').addEventListener('click', function() {
+        window.location.reload();
+      });
+
+      // Photo upload
+      function bindPhotoUpload() {
+        var photoInput = document.getElementById('photo-upload');
+        if (!photoInput) return;
+        photoInput.addEventListener('change', async function() {
+          var file = this.files[0];
+          if (!file) return;
+          if (file.size > 5 * 1024 * 1024) {
+            App.showToast('Photo must be under 5MB.', 'error');
+            return;
+          }
+
+          App.showToast('Uploading photo...', 'info');
+          var user = App.getUser();
+          var result = await Storage.uploadProfilePhoto(user.id, file);
+
+          if (result.error) {
+            App.showToast('Upload failed: ' + result.error.message, 'error');
+          } else {
+            App.showToast('Photo updated!', 'success');
+            var avatar = document.getElementById('avatar');
+            avatar.innerHTML = '<img src="' + result.data.url + '" alt="Profile photo"><input type="file" accept="image/*" id="photo-upload" title="Upload photo">';
+            bindPhotoUpload();
+          }
+        });
+      }
+      bindPhotoUpload();
+
+      // Resume upload
+      document.getElementById('resume-file').addEventListener('change', async function() {
+        var file = this.files[0];
+        if (!file) return;
+        if (file.size > 10 * 1024 * 1024) {
+          App.showToast('Resume must be under 10MB.', 'error');
+          return;
+        }
+        if (file.type !== 'application/pdf') {
+          App.showToast('Please upload a PDF file.', 'error');
+          return;
+        }
+
+        App.showToast('Uploading resume...', 'info');
+        var user = App.getUser();
+        var result = await Storage.uploadResume(user.id, file);
+
+        if (result.error) {
+          App.showToast('Upload failed: ' + result.error.message, 'error');
+        } else {
+          App.showToast('Resume uploaded!', 'success');
+          document.getElementById('resume-status').classList.remove('hidden');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

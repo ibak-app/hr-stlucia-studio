@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Log In — Talent by St. Lucia Studio</title>
+  <meta name="description" content="Log in to your Talent profile. Manage your profile and video resume.">
+  <meta name="theme-color" content="#0D7377">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .password-wrapper {
+      position: relative;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 13px;
+      font-family: inherit;
+      padding: 4px 8px;
+    }
+    .tab-row {
+      display: flex;
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-lg);
+    }
+    .tab-row .btn { flex: 1; }
+    .signup-link {
+      text-align: center;
+      margin-top: var(--spacing-lg);
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .signup-link a {
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="/" class="nav__logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <rect width="28" height="28" rx="6" fill="#0D7377"/>
+          <text x="14" y="19" text-anchor="middle" font-size="16" font-weight="800" fill="#FFD166">T</text>
+        </svg>
+        Talent<span>.SL</span>
+      </a>
+      <div class="nav__cta">
+        <a href="signup.html" class="btn btn--primary btn--sm">Sign Up</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="auth-page">
+    <div class="auth-card">
+      <h1 class="auth-card__title">Welcome back</h1>
+      <p class="auth-card__subtitle">Log in to manage your talent profile.</p>
+
+      <!-- Login Method Tabs -->
+      <div class="tab-row">
+        <button type="button" class="btn btn--primary btn--sm" id="tab-email">Email &amp; Password</button>
+        <button type="button" class="btn btn--ghost btn--sm" id="tab-magic">Magic Link</button>
+      </div>
+
+      <form id="login-form" novalidate>
+        <div class="form-group">
+          <label class="form-label form-label--required" for="login-email">Email</label>
+          <input type="email" id="login-email" name="email" class="form-input" required autocomplete="email" placeholder="you@example.com">
+          <div class="form-error"></div>
+        </div>
+
+        <div class="form-group" id="password-group">
+          <label class="form-label form-label--required" for="login-password">Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="login-password" name="password" class="form-input" required minlength="6" autocomplete="current-password" placeholder="Your password">
+            <button type="button" class="toggle-password">Show</button>
+          </div>
+          <div class="form-error"></div>
+        </div>
+
+        <button type="submit" class="btn btn--primary btn--full">Log In</button>
+      </form>
+
+      <div class="signup-link">
+        Don't have an account? <a href="signup.html">Create one free</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="assets/js/supabase.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      AuthUI.initLoginForm();
+
+      // If already logged in, redirect
+      App.onAuthReady(function(user) {
+        if (user) {
+          var redirect = App.getUrlParam('redirect') || 'dashboard.html';
+          window.location.href = redirect;
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

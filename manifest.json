@@ -1,0 +1,28 @@
+{
+  "name": "Talent by St. Lucia Studio",
+  "short_name": "Talent.SL",
+  "description": "Create your professional profile and video resume. Get discovered by top employers in Saint Lucia.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#0D7377",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "lang": "en",
+  "dir": "ltr"
+}
