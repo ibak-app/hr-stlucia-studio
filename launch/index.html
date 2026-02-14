@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Launch Plan — talent.stlucia</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#0D7377;--primary-light:#11999E;--primary-dark:#065355;
+  --accent:#F4A100;--accent-light:#FFD166;
+  --mint:#06D6A0;--coral:#EF476F;
+  --bg:#FFFFFF;--bg-alt:#F7F9FC;--bg-dark:#0B1622;
+  --text:#1A202C;--text-muted:#718096;--border:#E2E8F0;
+  --radius:10px;--shadow:0 2px 12px rgba(0,0,0,.08);
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font);color:var(--text);line-height:1.65;background:var(--bg)}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg-alt)}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px}
+
+/* ===== Header ===== */
+.header{background:linear-gradient(135deg,var(--bg-dark) 0%,#122332 50%,var(--primary-dark) 100%);color:#fff;padding:3rem 0 4rem;position:relative;overflow:hidden}
+.header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--primary),var(--accent),var(--mint))}
+.header .container{position:relative;z-index:1}
+.header__badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);padding:.35rem 1rem;border-radius:50px;font-size:.8rem;color:var(--accent-light);margin-bottom:1.2rem;backdrop-filter:blur(4px)}
+.header h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;line-height:1.2;margin-bottom:.6rem}
+.header h1 span{color:var(--accent)}
+.header p{font-size:1.05rem;color:rgba(255,255,255,.75);max-width:650px;margin-bottom:1.5rem}
+.header__meta{display:flex;flex-wrap:wrap;gap:1.5rem;font-size:.85rem;color:rgba(255,255,255,.55)}
+.header__meta strong{color:var(--accent-light)}
+
+/* ===== Container ===== */
+.container{max-width:1140px;margin:0 auto;padding:0 1.25rem}
+
+/* ===== Nav (sticky TOC) ===== */
+.toc{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);border-bottom:1px solid var(--border);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.toc__inner{display:flex;align-items:center;gap:.25rem;padding:.6rem 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.toc__inner::-webkit-scrollbar{display:none}
+.toc__inner a{white-space:nowrap;font-size:.78rem;font-weight:600;padding:.35rem .7rem;border-radius:50px;color:var(--text-muted);text-decoration:none;transition:all .2s}
+.toc__inner a:hover,.toc__inner a.active{background:var(--primary);color:#fff}
+
+/* ===== Sections ===== */
+section{padding:3.5rem 0}
+section:nth-child(even){background:var(--bg-alt)}
+section h2{font-size:clamp(1.3rem,3vw,1.7rem);font-weight:800;margin-bottom:.4rem;color:var(--primary-dark)}
+section h2 .num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--primary);color:#fff;font-size:.8rem;margin-right:.5rem;vertical-align:middle}
+section .subtitle{color:var(--text-muted);margin-bottom:2rem;font-size:.95rem}
+section h3{font-size:1.1rem;font-weight:700;margin:2rem 0 .8rem;color:var(--text)}
+section h4{font-size:.95rem;font-weight:700;margin:1.2rem 0 .5rem;color:var(--primary)}
+
+/* ===== Cards ===== */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;margin:1.5rem 0}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.12)}
+.card__icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:.75rem}
+.card__icon--teal{background:rgba(13,115,119,.1);color:var(--primary)}
+.card__icon--gold{background:rgba(244,161,0,.1);color:var(--accent)}
+.card__icon--mint{background:rgba(6,214,160,.1);color:var(--mint)}
+.card__icon--coral{background:rgba(239,71,111,.1);color:var(--coral)}
+.card h4{margin:0 0 .4rem;font-size:.95rem}
+.card p,.card li{font-size:.85rem;color:var(--text-muted);line-height:1.5}
+.card ul{padding-left:1.1rem;margin-top:.4rem}
+.card ul li{margin-bottom:.25rem}
+.card__tag{display:inline-block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:.2rem .5rem;border-radius:4px;margin-bottom:.6rem}
+.card__tag--phase1{background:#e0f7f4;color:var(--primary)}
+.card__tag--phase2{background:#fff3d4;color:#9a6c00}
+.card__tag--phase3{background:#ffe0e8;color:#c0244a}
+.card__tag--critical{background:#EF476F;color:#fff}
+
+/* ===== Tables ===== */
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border-radius:var(--radius);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+th{background:var(--primary-dark);color:#fff;font-weight:600;text-align:left;padding:.6rem .8rem;white-space:nowrap}
+td{padding:.55rem .8rem;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even){background:var(--bg-alt)}
+td strong{color:var(--text)}
+.total-row{background:rgba(13,115,119,.08)!important;font-weight:700}
+.total-row td{border-top:2px solid var(--primary)}
+
+/* ===== Stat Blocks ===== */
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin:1.5rem 0}
+.stat{text-align:center;padding:1.2rem .8rem;background:#fff;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow)}
+.stat__num{font-size:1.6rem;font-weight:800;color:var(--primary);line-height:1.1}
+.stat__num--gold{color:var(--accent)}
+.stat__num--mint{color:#059669}
+.stat__num--coral{color:var(--coral)}
+.stat__label{font-size:.75rem;color:var(--text-muted);margin-top:.3rem}
+
+/* ===== Timeline ===== */
+.timeline{position:relative;padding-left:2.5rem;margin:1.5rem 0}
+.timeline::before{content:'';position:absolute;left:.9rem;top:0;bottom:0;width:2px;background:var(--border)}
+.timeline__item{position:relative;margin-bottom:1.5rem}
+.timeline__item::before{content:'';position:absolute;left:-1.65rem;top:.35rem;width:12px;height:12px;border-radius:50%;background:var(--primary);border:2px solid #fff;box-shadow:0 0 0 2px var(--primary)}
+.timeline__item.done::before{background:var(--mint)}
+.timeline__item.active::before{background:var(--accent);box-shadow:0 0 0 4px rgba(244,161,0,.3)}
+.timeline__item h4{font-size:.95rem;margin:0 0 .3rem;color:var(--text)}
+.timeline__item p{font-size:.84rem;color:var(--text-muted);margin:0}
+.timeline__item .tag{font-size:.7rem;font-weight:700;padding:.15rem .45rem;border-radius:3px;background:rgba(13,115,119,.1);color:var(--primary);margin-left:.4rem}
+
+/* ===== Callouts ===== */
+.callout{padding:1rem 1.2rem;border-radius:var(--radius);margin:1.2rem 0;font-size:.88rem;line-height:1.6}
+.callout--teal{background:rgba(13,115,119,.06);border-left:4px solid var(--primary)}
+.callout--gold{background:rgba(244,161,0,.06);border-left:4px solid var(--accent)}
+.callout--coral{background:rgba(239,71,111,.06);border-left:4px solid var(--coral)}
+.callout--mint{background:rgba(6,214,160,.06);border-left:4px solid var(--mint)}
+.callout strong{color:var(--text)}
+
+/* ===== Checklist ===== */
+.checklist{list-style:none;padding:0;margin:1rem 0}
+.checklist li{position:relative;padding:.45rem 0 .45rem 1.8rem;font-size:.88rem;border-bottom:1px solid var(--border)}
+.checklist li:last-child{border-bottom:none}
+.checklist li::before{content:'';position:absolute;left:0;top:.6rem;width:16px;height:16px;border:2px solid var(--border);border-radius:3px}
+.checklist li.done::before{background:var(--mint);border-color:var(--mint);background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='%23fff' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");background-size:12px;background-position:center;background-repeat:no-repeat}
+
+/* ===== Budget Donut ===== */
+.budget-visual{display:flex;flex-wrap:wrap;align-items:center;gap:2rem;margin:1.5rem 0}
+.donut-wrap{position:relative;width:180px;height:180px;flex-shrink:0}
+.donut-wrap canvas{width:100%!important;height:100%!important}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.donut-center strong{font-size:1.4rem;color:var(--text)}
+.donut-center span{font-size:.75rem;color:var(--text-muted)}
+.legend{list-style:none;padding:0}
+.legend li{display:flex;align-items:center;gap:.5rem;font-size:.84rem;margin-bottom:.4rem}
+.legend__dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+
+/* ===== Gantt-style bars ===== */
+.gantt{margin:1.5rem 0;overflow-x:auto}
+.gantt__row{display:flex;align-items:center;margin-bottom:.6rem}
+.gantt__label{width:140px;flex-shrink:0;font-size:.8rem;font-weight:600;color:var(--text)}
+.gantt__track{flex:1;height:24px;background:var(--bg-alt);border-radius:4px;position:relative;min-width:300px}
+.gantt__bar{position:absolute;height:100%;border-radius:4px;display:flex;align-items:center;padding:0 .5rem;font-size:.7rem;font-weight:600;color:#fff;white-space:nowrap}
+.gantt__weeks{display:flex;margin-left:140px;margin-bottom:.3rem}
+.gantt__weeks span{flex:1;font-size:.7rem;color:var(--text-muted);text-align:center;min-width:37.5px}
+
+/* ===== Funnel ===== */
+.funnel{margin:1.5rem auto;max-width:500px}
+.funnel__step{display:flex;align-items:center;margin-bottom:.5rem}
+.funnel__bar{height:36px;border-radius:4px 0 0 4px;display:flex;align-items:center;padding:0 .8rem;font-size:.8rem;font-weight:600;color:#fff;transition:width .5s}
+.funnel__val{margin-left:.6rem;font-size:.85rem;color:var(--text-muted)}
+
+/* ===== Two-Column Layout ===== */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin:1.5rem 0}
+@media(max-width:768px){.two-col{grid-template-columns:1fr}}
+
+/* ===== KPI Meters ===== */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin:1.5rem 0}
+.kpi{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1rem;box-shadow:var(--shadow)}
+.kpi__label{font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem}
+.kpi__val{font-size:1.5rem;font-weight:800;color:var(--primary)}
+.kpi__target{font-size:.78rem;color:var(--text-muted);margin-top:.2rem}
+.kpi__bar{height:4px;background:var(--bg-alt);border-radius:2px;margin-top:.4rem;overflow:hidden}
+.kpi__bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--primary),var(--mint))}
+
+/* ===== Responsive ===== */
+@media(max-width:768px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .card-grid{grid-template-columns:1fr}
+  .budget-visual{flex-direction:column;align-items:flex-start}
+  .gantt__label{width:100px;font-size:.72rem}
+  .header{padding:2rem 0 3rem}
+}
+
+/* ===== Print ===== */
+@media print{
+  .toc{position:static;border:none}
+  section{page-break-inside:avoid}
+  .card{break-inside:avoid}
+}
+
+/* ===== Animations ===== */
+.fade-in{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* ===== Footer ===== */
+.footer{background:var(--bg-dark);color:rgba(255,255,255,.5);padding:2rem 0;font-size:.8rem;text-align:center}
+.footer a{color:var(--accent-light);text-decoration:none}
+.footer strong{color:rgba(255,255,255,.8)}
+</style>
+</head>
+<body>
+
+<!-- ======================= HEADER ======================= -->
+<header class="header">
+  <div class="container">
+    <div class="header__badge">Launch Plan &amp; Marketing Strategy</div>
+    <h1>talent<span>.stlucia</span></h1>
+    <p>A holistic launch, content generation, and marketing plan for Saint Lucia's first mobile-first talent marketplace and video resume platform.</p>
+    <div class="header__meta">
+      <span>Domain: <strong>talent.stlucia.studio</strong></span>
+      <span>Budget: <strong>US$500 / 30 days</strong></span>
+      <span>Target: <strong>2,000 profiles by Week 8</strong></span>
+      <span>Prepared: <strong>February 2026</strong></span>
+    </div>
+  </div>
+</header>
+
+<!-- ======================= TOC NAV ======================= -->
+<nav class="toc">
+  <div class="container">
+    <div class="toc__inner">
+      <a href="#exec">Executive Summary</a>
+      <a href="#product">Product</a>
+      <a href="#market">Market</a>
+      <a href="#prelaunch">Pre-Launch</a>
+      <a href="#launch">Launch Week</a>
+      <a href="#calendar">30-Day Calendar</a>
+      <a href="#content">Content Plan</a>
+      <a href="#social">Social Strategy</a>
+      <a href="#paid">Paid Ads</a>
+      <a href="#partnerships">Partnerships</a>
+      <a href="#community">Community</a>
+      <a href="#budget">Budget</a>
+      <a href="#kpis">KPIs</a>
+      <a href="#employer">Employer Strategy</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#risk">Risk</a>
+      <a href="#tech">Tech Checklist</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ======================= 1. EXECUTIVE SUMMARY ======================= -->
+<section id="exec">
+  <div class="container">
+    <h2><span class="num">1</span> Executive Summary</h2>
+    <p class="subtitle">The strategic case for launching Saint Lucia's first dedicated talent platform.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="stat__num">184K</div><div class="stat__label">Population of Saint Lucia</div></div>
+      <div class="stat"><div class="stat__num stat__num--gold">91.6K</div><div class="stat__label">Facebook users (50% penetration)</div></div>
+      <div class="stat"><div class="stat__num stat__num--mint">0</div><div class="stat__label">Dedicated local talent platforms</div></div>
+      <div class="stat"><div class="stat__num stat__num--coral">65%</div><div class="stat__label">Workforce in tourism/hospitality</div></div>
+    </div>
+
+    <div class="callout callout--teal">
+      <strong>The Opportunity:</strong> Saint Lucia has no dedicated digital talent marketplace. Hiring relies on word-of-mouth, newspaper ads, and generic Caribbean job boards. With 90%+ of the population on Facebook and smartphone penetration growing rapidly, a mobile-first talent platform with video resumes enters a completely uncontested market.
+    </div>
+
+    <h3>What Is talent.stlucia?</h3>
+    <p>A mobile-first Progressive Web App that lets Saint Lucian professionals and relocation talent create text + video resumes in under 2 minutes. Phase 1 collects talent profiles for free. Phase 2 monetizes through employer subscriptions ($99-$499/month) to search, filter, and contact candidates.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card__icon card__icon--teal">&#127919;</div>
+        <h4>Value to Talent</h4>
+        <p>"Get discovered by top employers. Submit your profile and video resume &mdash; we connect you with opportunities." Free forever for talent.</p>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--gold">&#128188;</div>
+        <h4>Value to Employers</h4>
+        <p>"Access Saint Lucia's largest pre-screened talent pool with video profiles. Hire faster, hire better." Subscription model starting at $99/mo.</p>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--mint">&#9889;</div>
+        <h4>Competitive Advantage</h4>
+        <p>Only platform dedicated to SLU. Video resumes differentiate candidates. Mobile-first (where Saint Lucians are). Backed by stlucia.studio brand.</p>
+      </div>
+    </div>
+
+    <h3>Revenue Model</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Phase</th><th>Revenue</th><th>Timeline</th><th>Goal</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1 &mdash; Collect</strong></td><td>None (talent acquisition)</td><td>Weeks 1-8</td><td>2,000 profiles</td></tr>
+          <tr><td><strong>2 &mdash; Connect</strong></td><td>Employer subscriptions ($99-499/mo)</td><td>Weeks 8-16</td><td>25 employers, 5,000 profiles</td></tr>
+          <tr><td><strong>3 &mdash; Premium</strong></td><td>Featured profiles ($5-15/mo) + recruitment fees</td><td>Week 16+</td><td>$2,475-12,475/mo revenue</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout--gold">
+      <strong>Break-Even:</strong> Monthly operating costs in Phase 2 are ~$79-104/month. A single employer at the Starter tier ($99/mo) covers costs. Target of 25 employers by Week 16 generates $2,475-$12,475/month.
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 2. PRODUCT OVERVIEW ======================= -->
+<section id="product">
+  <div class="container">
+    <h2><span class="num">2</span> Product Overview</h2>
+    <p class="subtitle">What the app does, how it's built, and what makes it special.</p>
+
+    <div class="two-col">
+      <div>
+        <h3>Core Features</h3>
+        <ul class="checklist">
+          <li class="done">2-minute profile creation (name, skills, experience)</li>
+          <li class="done">Video resume recording (90s, 5 guided prompts, front camera)</li>
+          <li class="done">Email + Google OAuth authentication</li>
+          <li class="done">Profile completeness scoring (0-100%)</li>
+          <li class="done">PWA &mdash; installable on any phone</li>
+          <li class="done">Referral system with unique codes</li>
+          <li class="done">UTM + event tracking on all actions</li>
+          <li class="done">PDF resume upload</li>
+          <li>Employer search &amp; filter dashboard (Phase 2)</li>
+          <li>AI resume builder &amp; skill extraction (Phase 5)</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Tech Stack</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Layer</th><th>Technology</th></tr></thead>
+            <tbody>
+              <tr><td>Frontend</td><td>Vanilla HTML/CSS/JS (PWA)</td></tr>
+              <tr><td>Backend</td><td>Supabase (PostgreSQL + Auth + Storage + Edge Functions)</td></tr>
+              <tr><td>Video</td><td>MediaRecorder API (browser-native, 720p VP8/WebM)</td></tr>
+              <tr><td>Hosting</td><td>GitHub Pages &rarr; Cloudflare Pages (Phase 2)</td></tr>
+              <tr><td>CDN/DNS</td><td>Cloudflare (free tier)</td></tr>
+              <tr><td>Analytics</td><td>Plausible + Facebook Pixel + Google Ads tag + custom events</td></tr>
+              <tr><td>Email</td><td>Resend (Phase 2)</td></tr>
+              <tr><td>Payments</td><td>Stripe Checkout (Phase 2)</td></tr>
+              <tr><td>AI</td><td>Claude API + OpenAI Embeddings (Phase 5)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>App Pages</h3>
+        <p style="font-size:.85rem;color:var(--text-muted)">index.html (landing), signup.html (3-step flow), login.html, dashboard.html, profile.html, video.html (recorder), success.html (share/referral), employers.html (Phase 2 teaser), privacy.html, terms.html</p>
+      </div>
+    </div>
+
+    <h3>Signup Flow (Critical Path)</h3>
+    <div class="funnel">
+      <div class="funnel__step"><div class="funnel__bar" style="width:100%;background:var(--primary)">1. Landing Page CTA</div><div class="funnel__val">100%</div></div>
+      <div class="funnel__step"><div class="funnel__bar" style="width:80%;background:var(--primary-light)">2. Name + Email + Phone</div><div class="funnel__val">~80%</div></div>
+      <div class="funnel__step"><div class="funnel__bar" style="width:60%;background:var(--accent)">3. Headline + Skills</div><div class="funnel__val">~60%</div></div>
+      <div class="funnel__step"><div class="funnel__bar" style="width:45%;background:#e8920a">4. Summary / About</div><div class="funnel__val">~45%</div></div>
+      <div class="funnel__step"><div class="funnel__bar" style="width:25%;background:var(--mint)">5. Video Resume</div><div class="funnel__val">~25%</div></div>
+      <div class="funnel__step"><div class="funnel__bar" style="width:20%;background:#059669">6. Share / Referral</div><div class="funnel__val">~20%</div></div>
+    </div>
+    <div class="callout callout--mint">
+      <strong>Key Principle:</strong> Capture profile at Step 2 &mdash; everything after is enrichment. A user who enters name + email = a profile in the database. Steps 3-5 can be completed later from the dashboard. Every step saved = a profile that exists.
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 3. MARKET ANALYSIS ======================= -->
+<section id="market">
+  <div class="container">
+    <h2><span class="num">3</span> Market Analysis</h2>
+    <p class="subtitle">Saint Lucia's digital landscape and why the timing is right.</p>
+
+    <h3>Digital Landscape</h3>
+    <div class="stats">
+      <div class="stat"><div class="stat__num">91.6K</div><div class="stat__label">Facebook users</div></div>
+      <div class="stat"><div class="stat__num stat__num--gold">67K</div><div class="stat__label">Instagram users</div></div>
+      <div class="stat"><div class="stat__num stat__num--mint">+31%</div><div class="stat__label">TikTok growth (2025)</div></div>
+      <div class="stat"><div class="stat__num stat__num--coral">90%+</div><div class="stat__label">WhatsApp penetration</div></div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h3>Platform Reach in Saint Lucia</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Platform</th><th>Users/Reach</th><th>Primary Audience</th><th>Priority</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Facebook</strong></td><td>91,600</td><td>25-54 years, broadest reach</td><td style="color:var(--coral);font-weight:700">#1</td></tr>
+              <tr><td><strong>WhatsApp</strong></td><td>90%+ of mobile users</td><td>All ages, direct communication</td><td style="color:var(--coral);font-weight:700">#2</td></tr>
+              <tr><td><strong>Instagram</strong></td><td>67,000</td><td>18-34 years, visual content</td><td style="color:var(--accent);font-weight:700">#3</td></tr>
+              <tr><td><strong>TikTok</strong></td><td>Growing fast (+31%)</td><td>16-30, video-native</td><td style="color:var(--accent);font-weight:700">#4</td></tr>
+              <tr><td><strong>LinkedIn</strong></td><td>~22,000</td><td>Professionals, employers</td><td style="color:var(--primary);font-weight:700">#5</td></tr>
+              <tr><td><strong>Google Search</strong></td><td>Primary search engine</td><td>Job seekers, relocation audience</td><td style="color:var(--primary);font-weight:700">#6</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <h3>Target Audiences</h3>
+        <div class="card">
+          <span class="card__tag card__tag--phase1">PRIMARY</span>
+          <h4>Local Saint Lucian Talent</h4>
+          <p>18-45, employed or seeking, smartphone-first. Pain: limited job platforms, reliance on word-of-mouth. Reach via Facebook, WhatsApp, Instagram.</p>
+        </div>
+        <div class="card" style="margin-top:.75rem">
+          <span class="card__tag card__tag--phase2">SECONDARY</span>
+          <h4>Relocation / Diaspora Talent</h4>
+          <p>25-55, remote workers, digital nomads, diaspora. Pain: don't know how to find work in SLU. Reach via Google, LinkedIn, Reddit, expat FB groups.</p>
+        </div>
+        <div class="card" style="margin-top:.75rem">
+          <span class="card__tag card__tag--phase3">PHASE 2</span>
+          <h4>Employers</h4>
+          <p>Hotels, restaurants, government agencies, international firms. Pain: hard to find qualified local talent. Reach via direct outreach, Chamber of Commerce, TEPA.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Key Economic Sectors (Hiring Demand)</h3>
+    <div class="card-grid">
+      <div class="card"><div class="card__icon card__icon--teal">&#127965;</div><h4>Tourism &amp; Hospitality</h4><p>65% of workforce. Hotels, restaurants, tour operators. Year-round demand, peak Nov-Apr. Sandals, Royalton, Jade Mountain, Anse Chastanet.</p></div>
+      <div class="card"><div class="card__icon card__icon--gold">&#127979;</div><h4>Financial Services</h4><p>Banking, insurance, fintech. Bank of SLU (8.2K IG), 1st National, Sagicor (22K combined). Growing digital banking (Penny Pinch, DCash).</p></div>
+      <div class="card"><div class="card__icon card__icon--mint">&#128187;</div><h4>Technology</h4><p>Emerging sector. Government digitization push (eGov portal). Limited local tech talent = opportunity for training &amp; recruitment.</p></div>
+      <div class="card"><div class="card__icon card__icon--coral">&#127981;</div><h4>Construction</h4><p>Boom from CBI-funded projects (Cabot, Pearl of the Caribbean). Skilled trades in high demand.</p></div>
+    </div>
+
+    <h3>Competitive Landscape</h3>
+    <div class="callout callout--gold">
+      <strong>There is no direct competitor.</strong> The closest equivalents are: CaribbeanJobs.com (regional, not SLU-focused, no video), Facebook job groups (informal, unsearchable), newspaper classified ads (declining), and word-of-mouth (dominant but inefficient). Talent.stlucia.studio would be the first and only dedicated Saint Lucian talent marketplace with video resumes.
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 4. PRE-LAUNCH CHECKLIST ======================= -->
+<section id="prelaunch">
+  <div class="container">
+    <h2><span class="num">4</span> Pre-Launch Checklist</h2>
+    <p class="subtitle">Everything that must be ready before the public launch.</p>
+
+    <div class="two-col">
+      <div>
+        <h3>Technical Setup</h3>
+        <ul class="checklist">
+          <li class="done">Landing page live at talent.stlucia.studio</li>
+          <li class="done">Signup flow working (3-step form)</li>
+          <li class="done">Auth working (email/password + Google OAuth)</li>
+          <li class="done">Profiles save to Supabase database</li>
+          <li class="done">Video recording screen (MediaRecorder API)</li>
+          <li class="done">PWA installable on mobile</li>
+          <li class="done">Privacy policy &amp; Terms of service pages</li>
+          <li class="done">GitHub Pages deployment + CNAME configured</li>
+          <li class="done">SSL active (auto via GitHub Pages)</li>
+          <li class="done">OG meta tags set for social sharing previews</li>
+          <li class="done">Favicon &amp; PWA icons</li>
+          <li class="done">Plausible analytics installed</li>
+          <li class="done">Facebook Pixel installed</li>
+          <li class="done">Google Ads tracking tag ready</li>
+          <li>Supabase project created &amp; schema deployed</li>
+          <li>Supabase Storage buckets created (photos, videos, resumes)</li>
+          <li>Cloudflare DNS + CDN configured</li>
+          <li>Test: full signup on iPhone Safari</li>
+          <li>Test: full signup on Android Chrome</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Marketing Setup</h3>
+        <ul class="checklist">
+          <li>Facebook Business page created (@TalentStLucia)</li>
+          <li>Instagram account created (@talent.stlucia)</li>
+          <li>TikTok account created (@talent.stlucia)</li>
+          <li>WhatsApp Business account set up</li>
+          <li>LinkedIn company page created</li>
+          <li>Google Search Console verified</li>
+          <li>3 ad creatives designed (image + video)</li>
+          <li>30-day social media content batch generated</li>
+          <li>5-email welcome sequence written</li>
+          <li>WhatsApp broadcast templates prepared</li>
+          <li>Facebook ad audiences configured</li>
+          <li>Google Ads keywords &amp; campaign drafted</li>
+          <li>UTM parameters standardized</li>
+          <li>UptimeRobot monitoring activated</li>
+        </ul>
+
+        <h3>Content Ready</h3>
+        <ul class="checklist">
+          <li>Landing page copy finalized</li>
+          <li>3-5 initial Facebook posts scheduled</li>
+          <li>3-5 initial Instagram posts ready</li>
+          <li>First TikTok video recorded (app demo)</li>
+          <li>WhatsApp launch announcement written</li>
+          <li>Email signature with talent.stlucia.studio link</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 5. LAUNCH WEEK STRATEGY ======================= -->
+<section id="launch">
+  <div class="container">
+    <h2><span class="num">5</span> Launch Week Strategy</h2>
+    <p class="subtitle">Day-by-day actions for the critical first 7 days.</p>
+
+    <div class="timeline">
+      <div class="timeline__item active">
+        <h4>Day 1 &mdash; Go Live <span class="tag">$15 spend</span></h4>
+        <p>Deploy MVP. Create Facebook page + first 3 posts. Create Instagram account + first 3 posts. Launch Facebook awareness campaign targeting local talent (18-45, Saint Lucia, career interests). Send first WhatsApp broadcast to personal contacts (50-100 people).</p>
+      </div>
+      <div class="timeline__item">
+        <h4>Day 2 &mdash; Paid Amplification <span class="tag">$25 spend</span></h4>
+        <p>Launch Instagram Stories ads ($10/day). Monitor Facebook campaign performance. Share in 3 Saint Lucia Facebook groups. Send personalized DMs to 20 friends/contacts asking them to sign up and share.</p>
+      </div>
+      <div class="timeline__item">
+        <h4>Day 3 &mdash; TikTok Launch <span class="tag">$0 spend</span></h4>
+        <p>Create TikTok account. Post first video: "How to create your video resume in 2 minutes" (screen recording of the app). Post "Did you know?" fact about SLU job market. Cross-post to Instagram Reels.</p>
+      </div>
+      <div class="timeline__item">
+        <h4>Day 4 &mdash; Content Push <span class="tag">$10 spend</span></h4>
+        <p>Post "video resume tips" tutorial on TikTok + IG Reels. Share user milestone in Stories ("25 talented professionals have joined!"). Boost best-performing Facebook post ($10).</p>
+      </div>
+      <div class="timeline__item">
+        <h4>Day 5 &mdash; Google Ads Launch <span class="tag">$5 spend</span></h4>
+        <p>Launch Google Search campaign targeting "jobs saint lucia", "work in saint lucia", "saint lucia careers". Share app in 2 more Facebook groups. Post motivational career content on all platforms.</p>
+      </div>
+      <div class="timeline__item">
+        <h4>Day 6 &mdash; Community Outreach <span class="tag">$0 spend</span></h4>
+        <p>DM 30 people in target demographic on Instagram. Share in relevant Reddit communities (r/saintlucia, r/caribbean). Email local contacts and ask for referrals. Post "behind the scenes" content.</p>
+      </div>
+      <div class="timeline__item">
+        <h4>Day 7 &mdash; Week 1 Review <span class="tag">$0 spend</span></h4>
+        <p>Analyze all metrics: signups, ad CTR/CPC, top-performing content, traffic sources. Adjust ad targeting based on data. Plan Week 2 content. Target: 50 profiles collected.</p>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="stat__num">50</div><div class="stat__label">Week 1 profile target</div></div>
+      <div class="stat"><div class="stat__num stat__num--gold">~$55</div><div class="stat__label">Week 1 ad spend</div></div>
+      <div class="stat"><div class="stat__num stat__num--mint">7</div><div class="stat__label">Social posts published</div></div>
+      <div class="stat"><div class="stat__num stat__num--coral">5</div><div class="stat__label">Platforms activated</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 6. 30-DAY CALENDAR ======================= -->
+<section id="calendar">
+  <div class="container">
+    <h2><span class="num">6</span> 30-Day Marketing Calendar</h2>
+    <p class="subtitle">Week-by-week breakdown with actions, channels, and budget allocation.</p>
+
+    <h3>Week 1: Launch &amp; Awareness ($210)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Day</th><th>Action</th><th>Channel</th><th>Budget</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Deploy MVP, create FB page + 3 posts, create IG + 3 posts</td><td>Website, FB, IG</td><td>$0</td></tr>
+          <tr><td>2</td><td>Launch FB awareness campaign (local talent) + WhatsApp broadcast #1</td><td>FB Ads, WhatsApp</td><td>$15/day</td></tr>
+          <tr><td>3</td><td>Create TikTok, post first video + launch IG Stories ads</td><td>TikTok, IG Ads</td><td>$10/day</td></tr>
+          <tr><td>4</td><td>Post "video resume" tutorial, share in FB groups</td><td>TikTok, IG Reels, FB</td><td>$0</td></tr>
+          <tr><td>5</td><td>Launch Google Search ads ("jobs saint lucia")</td><td>Google Ads</td><td>$5/day</td></tr>
+          <tr><td>6</td><td>Share in 5+ SLU Facebook groups, DM outreach</td><td>FB Groups, IG DMs</td><td>$0</td></tr>
+          <tr><td>7</td><td>Weekly recap: analyze metrics, adjust targeting</td><td>All</td><td>$0</td></tr>
+          <tr class="total-row"><td colspan="3">Week 1 Total</td><td>~$210</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Week 2: Growth &amp; Content ($90)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Day</th><th>Action</th><th>Channel</th><th>Budget</th></tr></thead>
+        <tbody>
+          <tr><td>8</td><td>Post 3 job market fact graphics</td><td>FB, IG, TikTok</td><td>$0</td></tr>
+          <tr><td>9</td><td>Boost best-performing organic post</td><td>Facebook</td><td>$20</td></tr>
+          <tr><td>10</td><td>"Top 10 Jobs in Saint Lucia" carousel post</td><td>All platforms</td><td>$0</td></tr>
+          <tr><td>11</td><td>DM 50 people in target demographic</td><td>Instagram</td><td>$0</td></tr>
+          <tr><td>12</td><td>User milestone post ("100 profiles!")</td><td>All platforms</td><td>$0</td></tr>
+          <tr><td>13</td><td>Launch retargeting ad (visited but didn't sign up)</td><td>FB Pixel retarget</td><td>$10/day</td></tr>
+          <tr><td>14</td><td>Weekly recap + adjust campaigns</td><td>All</td><td>$0</td></tr>
+          <tr class="total-row"><td colspan="3">Week 2 Total</td><td>~$90</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Week 3: Engagement &amp; Referrals ($105)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Day</th><th>Action</th><th>Channel</th><th>Budget</th></tr></thead>
+        <tbody>
+          <tr><td>15</td><td>Launch referral program announcement</td><td>All + WhatsApp</td><td>$0</td></tr>
+          <tr><td>16</td><td>"Career tip of the day" series starts</td><td>TikTok, IG Stories</td><td>$0</td></tr>
+          <tr><td>17</td><td>Partner post with local business/influencer</td><td>Instagram</td><td>$25</td></tr>
+          <tr><td>18</td><td>WhatsApp broadcast #2: "500 profiles and growing"</td><td>WhatsApp</td><td>$0</td></tr>
+          <tr><td>19</td><td>"How employers use Talent" explainer video</td><td>TikTok</td><td>$0</td></tr>
+          <tr><td>20</td><td>Boost referral CTA post</td><td>Facebook</td><td>$20</td></tr>
+          <tr><td>21</td><td>Weekly recap + adjust</td><td>All</td><td>$0</td></tr>
+          <tr class="total-row"><td colspan="3">Week 3 Total</td><td>~$105</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Week 4: Scale &amp; Optimize ($95)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Day</th><th>Action</th><th>Channel</th><th>Budget</th></tr></thead>
+        <tbody>
+          <tr><td>22</td><td>Double down on best-performing ad creative</td><td>FB/IG Ads</td><td>$15/day</td></tr>
+          <tr><td>23</td><td>Create lookalike audience from signups</td><td>FB Ads Manager</td><td>incl.</td></tr>
+          <tr><td>24</td><td>"1,000 profiles" milestone post</td><td>All</td><td>$0</td></tr>
+          <tr><td>25</td><td>Employer teaser: "Access Saint Lucia's talent pool"</td><td>LinkedIn, direct</td><td>$0</td></tr>
+          <tr><td>26</td><td>TikTok compilation: best video resume tips</td><td>TikTok</td><td>$0</td></tr>
+          <tr><td>27-29</td><td>Final push: intensive ads + organic blitz</td><td>All paid channels</td><td>$20/day</td></tr>
+          <tr><td>30</td><td>Month 1 analysis &amp; Month 2 planning</td><td>Internal</td><td>$0</td></tr>
+          <tr class="total-row"><td colspan="3">Week 4 Total</td><td>~$95</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout--teal">
+      <strong>30-Day Total: ~$500.</strong> Expected reach: 73,000-158,000 impressions. Expected signups: 450-950 profiles. Cost per signup target: $0.53-$1.11.
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 7. CONTENT GENERATION PLAN ======================= -->
+<section id="content">
+  <div class="container">
+    <h2><span class="num">7</span> Content Generation Plan</h2>
+    <p class="subtitle">AI-powered content pipeline for social, email, blog, and ads.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card__icon card__icon--teal">&#128240;</div>
+        <h4>Social Media Posts</h4>
+        <p>Batch-generate 30 days of content via Claude API. Mix: job market facts (20%), video resume tips (20%), motivation/career (20%), platform updates (20%), testimonials/milestones (20%).</p>
+        <ul><li>3-5 posts per week per platform</li><li>Schedule with Meta Business Suite</li><li>AI generates caption + visual description</li></ul>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--gold">&#127909;</div>
+        <h4>TikTok / Reels Videos</h4>
+        <p>3-5 videos per week. Formats: screen recordings of app, "Did you know?" facts, video resume tips, "Day in the life" career content, Saint Lucia lifestyle for relocation audience.</p>
+        <ul><li>15-60 seconds, vertical 9:16</li><li>Trending sounds + text overlays</li><li>AI generates scripts &amp; hooks</li></ul>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--mint">&#128231;</div>
+        <h4>Email Sequences</h4>
+        <p>5-email welcome series: Welcome (Day 0), Complete Profile (Day 2), Record Video (Day 4), Share with Friends (Day 7), Employers Coming Soon (Day 14).</p>
+        <ul><li>Each under 150 words</li><li>Single clear CTA per email</li><li>Warm Caribbean tone, not corporate</li></ul>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--coral">&#128209;</div>
+        <h4>Blog / SEO Content</h4>
+        <p>Weekly 800-word articles targeting search keywords. Topics: "Top 10 In-Demand Jobs in SLU 2026", "How to Create a Winning Video Resume", "Saint Lucia Salary Guide", "Moving to SLU for Work".</p>
+        <ul><li>SEO-optimized with target keywords</li><li>Each ends with CTA to create profile</li><li>Share on social for double value</li></ul>
+      </div>
+    </div>
+
+    <h3>Content Templates</h3>
+    <div class="two-col">
+      <div>
+        <h4>Job Market Fact Post</h4>
+        <div class="callout callout--teal">
+          <p>&#128202; <strong>Did you know?</strong></p>
+          <p>[Fact about Saint Lucia job market]</p>
+          <p>The [sector] is growing fast &mdash; and employers need talent like YOU.</p>
+          <p>Create your free profile &rarr; talent.stlucia.studio</p>
+          <p style="font-size:.8rem;color:var(--primary)">#SaintLucia #CaribbeanJobs #TalentStLucia #CareerGrowth</p>
+        </div>
+
+        <h4>Video Resume Tip Post</h4>
+        <div class="callout callout--gold">
+          <p>&#127909; <strong>Video Resume Tip #[X]:</strong></p>
+          <p>[Tip, e.g., "Look at the camera, not the screen. It creates eye contact."]</p>
+          <p>Record your video resume in 2 minutes. Free.</p>
+          <p style="font-size:.8rem;color:var(--accent)">#VideoResume #JobTips #SaintLucia #TalentStLucia</p>
+        </div>
+      </div>
+      <div>
+        <h4>Platform Update Post</h4>
+        <div class="callout callout--mint">
+          <p>&#128640; <strong>[Number] talented professionals have joined Talent!</strong></p>
+          <p>Have you created your profile yet? It takes 2 minutes and it's free forever.</p>
+          <p>Join the movement &rarr; talent.stlucia.studio</p>
+          <p style="font-size:.8rem;color:#059669">#TalentStLucia #SaintLucia #GetHired</p>
+        </div>
+
+        <h4>WhatsApp Broadcast</h4>
+        <div class="callout callout--coral">
+          <p>Hey! &#127473;&#127464;</p>
+          <p>Saint Lucia's new talent platform just launched &mdash; talent.stlucia.studio</p>
+          <p>&#9989; Create your profile in 2 minutes<br>&#9989; Record a 60-second video resume<br>&#9989; Get discovered by employers</p>
+          <p>Completely free. Check it out and share!</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>AI Content Generation Pipeline</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Content Type</th><th>AI Service</th><th>Frequency</th><th>Est. Monthly Cost</th></tr></thead>
+        <tbody>
+          <tr><td>Social media posts (batch 30)</td><td>Claude API (Sonnet 4.5)</td><td>Monthly batch</td><td>$2-5</td></tr>
+          <tr><td>TikTok scripts</td><td>Claude API</td><td>3-5/week</td><td>$1-3</td></tr>
+          <tr><td>Blog articles (800 words)</td><td>Claude API (Sonnet 4.5)</td><td>1/week</td><td>$1-2</td></tr>
+          <tr><td>Email sequences</td><td>Claude API</td><td>As needed</td><td>$0.50</td></tr>
+          <tr><td>Ad creatives (images)</td><td>DALL-E 3 / Gemini</td><td>5-10/month</td><td>$3-8</td></tr>
+          <tr class="total-row"><td colspan="3">Total AI Content Costs</td><td>$8-18/mo</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 8. SOCIAL MEDIA STRATEGY ======================= -->
+<section id="social">
+  <div class="container">
+    <h2><span class="num">8</span> Social Media Channel Strategy</h2>
+    <p class="subtitle">Platform-specific approach for maximum reach in the Saint Lucian market.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card__icon card__icon--teal">&#128101;</div>
+        <span class="card__tag card__tag--critical">PRIMARY</span>
+        <h4>Facebook (91.6K users)</h4>
+        <p>Broadest reach in SLU. 50% national penetration. Primary paid advertising channel.</p>
+        <ul>
+          <li><strong>Handle:</strong> @TalentStLucia</li>
+          <li><strong>Posting:</strong> 5-7x/week</li>
+          <li><strong>Content:</strong> Job facts, tips, milestones, carousels, video</li>
+          <li><strong>Groups:</strong> Share in SLU community groups (Saint Lucia Buy &amp; Sell, SLU Jobs, etc.)</li>
+          <li><strong>Ads:</strong> $250/mo &mdash; awareness + retargeting</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--mint">&#128172;</div>
+        <span class="card__tag card__tag--critical">PRIMARY</span>
+        <h4>WhatsApp (90%+ penetration)</h4>
+        <p>Most direct channel. Ubiquitous in SLU. Broadcast lists by area.</p>
+        <ul>
+          <li><strong>Account:</strong> WhatsApp Business</li>
+          <li><strong>Broadcasts:</strong> Weekly by area (Castries, Gros Islet, Vieux Fort, Soufriere)</li>
+          <li><strong>Content:</strong> Launch announcements, milestone updates, profile completion nudges</li>
+          <li><strong>Link:</strong> talent.stlucia.studio?ref=wa</li>
+          <li><strong>Cost:</strong> $0 (organic)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--gold">&#128247;</div>
+        <span class="card__tag card__tag--phase2">SECONDARY</span>
+        <h4>Instagram (67K users)</h4>
+        <p>Visual-first, strong 18-34 reach. Reels drive discovery. Stories for engagement.</p>
+        <ul>
+          <li><strong>Handle:</strong> @talent.stlucia</li>
+          <li><strong>Posting:</strong> 4-5x/week (feed + Stories + Reels)</li>
+          <li><strong>Content:</strong> Carousels, Reels (cross-post TikTok), Stories polls</li>
+          <li><strong>DM outreach:</strong> 20-50 targeted DMs/week</li>
+          <li><strong>Ads:</strong> Included in FB/IG budget</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--coral">&#127916;</div>
+        <span class="card__tag card__tag--phase2">SECONDARY</span>
+        <h4>TikTok (+31% growth)</h4>
+        <p>Fastest-growing platform in SLU. Video-native audience. Organic discovery potential.</p>
+        <ul>
+          <li><strong>Handle:</strong> @talent.stlucia</li>
+          <li><strong>Posting:</strong> 3-5x/week</li>
+          <li><strong>Content:</strong> App demos, career tips, SLU job facts, lifestyle</li>
+          <li><strong>Hashtags:</strong> #SaintLucia #CaribbeanCareers #VideoResume #WorkInParadise</li>
+          <li><strong>Ads:</strong> $100/mo boosted posts</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Social Media Handles</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Platform</th><th>Handle</th><th>Purpose</th><th>Phase</th></tr></thead>
+        <tbody>
+          <tr><td>Facebook</td><td>@TalentStLucia</td><td>Community, ads, content hub</td><td>Launch</td></tr>
+          <tr><td>Instagram</td><td>@talent.stlucia</td><td>Visual content, Reels, Stories</td><td>Launch</td></tr>
+          <tr><td>TikTok</td><td>@talent.stlucia</td><td>Short-form video, career tips</td><td>Launch</td></tr>
+          <tr><td>LinkedIn</td><td>talent.stlucia</td><td>Employer outreach, professional content</td><td>Phase 2</td></tr>
+          <tr><td>WhatsApp Business</td><td>+1 758 XXX XXXX</td><td>Direct outreach, broadcast lists</td><td>Launch</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Hashtag Strategy</h3>
+    <div class="callout callout--teal">
+      <strong>Primary:</strong> #TalentStLucia #SaintLuciaJobs #CaribbeanCareers #VideoResume<br>
+      <strong>Reach:</strong> #SaintLucia (315M TikTok views) #Caribbean #WorkInParadise #GetHired<br>
+      <strong>Niche:</strong> #SLUTalent #HireLocal #IslandCareers #CaribbeanProfessionals
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 9. PAID ADVERTISING ======================= -->
+<section id="paid">
+  <div class="container">
+    <h2><span class="num">9</span> Paid Advertising Strategy</h2>
+    <p class="subtitle">$500 budget allocation across Facebook, Instagram, TikTok, and Google for 30 days.</p>
+
+    <div class="budget-visual">
+      <div class="donut-wrap">
+        <canvas id="budgetChart" width="180" height="180"></canvas>
+        <div class="donut-center">
+          <strong>$500</strong>
+          <span>30-day budget</span>
+        </div>
+      </div>
+      <ul class="legend">
+        <li><span class="legend__dot" style="background:var(--primary)"></span> <strong>Facebook/Instagram Ads &mdash; $250</strong> (50%)</li>
+        <li><span class="legend__dot" style="background:var(--accent)"></span> <strong>TikTok Boosts &mdash; $100</strong> (20%)</li>
+        <li><span class="legend__dot" style="background:var(--mint)"></span> <strong>Google Search Ads &mdash; $100</strong> (20%)</li>
+        <li><span class="legend__dot" style="background:var(--coral)"></span> <strong>Local Partnerships &mdash; $50</strong> (10%)</li>
+      </ul>
+    </div>
+
+    <h3>Expected Returns</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Channel</th><th>Budget</th><th>Expected Reach</th><th>Expected Signups</th><th>Cost/Signup</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Facebook/Instagram Ads</strong></td><td>$250</td><td>50,000-100,000 impressions</td><td>200-400</td><td>$0.63-$1.25</td></tr>
+          <tr><td><strong>TikTok (organic + boost)</strong></td><td>$100</td><td>20,000-50,000 views</td><td>50-150</td><td>$0.67-$2.00</td></tr>
+          <tr><td><strong>Google Ads (search)</strong></td><td>$100</td><td>2,000-5,000 clicks</td><td>50-100</td><td>$1.00-$2.00</td></tr>
+          <tr><td><strong>WhatsApp broadcast</strong></td><td>$0</td><td>500-1,000 direct</td><td>100-200</td><td>$0.00</td></tr>
+          <tr><td><strong>Local partnerships</strong></td><td>$50</td><td>1,000-2,000</td><td>50-100</td><td>$0.50-$1.00</td></tr>
+          <tr class="total-row"><td><strong>TOTAL</strong></td><td><strong>$500</strong></td><td><strong>73K-158K</strong></td><td><strong>450-950</strong></td><td><strong>$0.53-$1.11</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Facebook/Instagram Ad Audiences</h3>
+    <div class="card-grid">
+      <div class="card">
+        <span class="card__tag card__tag--phase1">AUDIENCE 1</span>
+        <h4>Local Talent (Primary)</h4>
+        <ul>
+          <li><strong>Location:</strong> Saint Lucia (entire country)</li>
+          <li><strong>Age:</strong> 18-45</li>
+          <li><strong>Interests:</strong> Job hunting, Career development, LinkedIn, Employment, Business</li>
+          <li><strong>Device:</strong> Smartphone users</li>
+          <li><strong>Budget:</strong> $150 (60% of FB/IG)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="card__tag card__tag--phase2">AUDIENCE 2</span>
+        <h4>Saint Lucian Diaspora</h4>
+        <ul>
+          <li><strong>Location:</strong> USA, UK, Canada, Trinidad, Barbados</li>
+          <li><strong>Age:</strong> 25-55</li>
+          <li><strong>Interests:</strong> Saint Lucia + Caribbean culture + Job hunting/Relocation</li>
+          <li><strong>Budget:</strong> $60 (24% of FB/IG)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="card__tag card__tag--phase3">AUDIENCE 3</span>
+        <h4>Digital Nomads / Relocators</h4>
+        <ul>
+          <li><strong>Location:</strong> English-speaking countries worldwide</li>
+          <li><strong>Age:</strong> 25-45</li>
+          <li><strong>Interests:</strong> Digital nomad + Remote work + Caribbean/Saint Lucia</li>
+          <li><strong>Budget:</strong> $40 (16% of FB/IG)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Ad Creative Briefs</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Creative 1: "Your Talent Deserves to Be Seen"</h4>
+        <p><strong>Format:</strong> 1080x1350 image (Feed)</p>
+        <p><strong>Visual:</strong> Confident Caribbean professional with Pitons background, smartphone in hand</p>
+        <p><strong>CTA:</strong> "Get Started &mdash; Free"</p>
+        <p><strong>Copy:</strong> "Saint Lucia's smartest talent platform is here. Show employers who you are with your own video resume. Free forever."</p>
+      </div>
+      <div class="card">
+        <h4>Creative 2: "2 Minutes. 1 Video. Unlimited Opportunities."</h4>
+        <p><strong>Format:</strong> 15-second video (Stories/Reels/TikTok)</p>
+        <p><strong>Script:</strong> Hook (0-3s): "This takes 2 minutes" &rarr; Screen recording of signup &rarr; Video recording &rarr; Success screen &rarr; Logo + URL</p>
+      </div>
+      <div class="card">
+        <h4>Creative 3: "Don't Just Send a Resume."</h4>
+        <p><strong>Format:</strong> 1080x1080 carousel (3 cards)</p>
+        <p><strong>Card 1:</strong> "Traditional resumes are boring" &rarr; <strong>Card 2:</strong> "Stand out with video" &rarr; <strong>Card 3:</strong> CTA with app screenshot</p>
+      </div>
+      <div class="card">
+        <h4>Creative 4: "Ready to Work in Paradise?"</h4>
+        <p><strong>Format:</strong> 1080x1350 image (Relocation audience)</p>
+        <p><strong>Visual:</strong> Split &mdash; city/winter on left, SLU beach + laptop on right</p>
+        <p><strong>Copy:</strong> "Moving to Saint Lucia? Show local employers what you bring before you arrive."</p>
+      </div>
+    </div>
+
+    <h3>Google Ads Keywords</h3>
+    <div class="two-col">
+      <div>
+        <h4>Primary (Landing Page)</h4>
+        <ul style="font-size:.88rem;color:var(--text-muted);padding-left:1.2rem">
+          <li>jobs in saint lucia</li>
+          <li>saint lucia jobs</li>
+          <li>work in saint lucia</li>
+          <li>saint lucia employment</li>
+          <li>caribbean jobs</li>
+          <li>saint lucia careers</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Long-Tail</h4>
+        <ul style="font-size:.88rem;color:var(--text-muted);padding-left:1.2rem">
+          <li>best jobs in saint lucia 2026</li>
+          <li>tourism jobs saint lucia</li>
+          <li>hotel jobs saint lucia</li>
+          <li>how to create a video resume</li>
+          <li>digital nomad saint lucia</li>
+          <li>saint lucia work permit</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 10. PARTNERSHIPS ======================= -->
+<section id="partnerships">
+  <div class="container">
+    <h2><span class="num">10</span> Partnership &amp; Outreach Strategy</h2>
+    <p class="subtitle">Strategic alliances to build credibility and accelerate growth.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Partner</th><th>Type</th><th>Value</th><th>Approach</th><th>Phase</th></tr></thead>
+        <tbody>
+          <tr><td><strong>TEPA</strong> (Trade Export Promotion Agency)</td><td>Government</td><td>Credibility, employer connections, data</td><td>Formal meeting, offer data partnership</td><td>Week 2-3</td></tr>
+          <tr><td><strong>Chamber of Commerce</strong></td><td>Business org</td><td>Access to 300+ employer members</td><td>Present at monthly meeting</td><td>Week 3-4</td></tr>
+          <tr><td><strong>SALCC</strong> (Sir Arthur Lewis CC)</td><td>Education</td><td>Student talent pipeline (8K IG)</td><td>Partner on career services portal</td><td>Week 2</td></tr>
+          <tr><td><strong>UWI Open Campus</strong></td><td>Education</td><td>Graduate talent (9,947 IG)</td><td>Promote to graduating class</td><td>Week 3</td></tr>
+          <tr><td><strong>Youth Enterprise Agency</strong></td><td>Government</td><td>Youth talent pipeline</td><td>Co-branded campaign</td><td>Week 4</td></tr>
+          <tr><td><strong>INVEST Saint Lucia</strong></td><td>Government</td><td>Foreign business connections</td><td>Offer talent data for investor attraction</td><td>Phase 2</td></tr>
+          <tr><td><strong>Hotels</strong> (Sandals, Royalton, Jade Mountain)</td><td>Employer</td><td>Early employer signups</td><td>Direct pitch with demo</td><td>Phase 2</td></tr>
+          <tr><td><strong>Digicel / FLOW</strong></td><td>Telecom</td><td>Co-marketing, distribution, data deals</td><td>Co-branded mobile promotion</td><td>Phase 2</td></tr>
+          <tr><td><strong>Radio 100 / DBS</strong></td><td>Media</td><td>Reach non-digital audience</td><td>Radio interview, sponsored segment</td><td>Week 3</td></tr>
+          <tr><td><strong>Local influencers</strong></td><td>Content</td><td>Authentic promotion, reach 174K+ (Antonin JN)</td><td>Free profile feature exchange</td><td>Week 2</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout--gold">
+      <strong>Priority Partnerships (First 30 Days):</strong> SALCC (student pipeline), Radio stations (mass awareness), 2-3 local influencers (authentic promotion). These require $0-50 investment and can drive 200-500 signups combined.
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 11. COMMUNITY BUILDING ======================= -->
+<section id="community">
+  <div class="container">
+    <h2><span class="num">11</span> Community Building</h2>
+    <p class="subtitle">Turning users into advocates through engagement loops and referrals.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card__icon card__icon--teal">&#128279;</div>
+        <h4>Referral System</h4>
+        <p>Built into the app. Each signup receives a unique referral code. Share page after profile creation with pre-written messages for WhatsApp, Facebook, and email.</p>
+        <ul>
+          <li>Link: talent.stlucia.studio?ref=CODE</li>
+          <li>Track referrals sent vs. converted</li>
+          <li>Phase 2 rewards: featured profile, early job access</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--gold">&#127942;</div>
+        <h4>Milestone Celebrations</h4>
+        <p>Public recognition at key thresholds creates social proof and FOMO.</p>
+        <ul>
+          <li>50 profiles: "We're live!" announcement</li>
+          <li>100 profiles: "100 talented Saint Lucians"</li>
+          <li>500 profiles: Community spotlight feature</li>
+          <li>1,000 profiles: "1K and growing" campaign</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--mint">&#128483;</div>
+        <h4>WhatsApp Communities</h4>
+        <p>Create WhatsApp Community with sector-specific groups. Talent networking, job tips, career advice. Builds daily engagement habit.</p>
+        <ul>
+          <li>General announcements channel</li>
+          <li>Hospitality talent group</li>
+          <li>Tech &amp; digital group</li>
+          <li>Finance &amp; business group</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--coral">&#127775;</div>
+        <h4>User-Generated Content</h4>
+        <p>Encourage users to share their profiles on social media. "I just created my video resume!" posts create organic viral loops.</p>
+        <ul>
+          <li>Auto-generate shareable profile card image</li>
+          <li>"Share your profile" CTA on success page</li>
+          <li>Feature best profiles on social media (with permission)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Engagement Loop</h3>
+    <div class="callout callout--teal">
+      <strong>Sign Up &rarr; Complete Profile &rarr; Share with Friends &rarr; Friends Sign Up &rarr; Social Proof Grows &rarr; More Sign Up.</strong> Each step reinforces the next. The referral system, milestone posts, and WhatsApp broadcasts create a self-reinforcing growth flywheel.
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 12. BUDGET BREAKDOWN ======================= -->
+<section id="budget">
+  <div class="container">
+    <h2><span class="num">12</span> Budget Breakdown</h2>
+    <p class="subtitle">Monthly operating costs from launch through monetization.</p>
+
+    <h3>Phase 1: MVP Launch (Weeks 1-4)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Category</th><th>Item</th><th>Monthly Cost</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="7">Infrastructure</td><td>GitHub Pages hosting</td><td>$0</td></tr>
+          <tr><td>Supabase (free tier: 500MB DB, 1GB storage)</td><td>$0</td></tr>
+          <tr><td>Cloudflare DNS + CDN (free plan)</td><td>$0</td></tr>
+          <tr><td>Plausible Analytics</td><td>$9</td></tr>
+          <tr><td>UptimeRobot monitoring</td><td>$0</td></tr>
+          <tr><td>Domain (already owned)</td><td>$0</td></tr>
+          <tr><td style="font-weight:700">Infrastructure subtotal</td><td style="font-weight:700">$9/mo</td></tr>
+          <tr><td rowspan="6">Marketing (30 days)</td><td>Facebook/Instagram Ads</td><td>$250</td></tr>
+          <tr><td>TikTok boosts</td><td>$100</td></tr>
+          <tr><td>Google Search Ads</td><td>$100</td></tr>
+          <tr><td>Local partnerships (influencers, collabs)</td><td>$50</td></tr>
+          <tr><td>WhatsApp broadcasts</td><td>$0</td></tr>
+          <tr><td style="font-weight:700">Marketing subtotal</td><td style="font-weight:700">$500</td></tr>
+          <tr><td>AI Services</td><td>Content generation (Claude API + image gen)</td><td>$8-18</td></tr>
+          <tr class="total-row"><td colspan="2"><strong>Phase 1 Monthly Total</strong></td><td><strong>$517-527</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Phase 2: Growth (Weeks 5-8)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Category</th><th>Item</th><th>Monthly Cost</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="4">Infrastructure</td><td>Supabase Pro (100GB storage, daily backups)</td><td>$25</td></tr>
+          <tr><td>Plausible Analytics</td><td>$9</td></tr>
+          <tr><td>Resend email (50K/mo)</td><td>$20</td></tr>
+          <tr><td style="font-weight:700">Infrastructure subtotal</td><td style="font-weight:700">$54/mo</td></tr>
+          <tr><td>AI Services</td><td>Claude API + embeddings</td><td>$10-25</td></tr>
+          <tr class="total-row"><td colspan="2"><strong>Phase 2 Monthly Total (excl. ads)</strong></td><td><strong>$64-79</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Phase 3: Monetization (Weeks 9-16)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Category</th><th>Item</th><th>Monthly Cost</th></tr></thead>
+        <tbody>
+          <tr><td>Infrastructure</td><td>Same as Phase 2 + Stripe (2.9% + $0.30/txn)</td><td>$54 + fees</td></tr>
+          <tr><td>AI Services</td><td>Resume builder + matching + content</td><td>$25-50</td></tr>
+          <tr class="total-row"><td colspan="2"><strong>Phase 3 Monthly Total</strong></td><td><strong>$79-104 + Stripe</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Break-Even Analysis</h3>
+    <div class="stats">
+      <div class="stat"><div class="stat__num">$104</div><div class="stat__label">Max monthly cost (Phase 3)</div></div>
+      <div class="stat"><div class="stat__num stat__num--gold">1-2</div><div class="stat__label">Employers needed to break even</div></div>
+      <div class="stat"><div class="stat__num stat__num--mint">$2,475</div><div class="stat__label">Revenue at 25 employers (Starter)</div></div>
+      <div class="stat"><div class="stat__num stat__num--coral">$12,475</div><div class="stat__label">Revenue at 25 employers (Enterprise)</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 13. KPIs & METRICS ======================= -->
+<section id="kpis">
+  <div class="container">
+    <h2><span class="num">13</span> KPIs &amp; Growth Metrics</h2>
+    <p class="subtitle">What we measure, when we measure it, and what success looks like.</p>
+
+    <h3>Profile Growth Targets</h3>
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi__label">Week 1</div>
+        <div class="kpi__val">50</div>
+        <div class="kpi__target">profiles collected</div>
+        <div class="kpi__bar"><div class="kpi__bar-fill" style="width:2.5%"></div></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi__label">Week 4</div>
+        <div class="kpi__val">500</div>
+        <div class="kpi__target">profiles collected</div>
+        <div class="kpi__bar"><div class="kpi__bar-fill" style="width:25%"></div></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi__label">Week 8</div>
+        <div class="kpi__val">2,000</div>
+        <div class="kpi__target">profiles + 5 employers</div>
+        <div class="kpi__bar"><div class="kpi__bar-fill" style="width:66%"></div></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi__label">Week 16</div>
+        <div class="kpi__val">5,000</div>
+        <div class="kpi__target">profiles + 25 employers</div>
+        <div class="kpi__bar"><div class="kpi__bar-fill" style="width:100%"></div></div>
+      </div>
+    </div>
+
+    <h3>Acquisition Metrics</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Metric</th><th>Target</th><th>Tracking Tool</th></tr></thead>
+        <tbody>
+          <tr><td>Landing page visits (by source)</td><td>1,000/week by Week 4</td><td>Plausible + UTM params</td></tr>
+          <tr><td>Signup starts (email entered)</td><td>40% of visitors</td><td>Custom events table</td></tr>
+          <tr><td>Signup completions (profile saved)</td><td>60% of starts</td><td>Custom events table</td></tr>
+          <tr><td>Conversion rate: visit &rarr; signup</td><td>20-25%</td><td>Calculated</td></tr>
+          <tr><td>Cost per signup</td><td>&lt;$1.00</td><td>Ad platform + analytics</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Activation Metrics</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Metric</th><th>Target</th><th>Tracking Tool</th></tr></thead>
+        <tbody>
+          <tr><td>Profile completeness &gt;75%</td><td>40% of signups</td><td>profiles.profile_completeness</td></tr>
+          <tr><td>Video resume recorded</td><td>25% of signups</td><td>Custom events table</td></tr>
+          <tr><td>PDF resume uploaded</td><td>15% of signups</td><td>Custom events table</td></tr>
+          <tr><td>Time to complete profile</td><td>&lt;5 minutes</td><td>Event timestamps</td></tr>
+          <tr><td>Referrals sent</td><td>1 per 5 signups</td><td>Referral code tracking</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Marketing Metrics</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Metric</th><th>Target</th><th>Tracking Tool</th></tr></thead>
+        <tbody>
+          <tr><td>Facebook ad CTR</td><td>&gt;2%</td><td>Meta Business Suite</td></tr>
+          <tr><td>Facebook CPC</td><td>&lt;$0.50</td><td>Meta Business Suite</td></tr>
+          <tr><td>Google Ads CTR</td><td>&gt;5%</td><td>Google Ads dashboard</td></tr>
+          <tr><td>TikTok organic views/post</td><td>&gt;1,000</td><td>TikTok Analytics</td></tr>
+          <tr><td>WhatsApp broadcast open rate</td><td>&gt;70%</td><td>WhatsApp Business</td></tr>
+          <tr><td>Referral conversion rate</td><td>&gt;15%</td><td>Custom tracking</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 14. EMPLOYER ACQUISITION ======================= -->
+<section id="employer">
+  <div class="container">
+    <h2><span class="num">14</span> Employer Acquisition Strategy (Phase 2)</h2>
+    <p class="subtitle">How to convert the talent pool into employer revenue starting Week 8.</p>
+
+    <h3>Employer Subscription Tiers</h3>
+    <div class="card-grid">
+      <div class="card" style="border-top:3px solid var(--primary)">
+        <h4>Starter &mdash; $99/mo</h4>
+        <p style="font-size:.85rem;color:var(--accent);font-weight:700">Annual: $999 ($83/mo)</p>
+        <ul>
+          <li>Browse talent directory</li>
+          <li>10 contact reveals/month</li>
+          <li>1 job posting</li>
+          <li>Basic search filters</li>
+        </ul>
+      </div>
+      <div class="card" style="border-top:3px solid var(--accent)">
+        <h4>Professional &mdash; $249/mo</h4>
+        <p style="font-size:.85rem;color:var(--accent);font-weight:700">Annual: $2,499 ($208/mo)</p>
+        <ul>
+          <li>50 contact reveals/month</li>
+          <li>5 job postings</li>
+          <li>Shortlists &amp; saved candidates</li>
+          <li>Video resume viewer</li>
+          <li>Advanced filters</li>
+        </ul>
+      </div>
+      <div class="card" style="border-top:3px solid var(--mint)">
+        <h4>Enterprise &mdash; $499/mo</h4>
+        <p style="font-size:.85rem;color:var(--accent);font-weight:700">Annual: $4,999 ($416/mo)</p>
+        <ul>
+          <li>Unlimited contact reveals</li>
+          <li>Unlimited job postings</li>
+          <li>AI-powered matching</li>
+          <li>Priority support</li>
+          <li>Bulk download profiles</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Employer Outreach Sequence</h3>
+    <div class="timeline">
+      <div class="timeline__item">
+        <h4>Week 6-7: Build Social Proof</h4>
+        <p>Reach 1,000+ profiles. Create employer-facing landing page. Compile talent statistics (sectors, experience levels, skills distribution). Record demo video.</p>
+      </div>
+      <div class="timeline__item">
+        <h4>Week 8: Direct Outreach</h4>
+        <p>Email top 50 employers (hotels, banks, government). Personal pitch to HR departments. Offer 14-day free trial. Present at Chamber of Commerce meeting.</p>
+      </div>
+      <div class="timeline__item">
+        <h4>Week 9-12: Close First Paying Customers</h4>
+        <p>Follow-up demos. Case study from first employer. Integrate Stripe payments. LinkedIn ad campaign targeting SLU business decision makers.</p>
+      </div>
+      <div class="timeline__item">
+        <h4>Week 13-16: Scale</h4>
+        <p>25 employer target. Partner with TEPA and Chamber for co-branded outreach. Government agency pitch (public sector hiring). Add AI matching feature.</p>
+      </div>
+    </div>
+
+    <div class="callout callout--mint">
+      <strong>Target Employers (First 25):</strong> Sandals, Royalton, Bay Gardens, Jade Mountain, Anse Chastanet, Windjammer, Bank of SLU, 1st National Bank, Sagicor, Digicel, FLOW, LUCELEC, WASCO, Ministry of Tourism, Ministry of Education, TEPA, INVEST SLU, Cabot Saint Lucia, DSH, CGA Architects, Grant Thornton, Ernst &amp; Young SLU, Tapion Hospital, OKEU Hospital, Victoria Hospital.
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 15. ROADMAP ======================= -->
+<section id="roadmap">
+  <div class="container">
+    <h2><span class="num">15</span> Product Roadmap</h2>
+    <p class="subtitle">16-week plan from MVP to monetization.</p>
+
+    <h3>Gantt-Style Timeline</h3>
+    <div class="gantt">
+      <div class="gantt__weeks">
+        <span>W1</span><span>W2</span><span>W3</span><span>W4</span><span>W5</span><span>W6</span><span>W7</span><span>W8</span><span>W9</span><span>W10</span><span>W11</span><span>W12</span><span>W13</span><span>W14</span><span>W15</span><span>W16</span>
+      </div>
+      <div class="gantt__row">
+        <div class="gantt__label">MVP Launch</div>
+        <div class="gantt__track"><div class="gantt__bar" style="left:0;width:6.25%;background:var(--primary)">W1</div></div>
+      </div>
+      <div class="gantt__row">
+        <div class="gantt__label">Video Resume</div>
+        <div class="gantt__track"><div class="gantt__bar" style="left:6.25%;width:6.25%;background:var(--primary-light)">W2</div></div>
+      </div>
+      <div class="gantt__row">
+        <div class="gantt__label">Growth Engine</div>
+        <div class="gantt__track"><div class="gantt__bar" style="left:12.5%;width:12.5%;background:var(--accent)">W3-4</div></div>
+      </div>
+      <div class="gantt__row">
+        <div class="gantt__label">Employer Side</div>
+        <div class="gantt__track"><div class="gantt__bar" style="left:25%;width:25%;background:var(--mint)">W5-8</div></div>
+      </div>
+      <div class="gantt__row">
+        <div class="gantt__label">AI Features</div>
+        <div class="gantt__track"><div class="gantt__bar" style="left:50%;width:25%;background:var(--coral)">W9-12</div></div>
+      </div>
+      <div class="gantt__row">
+        <div class="gantt__label">Scale &amp; Expand</div>
+        <div class="gantt__track"><div class="gantt__bar" style="left:75%;width:25%;background:#7c3aed">W13-16</div></div>
+      </div>
+      <div class="gantt__row">
+        <div class="gantt__label">Marketing</div>
+        <div class="gantt__track"><div class="gantt__bar" style="left:0;width:100%;background:rgba(244,161,0,.3);color:var(--accent);border:1px solid var(--accent)">Ongoing</div></div>
+      </div>
+    </div>
+
+    <h3>Phase Details</h3>
+    <div class="two-col">
+      <div>
+        <h4>Week 1: MVP Launch</h4>
+        <ul class="checklist">
+          <li>Landing page, signup flow, auth, profile page</li>
+          <li>Dashboard, PWA, legal pages</li>
+          <li>Deploy + domain + HTTPS</li>
+          <li>OG tags, analytics, first ads</li>
+        </ul>
+
+        <h4>Week 2: Video Resume + Polish</h4>
+        <ul class="checklist">
+          <li>Video recording screen (camera + timer + prompts)</li>
+          <li>Video upload alternative</li>
+          <li>Resume PDF upload</li>
+          <li>Profile completeness score</li>
+          <li>Success page with referral</li>
+          <li>Welcome email via Resend</li>
+        </ul>
+
+        <h4>Weeks 3-4: Growth Engine</h4>
+        <ul class="checklist">
+          <li>Referral tracking (?ref= codes)</li>
+          <li>Public talent directory</li>
+          <li>TikTok content pipeline (5 videos queued)</li>
+          <li>Email: profile completion reminders</li>
+          <li>Retargeting pixel + lookalike audiences</li>
+          <li>Basic admin analytics dashboard</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Weeks 5-8: Employer Side</h4>
+        <ul class="checklist">
+          <li>Employer registration + dashboard</li>
+          <li>Talent search with filters</li>
+          <li>Video resume viewer for employers</li>
+          <li>Shortlist / save candidates</li>
+          <li>Stripe payment integration</li>
+          <li>Job posting (basic)</li>
+        </ul>
+
+        <h4>Weeks 9-12: AI Features</h4>
+        <ul class="checklist">
+          <li>AI resume builder (bullets &rarr; polished summary)</li>
+          <li>AI skill extraction from PDF</li>
+          <li>AI matching (talent &harr; job descriptions)</li>
+          <li>AI-powered natural language search</li>
+          <li>Job match email notifications</li>
+        </ul>
+
+        <h4>Weeks 13-16: Scale &amp; Expand</h4>
+        <ul class="checklist">
+          <li>Employer API for HR system integration</li>
+          <li>Assessment tools &amp; skills tests</li>
+          <li>Training recommendations (SALCC, UWI)</li>
+          <li>Regional expansion planning (Dominica, Grenada)</li>
+          <li>Premium talent tier (verified, featured)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Scaling Decision Points</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Profiles</th><th>Trigger</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>100</td><td>Email volume increases</td><td>Enable email confirmation, add Resend</td></tr>
+          <tr><td>500</td><td>Storage &gt;1GB</td><td>Upgrade Supabase to Pro ($25/mo), add DB indexes</td></tr>
+          <tr><td>2,000</td><td>Video bandwidth</td><td>Add Cloudflare R2 for video CDN, add Sentry error tracking</td></tr>
+          <tr><td>5,000</td><td>AI matching needed</td><td>Add pgvector, dedicated video hosting (Mux)</td></tr>
+          <tr><td>100K pageviews/mo</td><td>GitHub Pages bandwidth</td><td>Migrate to Cloudflare Pages</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 16. RISK MITIGATION ======================= -->
+<section id="risk">
+  <div class="container">
+    <h2><span class="num">16</span> Risk Mitigation</h2>
+    <p class="subtitle">Anticipated challenges and contingency plans.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="card__tag card__tag--critical">HIGH RISK</span>
+        <h4>Low Signup Rate</h4>
+        <p><strong>Risk:</strong> People visit but don't sign up. Target 20% conversion misses.</p>
+        <p><strong>Mitigation:</strong> A/B test landing page copy. Reduce signup steps to just email + name. Add social proof ("X people joined today"). Offer incentive for first 100 signups.</p>
+      </div>
+      <div class="card">
+        <span class="card__tag card__tag--critical">HIGH RISK</span>
+        <h4>Privacy/Trust Concerns</h4>
+        <p><strong>Risk:</strong> Users hesitant to record video or share personal data. Small island &mdash; fear of exposure.</p>
+        <p><strong>Mitigation:</strong> Clear privacy policy (GDPR-level). Prominent data protection messaging. Video resume is optional. Users control visibility. Delete-anytime guarantee.</p>
+      </div>
+      <div class="card">
+        <span class="card__tag card__tag--phase2">MEDIUM RISK</span>
+        <h4>Video Recording Fails on Devices</h4>
+        <p><strong>Risk:</strong> MediaRecorder API doesn't work on older phones or Safari quirks.</p>
+        <p><strong>Mitigation:</strong> Always offer upload alternative. Detect browser support before showing recorder. Test on 10+ device/browser combos. Graceful fallback to text-only profile.</p>
+      </div>
+      <div class="card">
+        <span class="card__tag card__tag--phase2">MEDIUM RISK</span>
+        <h4>No Employer Interest (Phase 2)</h4>
+        <p><strong>Risk:</strong> Employers don't see value in paying $99-499/mo. Prefer traditional recruitment.</p>
+        <p><strong>Mitigation:</strong> Free trial (14 days). Start with just 1-2 anchor employers. Government partnership adds credibility. Prove ROI with placement data. Lower-cost entry tier if needed.</p>
+      </div>
+      <div class="card">
+        <span class="card__tag card__tag--phase2">MEDIUM RISK</span>
+        <h4>Ad Budget Exhaustion</h4>
+        <p><strong>Risk:</strong> $500 runs out before hitting 500 profiles target.</p>
+        <p><strong>Mitigation:</strong> Prioritize organic channels (WhatsApp, TikTok, FB groups). Optimize CPC daily &mdash; pause underperforming ads. Lean into referral program. Partner with radio stations for free exposure.</p>
+      </div>
+      <div class="card">
+        <span class="card__tag card__tag--phase1">LOW RISK</span>
+        <h4>Technical Downtime</h4>
+        <p><strong>Risk:</strong> GitHub Pages or Supabase outage during launch.</p>
+        <p><strong>Mitigation:</strong> PWA service worker caches core pages offline. Supabase has 99.9% SLA on Pro. UptimeRobot alerts. Cloudflare CDN provides edge caching layer. Static site = virtually no server errors.</p>
+      </div>
+    </div>
+
+    <div class="callout callout--coral">
+      <strong>Biggest Risk:</strong> Not launching fast enough. The longer the delay, the more a competitor can enter. The MVP philosophy is: launch with 80% product and iterate based on real user feedback. Speed over perfection.
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 17. TECHNICAL CHECKLIST ======================= -->
+<section id="tech">
+  <div class="container">
+    <h2><span class="num">17</span> Technical Launch Checklist</h2>
+    <p class="subtitle">Service accounts, configurations, and technical setup tasks remaining.</p>
+
+    <h3>Service Accounts to Create</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Service</th><th>URL</th><th>Priority</th><th>Monthly Cost</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Supabase</strong></td><td>supabase.com</td><td style="color:var(--coral);font-weight:700">Now</td><td>Free &rarr; $25</td></tr>
+          <tr><td><strong>Cloudflare</strong></td><td>cloudflare.com</td><td style="color:var(--coral);font-weight:700">Now</td><td>Free</td></tr>
+          <tr><td><strong>Plausible</strong></td><td>plausible.io</td><td style="color:var(--accent);font-weight:700">Week 1</td><td>$9</td></tr>
+          <tr><td><strong>Facebook Business</strong></td><td>business.facebook.com</td><td style="color:var(--accent);font-weight:700">Week 1</td><td>Free + ads</td></tr>
+          <tr><td><strong>Google Ads</strong></td><td>ads.google.com</td><td style="color:var(--accent);font-weight:700">Week 1</td><td>Free + ads</td></tr>
+          <tr><td><strong>Google Search Console</strong></td><td>search.google.com/search-console</td><td style="color:var(--accent);font-weight:700">Week 1</td><td>Free</td></tr>
+          <tr><td><strong>TikTok Business</strong></td><td>ads.tiktok.com</td><td style="color:var(--accent);font-weight:700">Week 1</td><td>Free + ads</td></tr>
+          <tr><td><strong>UptimeRobot</strong></td><td>uptimerobot.com</td><td style="color:var(--accent);font-weight:700">Week 1</td><td>Free</td></tr>
+          <tr><td><strong>Resend</strong></td><td>resend.com</td><td>Week 2</td><td>Free &rarr; $20</td></tr>
+          <tr><td><strong>Stripe</strong></td><td>stripe.com</td><td>Phase 2</td><td>2.9% + $0.30</td></tr>
+          <tr><td><strong>Sentry</strong></td><td>sentry.io</td><td>Phase 2</td><td>Free</td></tr>
+          <tr><td><strong>Anthropic (Claude API)</strong></td><td>console.anthropic.com</td><td>Phase 5</td><td>$15-50</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Supabase Setup Steps</h3>
+    <div class="timeline">
+      <div class="timeline__item">
+        <h4>1. Create Supabase Project</h4>
+        <p>Name: <code>talent-stlucia</code> | Region: US East (closest to Caribbean) | Plan: Free tier</p>
+      </div>
+      <div class="timeline__item">
+        <h4>2. Deploy Database Schema</h4>
+        <p>Run SQL from setup/supabase-schema.sql &mdash; creates 6 tables: profiles, experiences, education, video_questions, events, waitlist</p>
+      </div>
+      <div class="timeline__item">
+        <h4>3. Create Storage Buckets</h4>
+        <p>photos (public read, 5MB max), videos (public read, 100MB max), resumes (auth required, 10MB max)</p>
+      </div>
+      <div class="timeline__item">
+        <h4>4. Configure Authentication</h4>
+        <p>Enable Email provider. Disable email confirmation (reduce friction). Set redirect URL to dashboard.html. Session: 7 days.</p>
+      </div>
+      <div class="timeline__item">
+        <h4>5. Apply Row-Level Security</h4>
+        <p>Profiles: public read for active, users update own. Storage: users upload to own folder only.</p>
+      </div>
+      <div class="timeline__item">
+        <h4>6. Copy Credentials</h4>
+        <p>Paste Supabase URL + anon key into assets/js/supabase.js. Never expose service role key in frontend.</p>
+      </div>
+    </div>
+
+    <h3>DNS &amp; Domain Configuration</h3>
+    <div class="callout callout--teal">
+      <code>stlucia.studio</code> &rarr; Cloudflare nameservers<br>
+      <code>talent.stlucia.studio</code> &rarr; CNAME &rarr; ibak-app.github.io (now) / talent-sl.pages.dev (future)<br>
+      <strong>Cloudflare Rules:</strong> Cache static assets 30 days, HTML 4 hours, force HTTPS, Brotli compression, security headers (HSTS, CSP, X-Frame-Options)
+    </div>
+
+    <h3>UTM Parameter Convention</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Source</th><th>UTM Example</th></tr></thead>
+        <tbody>
+          <tr><td>Facebook Ads</td><td><code>?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=launch_local</code></td></tr>
+          <tr><td>Instagram Organic</td><td><code>?utm_source=instagram&amp;utm_medium=organic&amp;utm_campaign=career_tips</code></td></tr>
+          <tr><td>WhatsApp</td><td><code>?utm_source=whatsapp&amp;utm_medium=broadcast&amp;utm_campaign=week1</code></td></tr>
+          <tr><td>Google Ads</td><td><code>?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=jobs_stlucia</code></td></tr>
+          <tr><td>TikTok</td><td><code>?utm_source=tiktok&amp;utm_medium=organic&amp;utm_campaign=video_tips</code></td></tr>
+          <tr><td>Referral</td><td><code>?ref=TL4K8MX2</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= FOOTER ======================= -->
+<footer class="footer">
+  <div class="container">
+    <p><strong>talent.stlucia</strong> &mdash; Launch Plan &amp; Marketing Strategy</p>
+    <p>Domain: <a href="https://talent.stlucia.studio">talent.stlucia.studio</a> | Parent: <a href="https://stlucia.studio">stlucia.studio</a></p>
+    <p>Prepared February 2026 | 17 sections | Powered by research from 75+ sources across the Saint Lucian digital landscape</p>
+    <p style="margin-top:.5rem"><a href="workflows.html">Content &amp; Image Workflows</a> &nbsp;|&nbsp; <a href="setup-guide.html">Account Setup Guide</a></p>
+  </div>
+</footer>
+
+<!-- ======================= SCRIPTS ======================= -->
+<script>
+// ===== Budget Donut Chart (Canvas 2D) =====
+(function(){
+  const canvas = document.getElementById('budgetChart');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = 180 * dpr;
+  canvas.height = 180 * dpr;
+  ctx.scale(dpr, dpr);
+
+  const data = [
+    { value: 250, color: '#0D7377' },
+    { value: 100, color: '#F4A100' },
+    { value: 100, color: '#06D6A0' },
+    { value: 50,  color: '#EF476F' }
+  ];
+  const total = data.reduce((s, d) => s + d.value, 0);
+  const cx = 90, cy = 90, r = 72, lineWidth = 22;
+  let startAngle = -Math.PI / 2;
+
+  data.forEach(d => {
+    const sliceAngle = (d.value / total) * Math.PI * 2;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, startAngle, startAngle + sliceAngle);
+    ctx.strokeStyle = d.color;
+    ctx.lineWidth = lineWidth;
+    ctx.lineCap = 'butt';
+    ctx.stroke();
+    startAngle += sliceAngle;
+  });
+})();
+
+// ===== Sticky TOC active state =====
+(function(){
+  const tocLinks = document.querySelectorAll('.toc__inner a');
+  const sections = [];
+  tocLinks.forEach(a => {
+    const id = a.getAttribute('href').replace('#','');
+    const el = document.getElementById(id);
+    if(el) sections.push({ el, a });
+  });
+
+  function updateActive(){
+    let current = sections[0];
+    for(const s of sections){
+      if(s.el.getBoundingClientRect().top <= 80) current = s;
+    }
+    tocLinks.forEach(a => a.classList.remove('active'));
+    if(current) current.a.classList.add('active');
+  }
+
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+})();
+
+// ===== Fade-in on scroll =====
+(function(){
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.card, .stat, .kpi, .callout').forEach(el => {
+    el.classList.add('fade-in');
+    observer.observe(el);
+  });
+})();
+</script>
+
+</body>
+</html>

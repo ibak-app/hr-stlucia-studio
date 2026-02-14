@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content &amp; Image Workflows — talent.stlucia</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#0D7377;--primary-light:#11999E;--primary-dark:#065355;
+  --accent:#F4A100;--accent-light:#FFD166;
+  --mint:#06D6A0;--coral:#EF476F;
+  --purple:#7c3aed;--purple-light:#a78bfa;
+  --bg:#FFFFFF;--bg-alt:#F7F9FC;--bg-dark:#0B1622;--bg-code:#1e293b;
+  --text:#1A202C;--text-muted:#718096;--border:#E2E8F0;
+  --radius:10px;--shadow:0 2px 12px rgba(0,0,0,.08);
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --mono:'SF Mono','Cascadia Code','Fira Code',Consolas,monospace;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font);color:var(--text);line-height:1.65;background:var(--bg)}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg-alt)}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px}
+
+/* ===== Header ===== */
+.header{background:linear-gradient(135deg,#1a0533 0%,#2d1654 40%,var(--primary-dark) 100%);color:#fff;padding:3rem 0 4rem;position:relative;overflow:hidden}
+.header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--purple),var(--accent),var(--mint),var(--primary))}
+.header .container{position:relative;z-index:1}
+.header__badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:.35rem 1rem;border-radius:50px;font-size:.8rem;color:var(--accent-light);margin-bottom:1.2rem}
+.header h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;line-height:1.2;margin-bottom:.6rem}
+.header h1 span{background:linear-gradient(90deg,var(--accent),var(--mint));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header p{font-size:1.05rem;color:rgba(255,255,255,.7);max-width:700px;margin-bottom:1.5rem}
+.header__pills{display:flex;flex-wrap:wrap;gap:.5rem}
+.header__pill{font-size:.75rem;font-weight:600;padding:.3rem .7rem;border-radius:50px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.1)}
+.header__pill strong{color:var(--accent-light)}
+
+/* ===== Container ===== */
+.container{max-width:1140px;margin:0 auto;padding:0 1.25rem}
+
+/* ===== Nav ===== */
+.toc{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);border-bottom:1px solid var(--border);backdrop-filter:blur(10px)}
+.toc__inner{display:flex;gap:.25rem;padding:.6rem 0;overflow-x:auto;scrollbar-width:none}
+.toc__inner::-webkit-scrollbar{display:none}
+.toc__inner a{white-space:nowrap;font-size:.78rem;font-weight:600;padding:.35rem .7rem;border-radius:50px;color:var(--text-muted);text-decoration:none;transition:all .2s}
+.toc__inner a:hover,.toc__inner a.active{background:var(--purple);color:#fff}
+
+/* ===== Sections ===== */
+section{padding:3.5rem 0}
+section:nth-child(even){background:var(--bg-alt)}
+section h2{font-size:clamp(1.3rem,3vw,1.7rem);font-weight:800;margin-bottom:.4rem;color:var(--primary-dark)}
+section h2 .num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--purple);color:#fff;font-size:.8rem;margin-right:.5rem;vertical-align:middle}
+section .subtitle{color:var(--text-muted);margin-bottom:2rem;font-size:.95rem}
+section h3{font-size:1.1rem;font-weight:700;margin:2rem 0 .8rem;color:var(--text)}
+section h4{font-size:.95rem;font-weight:700;margin:1.2rem 0 .5rem;color:var(--primary)}
+
+/* ===== Workflow Block ===== */
+.workflow{background:#fff;border:1px solid var(--border);border-radius:var(--radius);margin:1.5rem 0;overflow:hidden;box-shadow:var(--shadow)}
+.workflow__header{display:flex;align-items:center;gap:.75rem;padding:1rem 1.25rem;cursor:pointer;user-select:none;transition:background .2s}
+.workflow__header:hover{background:var(--bg-alt)}
+.workflow__icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.workflow__icon--purple{background:rgba(124,58,237,.1);color:var(--purple)}
+.workflow__icon--teal{background:rgba(13,115,119,.1);color:var(--primary)}
+.workflow__icon--gold{background:rgba(244,161,0,.1);color:var(--accent)}
+.workflow__icon--mint{background:rgba(6,214,160,.1);color:var(--mint)}
+.workflow__icon--coral{background:rgba(239,71,111,.1);color:var(--coral)}
+.workflow__meta{flex:1}
+.workflow__meta h4{margin:0;font-size:.95rem}
+.workflow__meta p{margin:0;font-size:.78rem;color:var(--text-muted)}
+.workflow__effort{display:flex;align-items:center;gap:.3rem;font-size:.72rem;font-weight:700;padding:.25rem .6rem;border-radius:50px;flex-shrink:0}
+.workflow__effort--zero{background:#e0f7e0;color:#166534}
+.workflow__effort--low{background:#e0f7f4;color:var(--primary)}
+.workflow__effort--med{background:#fff3d4;color:#9a6c00}
+.workflow__body{padding:0 1.25rem 1.25rem;display:block}
+
+/* ===== Input/Output Tags ===== */
+.io-row{display:flex;flex-wrap:wrap;gap:.6rem;margin:.8rem 0}
+.io-tag{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:600;padding:.3rem .65rem;border-radius:6px}
+.io-tag--input{background:rgba(124,58,237,.08);color:var(--purple);border:1px solid rgba(124,58,237,.15)}
+.io-tag--output{background:rgba(6,214,160,.08);color:#059669;border:1px solid rgba(6,214,160,.15)}
+.io-tag--tool{background:rgba(244,161,0,.08);color:#9a6c00;border:1px solid rgba(244,161,0,.15)}
+
+/* ===== Prompt Block ===== */
+.prompt{background:var(--bg-code);color:#e2e8f0;border-radius:8px;padding:1rem 1.2rem;margin:.8rem 0;font-family:var(--mono);font-size:.8rem;line-height:1.6;overflow-x:auto;position:relative;white-space:pre-wrap;word-break:break-word}
+.prompt .comment{color:#64748b}
+.prompt .var{color:var(--accent-light);font-weight:700}
+.prompt .highlight{color:var(--mint)}
+.prompt-label{position:absolute;top:.5rem;right:.6rem;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#64748b;font-family:var(--font)}
+.copy-btn{position:absolute;top:.4rem;right:.5rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#94a3b8;font-size:.7rem;padding:.25rem .5rem;border-radius:4px;cursor:pointer;font-family:var(--font);transition:all .2s}
+.copy-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+.copy-btn.copied{background:var(--mint);color:#fff;border-color:var(--mint)}
+
+/* ===== Arrow Chain ===== */
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin:.8rem 0}
+.chain__step{display:flex;align-items:center;gap:.3rem;font-size:.8rem;font-weight:600;padding:.35rem .7rem;border-radius:6px;background:var(--bg-alt);border:1px solid var(--border)}
+.chain__arrow{color:var(--text-muted);font-size:.85rem}
+.chain__step--active{background:var(--purple);color:#fff;border-color:var(--purple)}
+.chain__step--you{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* ===== Cards/Grid ===== */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;margin:1.5rem 0}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow);transition:transform .2s}
+.card:hover{transform:translateY(-2px)}
+.card h4{margin:0 0 .4rem;font-size:.95rem}
+.card p,.card li{font-size:.85rem;color:var(--text-muted);line-height:1.5}
+.card ul{padding-left:1.1rem;margin-top:.4rem}
+.card ul li{margin-bottom:.25rem}
+
+/* ===== Tables ===== */
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border-radius:var(--radius);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+th{background:var(--primary-dark);color:#fff;font-weight:600;text-align:left;padding:.6rem .8rem;white-space:nowrap}
+td{padding:.55rem .8rem;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even){background:var(--bg-alt)}
+
+/* ===== Callouts ===== */
+.callout{padding:1rem 1.2rem;border-radius:var(--radius);margin:1.2rem 0;font-size:.88rem;line-height:1.6}
+.callout--purple{background:rgba(124,58,237,.05);border-left:4px solid var(--purple)}
+.callout--teal{background:rgba(13,115,119,.06);border-left:4px solid var(--primary)}
+.callout--gold{background:rgba(244,161,0,.06);border-left:4px solid var(--accent)}
+.callout--mint{background:rgba(6,214,160,.06);border-left:4px solid var(--mint)}
+.callout--coral{background:rgba(239,71,111,.06);border-left:4px solid var(--coral)}
+.callout strong{color:var(--text)}
+
+/* ===== Stats ===== */
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin:1.5rem 0}
+.stat{text-align:center;padding:1.2rem .8rem;background:#fff;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow)}
+.stat__num{font-size:1.6rem;font-weight:800;color:var(--purple);line-height:1.1}
+.stat__label{font-size:.75rem;color:var(--text-muted);margin-top:.3rem}
+
+/* ===== Two-col ===== */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin:1.5rem 0}
+@media(max-width:768px){.two-col{grid-template-columns:1fr}.card-grid{grid-template-columns:1fr}}
+
+/* ===== Checklist ===== */
+.checklist{list-style:none;padding:0;margin:.8rem 0}
+.checklist li{position:relative;padding:.4rem 0 .4rem 1.6rem;font-size:.85rem;color:var(--text-muted)}
+.checklist li::before{content:'';position:absolute;left:0;top:.55rem;width:14px;height:14px;border-radius:3px;background:var(--purple);background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='%23fff' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");background-size:10px;background-position:center;background-repeat:no-repeat}
+
+/* ===== Footer ===== */
+.footer{background:var(--bg-dark);color:rgba(255,255,255,.5);padding:2rem 0;font-size:.8rem;text-align:center}
+.footer a{color:var(--accent-light);text-decoration:none}
+.footer strong{color:rgba(255,255,255,.8)}
+
+/* ===== Animations ===== */
+.fade-in{opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+@media print{.toc{position:static}.prompt{white-space:pre-wrap;font-size:.7rem}}
+</style>
+</head>
+<body>
+
+<!-- =================== HEADER =================== -->
+<header class="header">
+  <div class="container">
+    <div class="header__badge">Automation Playbook</div>
+    <h1>Content &amp; Image <span>Workflows</span></h1>
+    <p>Copy-paste-ready AI workflows for generating all marketing content with minimum manual input. Each workflow tells you exactly what you provide, what prompt to run, and what you get back.</p>
+    <div class="header__pills">
+      <span class="header__pill"><strong>18</strong> workflows</span>
+      <span class="header__pill"><strong>12</strong> zero-input automations</span>
+      <span class="header__pill">Claude API + Gemini/DALL-E + Claude Code</span>
+      <span class="header__pill">~$8-18/mo AI costs</span>
+    </div>
+  </div>
+</header>
+
+<!-- =================== NAV =================== -->
+<nav class="toc">
+  <div class="container">
+    <div class="toc__inner">
+      <a href="#overview">Overview</a>
+      <a href="#social-batch">Social Batch</a>
+      <a href="#tiktok">TikTok Scripts</a>
+      <a href="#images">Image Gen</a>
+      <a href="#carousel">Carousels</a>
+      <a href="#email">Emails</a>
+      <a href="#blog">Blog/SEO</a>
+      <a href="#whatsapp">WhatsApp</a>
+      <a href="#spotlight">Spotlights</a>
+      <a href="#employer">Employer</a>
+      <a href="#og">OG Images</a>
+      <a href="#video-thumb">Thumbnails</a>
+      <a href="#ab">A/B Copy</a>
+      <a href="#weekly">Weekly Report</a>
+      <a href="#mega">Mega Workflow</a>
+      <a href="#tools">Tool Setup</a>
+    </div>
+  </div>
+</nav>
+
+<!-- =================== 1. OVERVIEW =================== -->
+<section id="overview">
+  <div class="container">
+    <h2><span class="num">1</span> How These Workflows Work</h2>
+    <p class="subtitle">Every workflow is designed so you provide the absolute minimum and AI does the rest.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="stat__num">18</div><div class="stat__label">total workflows</div></div>
+      <div class="stat"><div class="stat__num" style="color:var(--mint)">12</div><div class="stat__label">zero-input (fully automated)</div></div>
+      <div class="stat"><div class="stat__num" style="color:var(--accent)">5</div><div class="stat__label">one-word input</div></div>
+      <div class="stat"><div class="stat__num" style="color:var(--coral)">1</div><div class="stat__label">requires a paragraph</div></div>
+    </div>
+
+    <h3>Input Effort Levels</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Level</th><th>What You Provide</th><th>Example</th><th>Workflows</th></tr></thead>
+        <tbody>
+          <tr><td><span class="workflow__effort workflow__effort--zero">ZERO INPUT</span></td><td>Nothing. Just run the prompt as-is.</td><td>Run prompt &rarr; get 30 social posts</td><td>Social batch, emails, WhatsApp, weekly report, A/B copy, OG images</td></tr>
+          <tr><td><span class="workflow__effort workflow__effort--low">1 WORD</span></td><td>A topic keyword or week number</td><td>"hospitality" or "week 3"</td><td>Blog, TikTok, spotlight, carousel</td></tr>
+          <tr><td><span class="workflow__effort workflow__effort--med">1 SENTENCE</span></td><td>A brief description or metric</td><td>"We hit 500 profiles today"</td><td>Milestone post, employer pitch</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>The Automation Chain</h3>
+    <div class="chain">
+      <div class="chain__step chain__step--you">You: trigger</div>
+      <div class="chain__arrow">&rarr;</div>
+      <div class="chain__step chain__step--active">Claude: text</div>
+      <div class="chain__arrow">&rarr;</div>
+      <div class="chain__step chain__step--active">Gemini/DALL-E: image</div>
+      <div class="chain__arrow">&rarr;</div>
+      <div class="chain__step">Ready to post</div>
+    </div>
+    <p style="font-size:.85rem;color:var(--text-muted);margin-top:.5rem">Most workflows produce finished content. Some chain text generation into image generation automatically.</p>
+
+    <h3>Tools You Need</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Claude Code (this tool)</h4>
+        <p>You're already here. Run any prompt below by pasting it. Claude Code can also chain workflows together, write files, and push to git.</p>
+      </div>
+      <div class="card">
+        <h4>Claude API / Sonnet 4.5</h4>
+        <p>For batch content generation. Use via Claude Code, API console, or any Claude interface. ~$0.01-0.05 per generation.</p>
+      </div>
+      <div class="card">
+        <h4>Image Generation</h4>
+        <p>Gemini (via Claude Code's /nano-banana-pro skill), DALL-E 3, or Midjourney. Prompts provided for each format.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 2. SOCIAL BATCH =================== -->
+<section id="social-batch">
+  <div class="container">
+    <h2><span class="num">2</span> 30-Day Social Media Batch</h2>
+    <p class="subtitle">Generate an entire month of social content in one prompt. Zero input required.</p>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--purple">&#128197;</div>
+        <div class="workflow__meta">
+          <h4>Monthly Social Content Generator</h4>
+          <p>Produces 30 ready-to-post social media entries for Facebook, Instagram, and TikTok</p>
+        </div>
+        <span class="workflow__effort workflow__effort--zero">ZERO INPUT</span>
+      </div>
+      <div class="workflow__body">
+        <div class="io-row">
+          <span class="io-tag io-tag--input">Input: nothing</span>
+          <span class="io-tag io-tag--output">Output: 30 posts (caption + hashtags + visual brief)</span>
+          <span class="io-tag io-tag--tool">Tool: Claude API / Claude Code</span>
+        </div>
+        <div class="prompt">
+<span class="comment">## SYSTEM PROMPT</span>
+You are the social media manager for talent.stlucia.studio, a free mobile-first
+talent platform in Saint Lucia. You create engaging, concise content that drives
+signups. Tone: confident, empowering, Caribbean-proud, modern. No corporate
+jargon. Short punchy sentences. Always include a CTA to talent.stlucia.studio.
+
+<span class="comment">## USER PROMPT</span>
+Generate 30 social media posts for the next 30 days. For EACH post, output:
+
+1. <span class="var">Day</span>: number (1-30)
+2. <span class="var">Platform</span>: FB / IG / TikTok / All
+3. <span class="var">Type</span>: fact | tip | motivation | update | testimonial | lifestyle
+4. <span class="var">Caption</span>: under 200 characters
+5. <span class="var">Extended text</span>: 300-500 characters (for Facebook)
+6. <span class="var">Hashtags</span>: 5-8 relevant hashtags
+7. <span class="var">Visual description</span>: one sentence describing the ideal image
+8. <span class="var">CTA</span>: the specific call-to-action
+
+Mix content types evenly: 5 facts, 5 tips, 5 motivation, 5 updates,
+5 testimonials (aspirational), 5 lifestyle. Rotate platforms so each
+gets ~10 posts. Reference Saint Lucia culture, economy, and landmarks.
+
+<span class="highlight">Output as a numbered list. No markdown tables.</span>
+        </div>
+        <div class="callout callout--mint">
+          <strong>What you do next:</strong> Copy each post into Meta Business Suite scheduler. For the visual, run the "visual description" through Workflow #4 (Image Generation) to create the graphic. Total time: ~15 min to schedule the entire month.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 3. TIKTOK SCRIPTS =================== -->
+<section id="tiktok">
+  <div class="container">
+    <h2><span class="num">3</span> TikTok / Reels Script Generator</h2>
+    <p class="subtitle">Provide one keyword. Get a complete video script with hook, content, CTA, and text overlay instructions.</p>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--coral">&#127916;</div>
+        <div class="workflow__meta">
+          <h4>Single Video Script</h4>
+          <p>One keyword in, full TikTok/Reels script out</p>
+        </div>
+        <span class="workflow__effort workflow__effort--low">1 WORD</span>
+      </div>
+      <div class="workflow__body">
+        <div class="io-row">
+          <span class="io-tag io-tag--input">Input: one topic word</span>
+          <span class="io-tag io-tag--output">Output: 30-sec script + text overlays + sound suggestion</span>
+          <span class="io-tag io-tag--tool">Tool: Claude</span>
+        </div>
+        <div class="prompt">
+Write a 30-second TikTok/Reels script for talent.stlucia.studio about: <span class="var">[TOPIC]</span>
+
+Format your response EXACTLY as:
+
+<span class="highlight">HOOK</span> (0-3 sec): [text overlay + action — must stop the scroll]
+<span class="highlight">CONTENT</span> (3-25 sec): [what to say/show, broken into 3-4 beats]
+<span class="highlight">CTA</span> (25-30 sec): [closing action + "talent.stlucia.studio" text overlay]
+
+<span class="highlight">TEXT OVERLAYS</span>: [list each text that appears on screen, timed]
+<span class="highlight">SUGGESTED SOUND</span>: [trending sound category or specific song]
+<span class="highlight">CAPTION</span>: [under 150 chars with hashtags]
+
+Use casual, confident Caribbean English. The hook MUST be a question or
+surprising statement. Include at least one Saint Lucia reference.
+        </div>
+        <p style="font-size:.85rem;color:var(--text-muted);margin-top:.5rem"><strong>Example topics to paste in:</strong> video resume, hospitality jobs, salary, interview tips, relocating, tourism careers, skills, Pitons, Castries, first job</p>
+      </div>
+    </div>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--coral">&#127909;</div>
+        <div class="workflow__meta">
+          <h4>Weekly TikTok Batch (5 scripts)</h4>
+          <p>Generate a full week of TikTok content at once</p>
+        </div>
+        <span class="workflow__effort workflow__effort--zero">ZERO INPUT</span>
+      </div>
+      <div class="workflow__body">
+        <div class="io-row">
+          <span class="io-tag io-tag--input">Input: nothing</span>
+          <span class="io-tag io-tag--output">Output: 5 complete TikTok scripts</span>
+          <span class="io-tag io-tag--tool">Tool: Claude</span>
+        </div>
+        <div class="prompt">
+Generate 5 TikTok/Reels scripts for talent.stlucia.studio for this week.
+
+Requirements:
+- Each script is 15-30 seconds
+- Mix of content types: 1 app demo, 1 job fact, 1 career tip, 1 lifestyle, 1 motivation
+- Each must have: HOOK (3s), CONTENT (body), CTA (5s)
+- Include text overlay instructions and caption with hashtags
+- Reference Saint Lucia culture, economy, or landmarks
+- Casual confident Caribbean English
+- Every script drives to talent.stlucia.studio
+
+Format each script with a clear separator and numbered 1-5.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 4. IMAGE GENERATION =================== -->
+<section id="images">
+  <div class="container">
+    <h2><span class="num">4</span> Image Generation Workflows</h2>
+    <p class="subtitle">Ready-to-use prompts for every image format. Just paste into your image generation tool.</p>
+
+    <div class="callout callout--purple">
+      <strong>Tools:</strong> Use Claude Code's <code>/nano-banana-pro</code> skill (Gemini image gen), DALL-E 3, Midjourney, or Flux. All prompts below work with any tool. Adjust <code>--ar</code> aspect ratios for Midjourney specifically.
+    </div>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--gold">&#127912;</div>
+        <div class="workflow__meta">
+          <h4>Facebook/Instagram Feed Ad (1080x1350)</h4>
+          <p>Portrait format for feed ads — highest engagement format</p>
+        </div>
+        <span class="workflow__effort workflow__effort--zero">ZERO INPUT</span>
+      </div>
+      <div class="workflow__body">
+        <div class="io-row">
+          <span class="io-tag io-tag--input">Input: nothing (or swap the subject)</span>
+          <span class="io-tag io-tag--output">Output: 1080x1350px ad image</span>
+          <span class="io-tag io-tag--tool">Tool: Gemini / DALL-E / Midjourney</span>
+        </div>
+        <h4>Prompt A: Local Talent</h4>
+        <div class="prompt">Confident young Caribbean professional woman looking at her smartphone with a warm smile, standing in a modern tropical office with palm trees visible through floor-to-ceiling windows, warm golden hour lighting, clean minimalist interior, wearing smart casual business attire, photorealistic, warm teal and gold color tones, 4:5 aspect ratio</div>
+
+        <h4>Prompt B: Pitons Background</h4>
+        <div class="prompt">Aerial view of Saint Lucia's Pitons at golden hour with turquoise Caribbean sea, overlaid with semi-transparent teal gradient on the lower third for text placement, cinematic photography, vibrant tropical colors, dramatic lighting, 4:5 aspect ratio</div>
+
+        <h4>Prompt C: Video Resume Concept</h4>
+        <div class="prompt">Close-up of a person's hands holding a smartphone in portrait mode recording a video of themselves speaking confidently to camera, blurred tropical background with green foliage, warm natural lighting, the phone screen shows a recording interface with a timer, clean modern aesthetic, 4:5 aspect ratio</div>
+
+        <h4>Prompt D: Relocation Audience</h4>
+        <div class="prompt">Split composition: left half shows a gray rainy city street with someone in a winter coat looking at their phone, right half shows the same person in casual summer clothing working on a laptop at a beachside cafe with Caribbean turquoise water in the background, dramatic color contrast between cold and warm sides, cinematic, 4:5 aspect ratio</div>
+      </div>
+    </div>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--gold">&#128444;</div>
+        <div class="workflow__meta">
+          <h4>Instagram Square Post (1080x1080)</h4>
+          <p>Fact cards, tip graphics, milestone announcements</p>
+        </div>
+        <span class="workflow__effort workflow__effort--zero">ZERO INPUT</span>
+      </div>
+      <div class="workflow__body">
+        <h4>Prompt: Job Market Fact Card Background</h4>
+        <div class="prompt">Abstract tropical background with soft teal (#0D7377) and gold (#F4A100) gradient, subtle palm leaf silhouettes, clean modern design with large empty center area for text overlay, minimalist, professional, slightly blurred botanical elements at edges, 1:1 aspect ratio</div>
+
+        <h4>Prompt: Career Tip Card Background</h4>
+        <div class="prompt">Clean modern graphic design background, deep teal (#0D7377) on the left transitioning to white on the right, subtle geometric pattern, large empty space in center for text, professional and clean, hint of gold accent line, 1:1 aspect ratio</div>
+
+        <h4>Prompt: Milestone Celebration</h4>
+        <div class="prompt">Festive Caribbean celebration theme, confetti and streamers in teal (#0D7377), gold (#F4A100), and mint (#06D6A0) colors, dark background, large empty center space for big number text overlay, energetic and joyful mood, clean modern style, 1:1 aspect ratio</div>
+      </div>
+    </div>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--gold">&#128241;</div>
+        <div class="workflow__meta">
+          <h4>Stories / TikTok Cover (1080x1920)</h4>
+          <p>Vertical format for Stories, Reels, TikTok</p>
+        </div>
+        <span class="workflow__effort workflow__effort--zero">ZERO INPUT</span>
+      </div>
+      <div class="workflow__body">
+        <h4>Prompt: App Demo Background</h4>
+        <div class="prompt">Vertical smartphone mockup floating at slight angle, screen showing a teal and gold mobile app interface, surrounded by floating UI elements (profile cards, video icons, skill tags), dark gradient background (#0B1622 to #0D7377), modern tech aesthetic, clean, 9:16 aspect ratio</div>
+
+        <h4>Prompt: Career Tips Series Cover</h4>
+        <div class="prompt">Bold modern typography-ready vertical design, deep teal background with gold accent stripe on right side, large empty space in center for big text, subtle tropical leaf pattern at bottom, professional and eye-catching, vertical 9:16 aspect ratio</div>
+      </div>
+    </div>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--gold">&#127758;</div>
+        <div class="workflow__meta">
+          <h4>Hero / OG Image (1200x630)</h4>
+          <p>For landing page hero, Open Graph previews, link shares</p>
+        </div>
+        <span class="workflow__effort workflow__effort--zero">ZERO INPUT</span>
+      </div>
+      <div class="workflow__body">
+        <div class="prompt">Panoramic aerial view of Saint Lucia coastline, Marigot Bay with luxury yachts, lush green hills meeting turquoise Caribbean sea, golden sunset lighting, overlaid with subtle dark gradient on the right side for text placement, cinematic wide angle photography, vibrant colors, 1.91:1 aspect ratio</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 5. CAROUSEL =================== -->
+<section id="carousel">
+  <div class="container">
+    <h2><span class="num">5</span> Carousel / Multi-Slide Content</h2>
+    <p class="subtitle">Generate Instagram carousel copy and image briefs. Provide one topic word.</p>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--teal">&#128218;</div>
+        <div class="workflow__meta">
+          <h4>Instagram Carousel Generator (5 slides)</h4>
+          <p>One keyword &rarr; 5 carousel slide texts + image descriptions</p>
+        </div>
+        <span class="workflow__effort workflow__effort--low">1 WORD</span>
+      </div>
+      <div class="workflow__body">
+        <div class="io-row">
+          <span class="io-tag io-tag--input">Input: topic keyword</span>
+          <span class="io-tag io-tag--output">Output: 5 slide texts + image prompts + caption</span>
+          <span class="io-tag io-tag--tool">Tool: Claude &rarr; then image gen for each slide</span>
+        </div>
+        <div class="prompt">
+Create a 5-slide Instagram carousel for talent.stlucia.studio about: <span class="var">[TOPIC]</span>
+
+For each slide, provide:
+- <span class="highlight">SLIDE [N] HEADLINE</span>: bold text (max 8 words) displayed on the image
+- <span class="highlight">BODY TEXT</span>: 1-2 sentences displayed below headline on the image
+- <span class="highlight">IMAGE PROMPT</span>: a one-sentence image generation prompt for the background
+- <span class="highlight">COLOR</span>: which brand color dominates (teal #0D7377, gold #F4A100, or mint #06D6A0)
+
+Slide structure:
+1. Hook / title slide (grab attention)
+2. Problem or surprising fact
+3. Solution or insight
+4. Proof or example
+5. CTA slide ("Create your free profile at talent.stlucia.studio")
+
+Also provide:
+- <span class="highlight">CAPTION</span>: 200-400 characters with CTA
+- <span class="highlight">HASHTAGS</span>: 8 relevant hashtags
+        </div>
+        <p style="font-size:.85rem;color:var(--text-muted);margin-top:.6rem"><strong>Example topics:</strong> "video resume tips", "top jobs 2026", "salary guide", "interview prep", "hospitality careers", "relocating to SLU", "stand out from crowd"</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 6. EMAIL SEQUENCES =================== -->
+<section id="email">
+  <div class="container">
+    <h2><span class="num">6</span> Email Sequence Generator</h2>
+    <p class="subtitle">Generate complete email drip campaigns with zero input.</p>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--mint">&#128231;</div>
+        <div class="workflow__meta">
+          <h4>5-Email Welcome Sequence</h4>
+          <p>Complete onboarding drip from signup to referral</p>
+        </div>
+        <span class="workflow__effort workflow__effort--zero">ZERO INPUT</span>
+      </div>
+      <div class="workflow__body">
+        <div class="io-row">
+          <span class="io-tag io-tag--input">Input: nothing</span>
+          <span class="io-tag io-tag--output">Output: 5 emails (subject + body + CTA)</span>
+          <span class="io-tag io-tag--tool">Tool: Claude</span>
+        </div>
+        <div class="prompt">
+Write a 5-email welcome sequence for talent.stlucia.studio, a free talent
+platform in Saint Lucia where people create profiles and video resumes.
+
+Requirements:
+- Each email: subject line (under 50 chars), body (under 150 words), one clear CTA button text
+- Tone: warm, personal, encouraging. Caribbean English. Not corporate.
+- From: "Team Talent" &lt;talent@stlucia.studio&gt;
+
+Emails:
+<span class="highlight">E1 - Welcome</span> (sent immediately): Thank them, confirm signup, link to complete profile
+<span class="highlight">E2 - Complete Profile</span> (Day 2): Nudge to add skills/summary. Show benefit.
+<span class="highlight">E3 - Record Video</span> (Day 4): Explain video resume value. Link to recorder. Reassure it's easy.
+<span class="highlight">E4 - Share</span> (Day 7): Ask to share with friends. Explain referral benefit. Include share links.
+<span class="highlight">E5 - Employers Coming</span> (Day 14): Build anticipation. Say employers are interested. Encourage profile completion.
+
+Format each email with clear E1/E2/E3/E4/E5 headers.
+        </div>
+      </div>
+    </div>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--mint">&#128276;</div>
+        <div class="workflow__meta">
+          <h4>Profile Completion Nudge Series</h4>
+          <p>3 targeted emails for incomplete profiles</p>
+        </div>
+        <span class="workflow__effort workflow__effort--zero">ZERO INPUT</span>
+      </div>
+      <div class="workflow__body">
+        <div class="prompt">
+Write 3 nudge emails for talent.stlucia.studio users who started signup but
+haven't completed their profile. Each email targets a specific gap:
+
+<span class="highlight">NUDGE 1 - Missing Skills</span> (Day 3): "Your skills are your superpower" — encourage adding skills/sectors
+<span class="highlight">NUDGE 2 - Missing Video</span> (Day 5): "3x more employer views" — encourage recording video resume
+<span class="highlight">NUDGE 3 - Low Completeness</span> (Day 10): "You're 60% there" — show what's missing, final push
+
+Each: subject (under 40 chars), body (under 120 words), single CTA.
+Warm, encouraging, not pushy. Caribbean tone.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 7. BLOG / SEO =================== -->
+<section id="blog">
+  <div class="container">
+    <h2><span class="num">7</span> Blog / SEO Article Generator</h2>
+    <p class="subtitle">Provide a topic keyword and get a full 800-word SEO article.</p>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--teal">&#128209;</div>
+        <div class="workflow__meta">
+          <h4>SEO Blog Article (800 words)</h4>
+          <p>One topic &rarr; complete article with headings, data, and CTA</p>
+        </div>
+        <span class="workflow__effort workflow__effort--low">1 WORD</span>
+      </div>
+      <div class="workflow__body">
+        <div class="io-row">
+          <span class="io-tag io-tag--input">Input: topic keyword</span>
+          <span class="io-tag io-tag--output">Output: 800-word article + meta description + title</span>
+          <span class="io-tag io-tag--tool">Tool: Claude</span>
+        </div>
+        <div class="prompt">
+Write an 800-word SEO-optimized blog article for talent.stlucia.studio about:
+
+<span class="var">[TOPIC]</span>
+
+Requirements:
+- <span class="highlight">SEO TITLE</span>: compelling, under 60 chars, include primary keyword
+- <span class="highlight">META DESCRIPTION</span>: under 155 chars, include keyword and CTA
+- <span class="highlight">ARTICLE</span>: 800 words, H2 headings every 150-200 words
+- Include specific Saint Lucia data points (salary ranges in EC$, sector names)
+- Mention talent.stlucia.studio naturally 2-3 times
+- End with CTA: "Create your free profile at talent.stlucia.studio"
+- Tone: informative, authoritative, accessible. Not salesy until CTA.
+- Target keywords: "saint lucia [topic]", "caribbean [topic]", "[topic] 2026"
+        </div>
+
+        <h4>Pre-Loaded Article Topics (just paste any as the topic)</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Topic Keyword</th><th>Target SEO Keyword</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>top 10 in-demand jobs</td><td>jobs in saint lucia 2026</td></tr>
+              <tr><td>2</td><td>video resume guide</td><td>how to create a video resume</td></tr>
+              <tr><td>3</td><td>salary guide</td><td>saint lucia salary guide</td></tr>
+              <tr><td>4</td><td>relocating for work</td><td>moving to saint lucia for work</td></tr>
+              <tr><td>5</td><td>hospitality careers</td><td>hotel jobs saint lucia</td></tr>
+              <tr><td>6</td><td>interview tips</td><td>job interview tips caribbean</td></tr>
+              <tr><td>7</td><td>digital nomad guide</td><td>digital nomad saint lucia</td></tr>
+              <tr><td>8</td><td>skills employers want</td><td>skills to get hired caribbean</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 8. WHATSAPP =================== -->
+<section id="whatsapp">
+  <div class="container">
+    <h2><span class="num">8</span> WhatsApp Broadcast Generator</h2>
+    <p class="subtitle">Weekly broadcast messages — zero input, just send.</p>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--mint">&#128172;</div>
+        <div class="workflow__meta">
+          <h4>4-Week WhatsApp Broadcast Series</h4>
+          <p>All 4 weekly messages generated at once</p>
+        </div>
+        <span class="workflow__effort workflow__effort--zero">ZERO INPUT</span>
+      </div>
+      <div class="workflow__body">
+        <div class="io-row">
+          <span class="io-tag io-tag--input">Input: nothing</span>
+          <span class="io-tag io-tag--output">Output: 4 broadcast messages ready to send</span>
+          <span class="io-tag io-tag--tool">Tool: Claude</span>
+        </div>
+        <div class="prompt">
+Generate 4 WhatsApp broadcast messages for talent.stlucia.studio — one per
+week for the first month. Each message must be under 800 characters (WhatsApp
+limit). Include the link talent.stlucia.studio in each.
+
+<span class="highlight">WEEK 1</span>: Launch announcement. Exciting, simple. What it is + how to sign up.
+<span class="highlight">WEEK 2</span>: Progress update ("[X] people joined"). Nudge non-signups. Feature highlight (video resume).
+<span class="highlight">WEEK 3</span>: Referral push. "Share with 3 friends." Social proof. Simple forward-friendly format.
+<span class="highlight">WEEK 4</span>: Employer teaser. "Employers will start browsing soon." Urgency to complete profile.
+
+Tone: friendly, casual, direct. Use emojis sparingly (2-3 per message).
+Use the Saint Lucia flag emoji. Make each message easy to forward.
+Use bullet points or numbered steps where appropriate.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 9. PROFILE SPOTLIGHTS =================== -->
+<section id="spotlight">
+  <div class="container">
+    <h2><span class="num">9</span> Profile Spotlight / Testimonial Generator</h2>
+    <p class="subtitle">Turn real (or aspirational) user data into compelling social posts.</p>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--purple">&#127775;</div>
+        <div class="workflow__meta">
+          <h4>User Spotlight Post</h4>
+          <p>One name + role &rarr; complete spotlight post with image prompt</p>
+        </div>
+        <span class="workflow__effort workflow__effort--low">2 WORDS</span>
+      </div>
+      <div class="workflow__body">
+        <div class="io-row">
+          <span class="io-tag io-tag--input">Input: first name + job role</span>
+          <span class="io-tag io-tag--output">Output: spotlight caption + image prompt + hashtags</span>
+          <span class="io-tag io-tag--tool">Tool: Claude &rarr; image gen</span>
+        </div>
+        <div class="prompt">
+Create a social media spotlight post for talent.stlucia.studio featuring:
+
+Name: <span class="var">[FIRST NAME]</span>
+Role: <span class="var">[JOB ROLE]</span>
+
+Generate:
+1. <span class="highlight">CAPTION</span> (200-300 chars): Celebrate this person's talent. Mention their role and
+   what makes them stand out. End with "Discover talented professionals like
+   [name] at talent.stlucia.studio"
+2. <span class="highlight">EXTENDED TEXT</span> (for FB): 2-3 sentences expanding on their story (aspirational/generic)
+3. <span class="highlight">HASHTAGS</span>: 6 relevant hashtags including #TalentSpotlight #TalentStLucia
+4. <span class="highlight">IMAGE PROMPT</span>: description for generating a professional portrait image
+   matching their role — Caribbean setting, confident, warm lighting
+
+<span class="comment">Note: Use aspirational language. Don't invent specific claims.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--purple">&#128172;</div>
+        <div class="workflow__meta">
+          <h4>Aspirational Testimonial Batch (5)</h4>
+          <p>Pre-launch testimonials based on the value proposition</p>
+        </div>
+        <span class="workflow__effort workflow__effort--zero">ZERO INPUT</span>
+      </div>
+      <div class="workflow__body">
+        <div class="prompt">
+Generate 5 aspirational testimonial-style social media posts for talent.stlucia.studio.
+These represent the KIND of stories users will have (not fake testimonials — frame
+them as aspirational/example scenarios).
+
+Each post:
+- A first name + profession (realistic Saint Lucian names)
+- 2-3 sentence quote about how a talent platform would help them
+- A caption framing it as "This could be YOUR story"
+- Image prompt for the character
+- CTA to sign up
+
+Mix professions: hospitality, tech, finance, creative, healthcare.
+<span class="highlight">IMPORTANT: Frame as aspirational, not as real testimonials. Use phrases like
+"Imagine..." or "This is what [Name] wants..." or "Meet [Name], who dreams of..."</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 10. EMPLOYER OUTREACH =================== -->
+<section id="employer">
+  <div class="container">
+    <h2><span class="num">10</span> Employer Outreach Content</h2>
+    <p class="subtitle">Generate pitch emails, LinkedIn posts, and sales material for employer acquisition.</p>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--gold">&#128188;</div>
+        <div class="workflow__meta">
+          <h4>Cold Employer Email</h4>
+          <p>Company name &rarr; personalized pitch email</p>
+        </div>
+        <span class="workflow__effort workflow__effort--low">1 WORD</span>
+      </div>
+      <div class="workflow__body">
+        <div class="io-row">
+          <span class="io-tag io-tag--input">Input: company name</span>
+          <span class="io-tag io-tag--output">Output: subject + email body</span>
+          <span class="io-tag io-tag--tool">Tool: Claude</span>
+        </div>
+        <div class="prompt">
+Write a cold outreach email to the HR department at <span class="var">[COMPANY NAME]</span> in Saint Lucia,
+pitching talent.stlucia.studio as their talent sourcing solution.
+
+Requirements:
+- Subject line: under 50 chars, compelling, not salesy
+- Body: under 200 words
+- Open with something specific to their industry
+- Mention: "[X] profiles already on platform" (use 500+ as placeholder)
+- Highlight: video resumes, pre-screened talent, sector-specific search
+- Offer: free 14-day trial, personal demo
+- CTA: "Can I show you a 5-minute demo this week?"
+- Sign off as founder of St. Lucia Studio
+- Tone: professional but warm, not aggressive, respectful of their time
+        </div>
+      </div>
+    </div>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--gold">&#128202;</div>
+        <div class="workflow__meta">
+          <h4>LinkedIn Employer-Facing Post</h4>
+          <p>Attract employer interest through LinkedIn content</p>
+        </div>
+        <span class="workflow__effort workflow__effort--zero">ZERO INPUT</span>
+      </div>
+      <div class="workflow__body">
+        <div class="prompt">
+Write a LinkedIn post from the founder of talent.stlucia.studio targeting
+employers and HR professionals in Saint Lucia.
+
+Topic: "The hiring challenge in Saint Lucia and how we're solving it"
+
+Requirements:
+- 600-800 characters (LinkedIn optimal length)
+- Hook first line (appears before "see more")
+- Data point about SLU hiring challenges
+- Introduce talent.stlucia.studio as the solution
+- Mention video resumes as differentiator
+- CTA: invite employers to request a demo
+- Professional tone, not overly promotional
+- 3-5 relevant hashtags (#HiringInSaintLucia #HRTech #CaribbeanBusiness)
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 11. OG IMAGES =================== -->
+<section id="og">
+  <div class="container">
+    <h2><span class="num">11</span> Open Graph / Social Share Images</h2>
+    <p class="subtitle">Auto-generate preview images for link sharing on social media.</p>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--teal">&#128279;</div>
+        <div class="workflow__meta">
+          <h4>OG Image for Blog Articles</h4>
+          <p>Article title &rarr; branded OG image prompt</p>
+        </div>
+        <span class="workflow__effort workflow__effort--low">1 SENTENCE</span>
+      </div>
+      <div class="workflow__body">
+        <div class="io-row">
+          <span class="io-tag io-tag--input">Input: article title</span>
+          <span class="io-tag io-tag--output">Output: 1200x630 image</span>
+          <span class="io-tag io-tag--tool">Tool: Image gen</span>
+        </div>
+        <div class="prompt">
+Modern blog header image for an article titled "<span class="var">[ARTICLE TITLE]</span>".
+Background: deep teal (#0D7377) gradient with subtle tropical elements
+(palm fronds, ocean hints). Large empty center area for white text overlay.
+Clean, professional, modern design. Brand accent: gold (#F4A100) thin line
+or dot decoration. 1200x630 pixels, landscape, 1.91:1 aspect ratio.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 12. VIDEO THUMBNAILS =================== -->
+<section id="video-thumb">
+  <div class="container">
+    <h2><span class="num">12</span> Video Thumbnail Generator</h2>
+    <p class="subtitle">Create eye-catching thumbnails for TikTok, YouTube, and Reels.</p>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--coral">&#127912;</div>
+        <div class="workflow__meta">
+          <h4>TikTok/Reels Thumbnail</h4>
+          <p>Video topic &rarr; thumbnail image</p>
+        </div>
+        <span class="workflow__effort workflow__effort--low">1 WORD</span>
+      </div>
+      <div class="workflow__body">
+        <div class="prompt">
+Eye-catching vertical thumbnail for a TikTok video about "<span class="var">[TOPIC]</span>".
+Bold expressive face or gesture of a Caribbean professional, vibrant
+teal and gold color scheme, large empty space at top for bold text overlay,
+energetic composition, slight zoom effect, tropical hint in background,
+bright and saturated colors. 1080x1920 pixels, 9:16 vertical.
+        </div>
+
+        <h4>Quick Thumbnail Topics (paste any)</h4>
+        <ul class="checklist">
+          <li>video resume tips &mdash; person pointing at camera</li>
+          <li>salary secrets &mdash; surprised expression with money emoji overlay space</li>
+          <li>interview hack &mdash; person in professional attire gesturing "come here"</li>
+          <li>job hunting mistake &mdash; person with shocked/dismayed expression</li>
+          <li>career glow up &mdash; before/after split composition</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 13. A/B COPY =================== -->
+<section id="ab">
+  <div class="container">
+    <h2><span class="num">13</span> A/B Copy Testing Variants</h2>
+    <p class="subtitle">Generate multiple headline and CTA options to test which converts best.</p>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--purple">&#9878;</div>
+        <div class="workflow__meta">
+          <h4>Landing Page A/B Headlines (10 variants)</h4>
+          <p>Zero input — get 10 testable headline variations</p>
+        </div>
+        <span class="workflow__effort workflow__effort--zero">ZERO INPUT</span>
+      </div>
+      <div class="workflow__body">
+        <div class="prompt">
+Generate 10 headline + subheadline combinations for the talent.stlucia.studio
+landing page hero section. These will be A/B tested to find the highest
+conversion rate.
+
+Current headline: "Your Talent Deserves to Be Discovered"
+Current subheadline: "Create your professional profile and record a short video
+resume. Get seen by top employers in Saint Lucia. Free forever."
+
+For each variant, provide:
+- <span class="highlight">HEADLINE</span>: 5-10 words, punchy, emotional or curiosity-driven
+- <span class="highlight">SUBHEADLINE</span>: 15-25 words, specific value prop
+- <span class="highlight">CTA BUTTON</span>: 2-5 words for the primary action button
+
+Strategies to use across variants:
+- 2 curiosity-based ("What if...")
+- 2 social proof ("Join X professionals...")
+- 2 urgency-based ("Employers are searching...")
+- 2 benefit-focused ("Get hired faster...")
+- 2 identity-based ("For ambitious Saint Lucians...")
+        </div>
+      </div>
+    </div>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--purple">&#128172;</div>
+        <div class="workflow__meta">
+          <h4>Ad Copy Variants (5 per audience)</h4>
+          <p>Generate multiple ad texts for testing</p>
+        </div>
+        <span class="workflow__effort workflow__effort--zero">ZERO INPUT</span>
+      </div>
+      <div class="workflow__body">
+        <div class="prompt">
+Generate Facebook/Instagram ad copy variants for talent.stlucia.studio.
+Create 5 primary text options for EACH of these 3 audiences:
+
+<span class="highlight">AUDIENCE 1 - Local SLU talent</span> (18-45, job seekers, Saint Lucia):
+Focus: career opportunity, standing out, video resume, free
+
+<span class="highlight">AUDIENCE 2 - Diaspora</span> (25-55, USA/UK/Canada, Saint Lucian heritage):
+Focus: returning home, remote work, staying connected, opportunities
+
+<span class="highlight">AUDIENCE 3 - Digital nomads</span> (25-45, worldwide, remote workers):
+Focus: Caribbean lifestyle, work in paradise, discover opportunities
+
+Each ad: primary text (under 125 chars visible), headline (under 40 chars),
+description (under 30 chars). Total: 15 ad variants.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 14. WEEKLY REPORT =================== -->
+<section id="weekly">
+  <div class="container">
+    <h2><span class="num">14</span> Weekly Analytics Report Generator</h2>
+    <p class="subtitle">Paste your numbers, get a formatted report with insights and recommendations.</p>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--teal">&#128202;</div>
+        <div class="workflow__meta">
+          <h4>Weekly Performance Report</h4>
+          <p>Paste 6 numbers &rarr; get full report with analysis and next steps</p>
+        </div>
+        <span class="workflow__effort workflow__effort--med">6 NUMBERS</span>
+      </div>
+      <div class="workflow__body">
+        <div class="io-row">
+          <span class="io-tag io-tag--input">Input: 6 metrics</span>
+          <span class="io-tag io-tag--output">Output: formatted report + insights + recommendations</span>
+          <span class="io-tag io-tag--tool">Tool: Claude</span>
+        </div>
+        <div class="prompt">
+Generate a weekly marketing performance report for talent.stlucia.studio.
+
+<span class="highlight">THIS WEEK'S DATA:</span>
+- Total profiles: <span class="var">[NUMBER]</span>
+- New signups this week: <span class="var">[NUMBER]</span>
+- Website visits: <span class="var">[NUMBER]</span>
+- Ad spend this week: $<span class="var">[NUMBER]</span>
+- Video resumes recorded: <span class="var">[NUMBER]</span>
+- Referral signups: <span class="var">[NUMBER]</span>
+
+Generate:
+1. <span class="highlight">SUMMARY</span>: 2-3 sentence overview of the week
+2. <span class="highlight">KEY METRICS TABLE</span>: formatted with this week vs target
+3. <span class="highlight">CONVERSION ANALYSIS</span>: visit-to-signup rate, cost per signup, video adoption rate
+4. <span class="highlight">WHAT WORKED</span>: 2-3 bullet points (infer from the numbers)
+5. <span class="highlight">WHAT TO IMPROVE</span>: 2-3 bullet points with specific actions
+6. <span class="highlight">NEXT WEEK PRIORITIES</span>: 3 specific actions ranked by impact
+7. <span class="highlight">SOCIAL POST</span>: a milestone/update post for social media based on the numbers
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 15. MEGA WORKFLOW =================== -->
+<section id="mega">
+  <div class="container">
+    <h2><span class="num">15</span> The Mega Workflow: Full Week in One Prompt</h2>
+    <p class="subtitle">Run this single prompt in Claude Code and get an entire week of content generated at once.</p>
+
+    <div class="callout callout--purple">
+      <strong>This is the ultimate lazy workflow.</strong> One prompt produces: 7 social posts, 3 TikTok scripts, 2 WhatsApp messages, 1 blog article outline, 5 image generation prompts, and 1 email. Everything you need for a full week of marketing.
+    </div>
+
+    <div class="workflow">
+      <div class="workflow__header">
+        <div class="workflow__icon workflow__icon--purple">&#9889;</div>
+        <div class="workflow__meta">
+          <h4>Full Week Content Package</h4>
+          <p>One prompt &rarr; entire week of marketing content</p>
+        </div>
+        <span class="workflow__effort workflow__effort--low">WEEK NUMBER</span>
+      </div>
+      <div class="workflow__body">
+        <div class="io-row">
+          <span class="io-tag io-tag--input">Input: week number (e.g., "week 3")</span>
+          <span class="io-tag io-tag--output">Output: 20+ content pieces</span>
+          <span class="io-tag io-tag--tool">Tool: Claude (long output)</span>
+        </div>
+        <div class="prompt">
+You are the content engine for talent.stlucia.studio. Generate ALL marketing
+content for <span class="var">[WEEK N]</span> of our launch.
+
+Context: talent.stlucia.studio is a free talent platform in Saint Lucia where
+professionals create profiles and video resumes. We're in launch phase
+collecting profiles. The audience is primarily local Saint Lucians (18-45)
+plus diaspora and digital nomads.
+
+Generate ALL of the following:
+
+<span class="highlight">== 7 SOCIAL MEDIA POSTS ==</span>
+For each: platform (FB/IG/TikTok), caption, extended text, hashtags, image brief.
+Mix: 2 facts, 2 tips, 1 motivation, 1 update, 1 lifestyle.
+
+<span class="highlight">== 3 TIKTOK SCRIPTS ==</span>
+For each: hook (3s), content (22s), CTA (5s), text overlays, sound suggestion.
+Mix: 1 app demo concept, 1 career tip, 1 engaging/fun.
+
+<span class="highlight">== 1 WHATSAPP BROADCAST ==</span>
+Under 800 characters. Relevant to the week's theme. Include link.
+
+<span class="highlight">== 1 BLOG ARTICLE OUTLINE ==</span>
+Title, meta description, 5 H2 headings with 2-sentence summaries each.
+SEO keyword target. Roughly maps to 800 words when expanded.
+
+<span class="highlight">== 5 IMAGE GENERATION PROMPTS ==</span>
+Ready to paste into Gemini/DALL-E/Midjourney:
+- 2 social post backgrounds (1:1)
+- 1 ad creative (4:5)
+- 1 Stories/TikTok cover (9:16)
+- 1 blog header (1.91:1)
+
+<span class="highlight">== 1 EMAIL ==</span>
+To existing users. Subject + body (under 150 words) + CTA.
+Theme relevant to the week's goals.
+
+<span class="highlight">== POSTING SCHEDULE ==</span>
+A simple Mon-Sun calendar showing when to post each piece.
+
+Use Caribbean English. Brand colors: teal #0D7377, gold #F4A100, mint #06D6A0.
+All CTAs drive to talent.stlucia.studio.
+        </div>
+
+        <div class="callout callout--mint">
+          <strong>After running this prompt:</strong>
+          <ul style="margin-top:.4rem;padding-left:1.2rem;font-size:.85rem">
+            <li>Copy the 7 social posts into Meta Business Suite and schedule them</li>
+            <li>Run the 5 image prompts through <code>/nano-banana-pro</code> or DALL-E</li>
+            <li>Record the 3 TikTok scripts on your phone (read from screen)</li>
+            <li>Copy the WhatsApp broadcast into WhatsApp Business</li>
+            <li>Expand the blog outline using Workflow #7 if desired</li>
+            <li>Set up the email in Resend</li>
+          </ul>
+          <strong>Total time to execute: ~30 minutes for the entire week.</strong>
+        </div>
+      </div>
+    </div>
+
+    <h3>Chaining with Image Generation</h3>
+    <p style="font-size:.88rem;color:var(--text-muted)">After the mega workflow generates content, you can chain it directly into image generation. In Claude Code:</p>
+    <div class="prompt">
+<span class="comment"># In Claude Code, after running the mega workflow, say:</span>
+
+Now take the 5 image generation prompts from the content above and generate
+each image using /nano-banana-pro. Save them to the assets/images/social/
+directory with filenames: week<span class="var">[N]</span>-post1.png, week<span class="var">[N]</span>-post2.png, etc.
+    </div>
+  </div>
+</section>
+
+<!-- =================== 16. TOOL SETUP =================== -->
+<section id="tools">
+  <div class="container">
+    <h2><span class="num">16</span> Tool Setup &amp; Cost Reference</h2>
+    <p class="subtitle">What you need to run all workflows, and what it costs.</p>
+
+    <h3>Required Tools</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Claude Code (primary)</h4>
+        <p>You're already using it. Run any text prompt by pasting it. Can also chain into image gen, file writing, and git operations.</p>
+        <p style="font-size:.8rem;color:var(--mint);font-weight:600;margin-top:.4rem">Cost: included in your subscription</p>
+      </div>
+      <div class="card">
+        <h4>Image Generation</h4>
+        <p>Options: <strong>/nano-banana-pro</strong> (Gemini, via Claude Code), DALL-E 3 ($0.04/image via API), Midjourney ($10/mo), or free tools like Leonardo.ai.</p>
+        <p style="font-size:.8rem;color:var(--mint);font-weight:600;margin-top:.4rem">Cost: $0-10/mo for 20-50 images</p>
+      </div>
+      <div class="card">
+        <h4>Claude API (optional)</h4>
+        <p>For batch generation outside Claude Code. Sonnet 4.5: $3/1M input tokens. A month of content costs ~$2-5 in API calls.</p>
+        <p style="font-size:.8rem;color:var(--mint);font-weight:600;margin-top:.4rem">Cost: $2-5/mo</p>
+      </div>
+      <div class="card">
+        <h4>Meta Business Suite (free)</h4>
+        <p>For scheduling Facebook and Instagram posts. Free with any Facebook Business page. Upload content, set dates, auto-publish.</p>
+        <p style="font-size:.8rem;color:var(--mint);font-weight:600;margin-top:.4rem">Cost: free</p>
+      </div>
+    </div>
+
+    <h3>Monthly Content Cost Estimate</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Content Type</th><th>Volume</th><th>Tool</th><th>Est. Cost</th></tr></thead>
+        <tbody>
+          <tr><td>30 social media posts (text)</td><td>1 batch/month</td><td>Claude Code</td><td>$0 (included)</td></tr>
+          <tr><td>12-20 TikTok scripts</td><td>3-5/week</td><td>Claude Code</td><td>$0 (included)</td></tr>
+          <tr><td>4 WhatsApp broadcasts</td><td>1/week</td><td>Claude Code</td><td>$0 (included)</td></tr>
+          <tr><td>4 blog articles</td><td>1/week</td><td>Claude Code</td><td>$0 (included)</td></tr>
+          <tr><td>8 email sequences</td><td>as needed</td><td>Claude Code</td><td>$0 (included)</td></tr>
+          <tr><td>20-30 images</td><td>5-8/week</td><td>Gemini / DALL-E</td><td>$0-8</td></tr>
+          <tr><td>A/B copy variants</td><td>2 batches/month</td><td>Claude Code</td><td>$0 (included)</td></tr>
+          <tr><td>Employer outreach emails</td><td>10-20/month</td><td>Claude Code</td><td>$0 (included)</td></tr>
+          <tr><td colspan="3" style="font-weight:700;border-top:2px solid var(--primary)">Total Monthly Content Generation</td><td style="font-weight:700;border-top:2px solid var(--primary)">$0-8/mo</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Workflow Execution Schedule</h3>
+    <div class="callout callout--teal">
+      <strong>Sunday (30 min):</strong> Run the Mega Workflow (#15) for the coming week. Generate all images. Schedule social posts in Meta Business Suite. Copy WhatsApp broadcast. Done.<br><br>
+      <strong>Monthly (1 hour):</strong> Run the Social Batch (#2) for next month's content. Run Email Sequence (#6) if new sequences needed. Run Blog topics (#7) for 4 articles. Generate A/B variants (#13) for ads.<br><br>
+      <strong>As needed (5 min each):</strong> Employer email (#10), profile spotlight (#9), milestone post (just paste new numbers into weekly report #14).
+    </div>
+
+    <h3>Quick Reference: All Workflows</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Workflow</th><th>Your Input</th><th>Output</th><th>Effort</th></tr></thead>
+        <tbody>
+          <tr><td>2</td><td>30-Day Social Batch</td><td>nothing</td><td>30 posts</td><td><span class="workflow__effort workflow__effort--zero">ZERO</span></td></tr>
+          <tr><td>3a</td><td>TikTok Script (single)</td><td>1 topic word</td><td>1 script</td><td><span class="workflow__effort workflow__effort--low">1 WORD</span></td></tr>
+          <tr><td>3b</td><td>TikTok Batch (5 scripts)</td><td>nothing</td><td>5 scripts</td><td><span class="workflow__effort workflow__effort--zero">ZERO</span></td></tr>
+          <tr><td>4a</td><td>Feed Ad Image</td><td>nothing</td><td>1 image</td><td><span class="workflow__effort workflow__effort--zero">ZERO</span></td></tr>
+          <tr><td>4b</td><td>Square Post Image</td><td>nothing</td><td>1 image</td><td><span class="workflow__effort workflow__effort--zero">ZERO</span></td></tr>
+          <tr><td>4c</td><td>Stories/TikTok Cover</td><td>nothing</td><td>1 image</td><td><span class="workflow__effort workflow__effort--zero">ZERO</span></td></tr>
+          <tr><td>4d</td><td>Hero/OG Image</td><td>nothing</td><td>1 image</td><td><span class="workflow__effort workflow__effort--zero">ZERO</span></td></tr>
+          <tr><td>5</td><td>Carousel (5 slides)</td><td>1 topic word</td><td>5 slides + caption</td><td><span class="workflow__effort workflow__effort--low">1 WORD</span></td></tr>
+          <tr><td>6a</td><td>Welcome Email Series</td><td>nothing</td><td>5 emails</td><td><span class="workflow__effort workflow__effort--zero">ZERO</span></td></tr>
+          <tr><td>6b</td><td>Nudge Email Series</td><td>nothing</td><td>3 emails</td><td><span class="workflow__effort workflow__effort--zero">ZERO</span></td></tr>
+          <tr><td>7</td><td>Blog/SEO Article</td><td>1 topic word</td><td>800-word article</td><td><span class="workflow__effort workflow__effort--low">1 WORD</span></td></tr>
+          <tr><td>8</td><td>WhatsApp 4-Week Series</td><td>nothing</td><td>4 messages</td><td><span class="workflow__effort workflow__effort--zero">ZERO</span></td></tr>
+          <tr><td>9a</td><td>User Spotlight</td><td>name + role</td><td>spotlight post</td><td><span class="workflow__effort workflow__effort--low">2 WORDS</span></td></tr>
+          <tr><td>9b</td><td>Testimonial Batch (5)</td><td>nothing</td><td>5 testimonials</td><td><span class="workflow__effort workflow__effort--zero">ZERO</span></td></tr>
+          <tr><td>10a</td><td>Employer Cold Email</td><td>company name</td><td>pitch email</td><td><span class="workflow__effort workflow__effort--low">1 WORD</span></td></tr>
+          <tr><td>10b</td><td>LinkedIn Employer Post</td><td>nothing</td><td>LinkedIn post</td><td><span class="workflow__effort workflow__effort--zero">ZERO</span></td></tr>
+          <tr><td>11</td><td>OG Image for Blog</td><td>article title</td><td>1 image</td><td><span class="workflow__effort workflow__effort--low">1 SENTENCE</span></td></tr>
+          <tr><td>12</td><td>Video Thumbnail</td><td>1 topic word</td><td>1 image</td><td><span class="workflow__effort workflow__effort--low">1 WORD</span></td></tr>
+          <tr><td>13a</td><td>A/B Headlines (10)</td><td>nothing</td><td>10 variants</td><td><span class="workflow__effort workflow__effort--zero">ZERO</span></td></tr>
+          <tr><td>13b</td><td>Ad Copy Variants (15)</td><td>nothing</td><td>15 ad texts</td><td><span class="workflow__effort workflow__effort--zero">ZERO</span></td></tr>
+          <tr><td>14</td><td>Weekly Report</td><td>6 numbers</td><td>full report</td><td><span class="workflow__effort workflow__effort--med">6 NUMBERS</span></td></tr>
+          <tr><td>15</td><td>MEGA: Full Week</td><td>week number</td><td>20+ pieces</td><td><span class="workflow__effort workflow__effort--low">1 WORD</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =================== FOOTER =================== -->
+<footer class="footer">
+  <div class="container">
+    <p><strong>talent.stlucia</strong> &mdash; Content &amp; Image Generation Workflows</p>
+    <p><a href="index.html">&larr; Launch Plan</a> &nbsp;|&nbsp; <a href="setup-guide.html">Setup Guide</a> &nbsp;|&nbsp; <a href="https://talent.stlucia.studio">talent.stlucia.studio</a></p>
+    <p>18 workflows | 12 zero-input automations | Prepared February 2026</p>
+  </div>
+</footer>
+
+<!-- =================== SCRIPTS =================== -->
+<script>
+// Sticky TOC active state
+(function(){
+  const tocLinks = document.querySelectorAll('.toc__inner a');
+  const sections = [];
+  tocLinks.forEach(a => {
+    const id = a.getAttribute('href').replace('#','');
+    const el = document.getElementById(id);
+    if(el) sections.push({ el, a });
+  });
+  function update(){
+    let current = sections[0];
+    for(const s of sections){
+      if(s.el.getBoundingClientRect().top <= 80) current = s;
+    }
+    tocLinks.forEach(a => a.classList.remove('active'));
+    if(current) current.a.classList.add('active');
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
+// Fade-in on scroll
+(function(){
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.workflow, .card, .stat, .callout').forEach(el => {
+    el.classList.add('fade-in');
+    observer.observe(el);
+  });
+})();
+
+// Copy prompt buttons
+(function(){
+  document.querySelectorAll('.prompt').forEach(block => {
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.textContent = 'Copy';
+    btn.addEventListener('click', () => {
+      const text = block.textContent.replace('Copy','').replace('Copied!','').trim();
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+      });
+    });
+    block.style.position = 'relative';
+    block.appendChild(btn);
+  });
+})();
+</script>
+
+</body>
+</html>

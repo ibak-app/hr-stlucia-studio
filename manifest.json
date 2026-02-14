@@ -1,6 +1,6 @@
 {
-  "name": "Talent by St. Lucia Studio",
-  "short_name": "Talent.SL",
+  "name": "talent.stlucia",
+  "short_name": "talent.stlucia",
   "description": "Create your professional profile and video resume. Get discovered by top employers in Saint Lucia.",
   "start_url": "/",
   "display": "standalone",

@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setup Guide — talent.stlucia</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#0D7377;--primary-light:#11999E;--primary-dark:#065355;
+  --accent:#F4A100;--accent-light:#FFD166;
+  --mint:#06D6A0;--coral:#EF476F;
+  --bg:#FFFFFF;--bg-alt:#F7F9FC;--bg-dark:#0B1622;--bg-code:#1e293b;
+  --text:#1A202C;--text-muted:#718096;--border:#E2E8F0;
+  --radius:10px;--shadow:0 2px 12px rgba(0,0,0,.08);
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --mono:'SF Mono','Cascadia Code','Fira Code',Consolas,monospace;
+  --done:#dcfce7;--done-border:#16a34a;
+  --todo:#fef9c3;--todo-border:#ca8a04;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font);color:var(--text);line-height:1.65;background:var(--bg)}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg-alt)}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px}
+
+/* Header */
+.header{background:linear-gradient(135deg,var(--bg-dark) 0%,#162032 50%,var(--primary-dark) 100%);color:#fff;padding:3rem 0 4rem;position:relative}
+.header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--mint),var(--primary),var(--accent))}
+.header .container{position:relative;z-index:1}
+.header__badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:.35rem 1rem;border-radius:50px;font-size:.8rem;color:var(--mint);margin-bottom:1.2rem}
+.header h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;line-height:1.2;margin-bottom:.6rem}
+.header h1 span{color:var(--accent)}
+.header p{font-size:1.05rem;color:rgba(255,255,255,.7);max-width:700px;margin-bottom:1.5rem}
+.header__pills{display:flex;flex-wrap:wrap;gap:.5rem}
+.header__pill{font-size:.75rem;font-weight:600;padding:.3rem .7rem;border-radius:50px;border:1px solid rgba(255,255,255,.1)}
+.header__pill--done{background:rgba(6,214,160,.15);color:var(--mint)}
+.header__pill--todo{background:rgba(244,161,0,.15);color:var(--accent-light)}
+
+.container{max-width:1140px;margin:0 auto;padding:0 1.25rem}
+
+/* TOC */
+.toc{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);border-bottom:1px solid var(--border);backdrop-filter:blur(10px)}
+.toc__inner{display:flex;gap:.25rem;padding:.6rem 0;overflow-x:auto;scrollbar-width:none}
+.toc__inner::-webkit-scrollbar{display:none}
+.toc__inner a{white-space:nowrap;font-size:.78rem;font-weight:600;padding:.35rem .7rem;border-radius:50px;color:var(--text-muted);text-decoration:none;transition:all .2s}
+.toc__inner a:hover,.toc__inner a.active{background:var(--primary);color:#fff}
+
+/* Sections */
+section{padding:3.5rem 0}
+section:nth-child(even of :not(.header)){background:var(--bg-alt)}
+section:nth-child(even){background:var(--bg-alt)}
+section h2{font-size:clamp(1.3rem,3vw,1.7rem);font-weight:800;margin-bottom:.4rem;color:var(--primary-dark)}
+section h2 .num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--primary);color:#fff;font-size:.8rem;margin-right:.5rem;vertical-align:middle}
+section .subtitle{color:var(--text-muted);margin-bottom:2rem;font-size:.95rem}
+section h3{font-size:1.1rem;font-weight:700;margin:2rem 0 .8rem;color:var(--text)}
+section h4{font-size:.95rem;font-weight:700;margin:1.2rem 0 .5rem;color:var(--primary)}
+
+/* Guide Block */
+.guide{background:#fff;border:1px solid var(--border);border-radius:var(--radius);margin:1.5rem 0;overflow:hidden;box-shadow:var(--shadow)}
+.guide__header{display:flex;align-items:center;gap:.75rem;padding:1rem 1.25rem;border-bottom:1px solid var(--border)}
+.guide__icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;background:var(--bg-alt)}
+.guide__meta{flex:1}
+.guide__meta h3{margin:0;font-size:1rem}
+.guide__meta p{margin:0;font-size:.78rem;color:var(--text-muted)}
+.guide__status{font-size:.72rem;font-weight:700;padding:.3rem .7rem;border-radius:50px;flex-shrink:0;text-transform:uppercase;letter-spacing:.03em}
+.guide__status--done{background:var(--done);color:var(--done-border)}
+.guide__status--todo{background:var(--todo);color:var(--todo-border)}
+.guide__status--later{background:#f0e6ff;color:#7c3aed}
+.guide__body{padding:1.25rem}
+.guide__time{display:inline-flex;align-items:center;gap:.3rem;font-size:.78rem;color:var(--text-muted);margin-bottom:1rem;background:var(--bg-alt);padding:.3rem .6rem;border-radius:4px}
+
+/* Steps */
+.steps{counter-reset:step;list-style:none;padding:0;margin:0}
+.steps li{position:relative;padding:0 0 1.2rem 2.8rem;border-left:2px solid var(--border);margin-left:.9rem;font-size:.88rem;line-height:1.6}
+.steps li:last-child{border-left:2px solid transparent;padding-bottom:0}
+.steps li::before{counter-increment:step;content:counter(step);position:absolute;left:-13px;top:0;width:24px;height:24px;border-radius:50%;background:var(--primary);color:#fff;font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+.steps li strong{color:var(--text)}
+.steps li a{color:var(--primary);font-weight:600}
+
+/* Code blocks */
+.code{background:var(--bg-code);color:#e2e8f0;border-radius:6px;padding:.8rem 1rem;margin:.6rem 0;font-family:var(--mono);font-size:.8rem;line-height:1.5;overflow-x:auto;white-space:pre-wrap;word-break:break-word;position:relative}
+.code .dim{color:#64748b}
+.code .hl{color:var(--accent-light)}
+.code .grn{color:var(--mint)}
+.copy-btn{position:absolute;top:.4rem;right:.5rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#94a3b8;font-size:.7rem;padding:.2rem .45rem;border-radius:4px;cursor:pointer;font-family:var(--font);transition:all .2s}
+.copy-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+.copy-btn.copied{background:var(--mint);color:#fff;border-color:var(--mint)}
+
+/* Callouts */
+.callout{padding:1rem 1.2rem;border-radius:var(--radius);margin:.8rem 0;font-size:.86rem;line-height:1.6}
+.callout--teal{background:rgba(13,115,119,.06);border-left:4px solid var(--primary)}
+.callout--gold{background:rgba(244,161,0,.06);border-left:4px solid var(--accent)}
+.callout--coral{background:rgba(239,71,111,.06);border-left:4px solid var(--coral)}
+.callout--mint{background:rgba(6,214,160,.06);border-left:4px solid var(--mint)}
+.callout strong{color:var(--text)}
+
+/* Where To Paste */
+.paste{background:var(--bg-alt);border:1px dashed var(--accent);border-radius:var(--radius);padding:.8rem 1rem;margin:.6rem 0;font-size:.84rem}
+.paste strong{color:var(--accent)}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:1rem 0;border-radius:var(--radius);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+th{background:var(--primary-dark);color:#fff;font-weight:600;text-align:left;padding:.6rem .8rem;white-space:nowrap}
+td{padding:.55rem .8rem;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even){background:var(--bg-alt)}
+
+/* Overview cards */
+.overview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.8rem;margin:1.5rem 0}
+.ov-card{padding:.8rem;border-radius:var(--radius);border:1px solid var(--border);background:#fff;text-align:center;box-shadow:var(--shadow);position:relative}
+.ov-card__icon{font-size:1.5rem;margin-bottom:.3rem}
+.ov-card__name{font-size:.8rem;font-weight:700;margin-bottom:.15rem}
+.ov-card__cost{font-size:.72rem;color:var(--text-muted)}
+.ov-card__badge{position:absolute;top:.4rem;right:.4rem;font-size:.6rem;font-weight:700;padding:.15rem .4rem;border-radius:3px;text-transform:uppercase}
+.ov-card__badge--done{background:var(--done);color:var(--done-border)}
+.ov-card__badge--now{background:#fee2e2;color:#dc2626}
+.ov-card__badge--week1{background:var(--todo);color:var(--todo-border)}
+.ov-card__badge--later{background:#f0e6ff;color:#7c3aed}
+
+/* Two-col */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin:1.5rem 0}
+@media(max-width:768px){.two-col{grid-template-columns:1fr}.overview-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* Footer */
+.footer{background:var(--bg-dark);color:rgba(255,255,255,.5);padding:2rem 0;font-size:.8rem;text-align:center}
+.footer a{color:var(--accent-light);text-decoration:none}
+
+/* Animations */
+.fade-in{opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* Screenshot hints */
+.screenshot{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:.5rem .8rem;margin:.5rem 0;font-size:.8rem;color:var(--text-muted);display:flex;align-items:center;gap:.4rem}
+.screenshot::before{content:'&#128247;';font-size:1rem}
+</style>
+</head>
+<body>
+
+<!-- =================== HEADER =================== -->
+<header class="header">
+  <div class="container">
+    <div class="header__badge">Step-by-Step Setup</div>
+    <h1>Account <span>Setup Guide</span></h1>
+    <p>Every account, service, and configuration you need to get talent.stlucia fully operational. Follow in order &mdash; each section builds on the previous one.</p>
+    <div class="header__pills">
+      <span class="header__pill header__pill--done">Supabase &mdash; DONE</span>
+      <span class="header__pill header__pill--done">GitHub Pages &mdash; DONE</span>
+      <span class="header__pill header__pill--todo">9 accounts to set up</span>
+      <span class="header__pill header__pill--todo">~2 hours total</span>
+    </div>
+  </div>
+</header>
+
+<!-- =================== NAV =================== -->
+<nav class="toc">
+  <div class="container">
+    <div class="toc__inner">
+      <a href="#overview">Overview</a>
+      <a href="#supabase">1. Supabase</a>
+      <a href="#cloudflare">2. Cloudflare</a>
+      <a href="#plausible">3. Plausible</a>
+      <a href="#meta">4. Meta Business</a>
+      <a href="#instagram">5. Instagram</a>
+      <a href="#tiktok">6. TikTok</a>
+      <a href="#google-ads">7. Google Ads</a>
+      <a href="#gsc">8. Search Console</a>
+      <a href="#whatsapp">9. WhatsApp</a>
+      <a href="#uptimerobot">10. UptimeRobot</a>
+      <a href="#resend">11. Resend</a>
+      <a href="#linkedin">12. LinkedIn</a>
+      <a href="#stripe">13. Stripe</a>
+      <a href="#connect">14. Connect IDs</a>
+      <a href="#verify">15. Verify</a>
+    </div>
+  </div>
+</nav>
+
+<!-- =================== OVERVIEW =================== -->
+<section id="overview">
+  <div class="container">
+    <h2>All Accounts at a Glance</h2>
+    <p class="subtitle">13 accounts total. 2 already set up. 7 needed before launch. 4 can wait.</p>
+
+    <div class="overview-grid">
+      <div class="ov-card"><span class="ov-card__badge ov-card__badge--done">done</span><div class="ov-card__icon">&#9889;</div><div class="ov-card__name">Supabase</div><div class="ov-card__cost">Free &rarr; $25/mo</div></div>
+      <div class="ov-card"><span class="ov-card__badge ov-card__badge--done">done</span><div class="ov-card__icon">&#128187;</div><div class="ov-card__name">GitHub Pages</div><div class="ov-card__cost">Free</div></div>
+      <div class="ov-card"><span class="ov-card__badge ov-card__badge--now">set up now</span><div class="ov-card__icon">&#9729;</div><div class="ov-card__name">Cloudflare</div><div class="ov-card__cost">Free</div></div>
+      <div class="ov-card"><span class="ov-card__badge ov-card__badge--week1">week 1</span><div class="ov-card__icon">&#128200;</div><div class="ov-card__name">Plausible</div><div class="ov-card__cost">$9/mo</div></div>
+      <div class="ov-card"><span class="ov-card__badge ov-card__badge--week1">week 1</span><div class="ov-card__icon">&#128101;</div><div class="ov-card__name">Meta Business</div><div class="ov-card__cost">Free + ads</div></div>
+      <div class="ov-card"><span class="ov-card__badge ov-card__badge--week1">week 1</span><div class="ov-card__icon">&#128247;</div><div class="ov-card__name">Instagram</div><div class="ov-card__cost">Free</div></div>
+      <div class="ov-card"><span class="ov-card__badge ov-card__badge--week1">week 1</span><div class="ov-card__icon">&#127916;</div><div class="ov-card__name">TikTok</div><div class="ov-card__cost">Free</div></div>
+      <div class="ov-card"><span class="ov-card__badge ov-card__badge--week1">week 1</span><div class="ov-card__icon">&#128270;</div><div class="ov-card__name">Google Ads</div><div class="ov-card__cost">Free + ads</div></div>
+      <div class="ov-card"><span class="ov-card__badge ov-card__badge--week1">week 1</span><div class="ov-card__icon">&#128203;</div><div class="ov-card__name">Search Console</div><div class="ov-card__cost">Free</div></div>
+      <div class="ov-card"><span class="ov-card__badge ov-card__badge--week1">week 1</span><div class="ov-card__icon">&#128172;</div><div class="ov-card__name">WhatsApp Biz</div><div class="ov-card__cost">Free</div></div>
+      <div class="ov-card"><span class="ov-card__badge ov-card__badge--week1">week 1</span><div class="ov-card__icon">&#128994;</div><div class="ov-card__name">UptimeRobot</div><div class="ov-card__cost">Free</div></div>
+      <div class="ov-card"><span class="ov-card__badge ov-card__badge--later">week 2</span><div class="ov-card__icon">&#128231;</div><div class="ov-card__name">Resend</div><div class="ov-card__cost">Free &rarr; $20</div></div>
+      <div class="ov-card"><span class="ov-card__badge ov-card__badge--later">week 2</span><div class="ov-card__icon">&#128188;</div><div class="ov-card__name">LinkedIn</div><div class="ov-card__cost">Free</div></div>
+      <div class="ov-card"><span class="ov-card__badge ov-card__badge--later">phase 2</span><div class="ov-card__icon">&#128179;</div><div class="ov-card__name">Stripe</div><div class="ov-card__cost">2.9% + $0.30</div></div>
+    </div>
+
+    <div class="callout callout--teal">
+      <strong>Estimated total setup time: ~2 hours.</strong> Most accounts take 5-10 minutes. The longest is Meta Business Suite (~20 min) because of ad account and pixel configuration. Follow the sections in order &mdash; some depend on earlier steps.
+    </div>
+  </div>
+</section>
+
+<!-- =================== 1. SUPABASE =================== -->
+<section id="supabase">
+  <div class="container">
+    <div class="guide">
+      <div class="guide__header">
+        <div class="guide__icon">&#9889;</div>
+        <div class="guide__meta">
+          <h3>1. Supabase (Backend Database)</h3>
+          <p>PostgreSQL database, authentication, file storage, edge functions</p>
+        </div>
+        <span class="guide__status guide__status--done">Already Set Up</span>
+      </div>
+      <div class="guide__body">
+        <div class="callout callout--mint">
+          <strong>Status:</strong> Your Supabase project is already live at <code>edybhgkuttsyoouizwcw.supabase.co</code>. Credentials are configured in <code>assets/js/supabase.js</code>. If you need to make changes, here's what to verify:
+        </div>
+
+        <h4>Verify These Are Complete</h4>
+        <ol class="steps">
+          <li>Open <a href="https://supabase.com/dashboard">supabase.com/dashboard</a> and sign in to your project <strong>talent-stlucia</strong></li>
+          <li>Go to <strong>Table Editor</strong> &mdash; confirm these 6 tables exist: <code>profiles</code>, <code>experiences</code>, <code>education</code>, <code>video_questions</code>, <code>events</code>, <code>waitlist</code>. If missing, go to <strong>SQL Editor</strong> and paste the contents of <code>setup/supabase-schema.sql</code></li>
+          <li>Go to <strong>Storage</strong> &mdash; confirm these 3 buckets exist: <code>photos</code>, <code>videos</code>, <code>resumes</code>. Create any that are missing. Set <code>photos</code> and <code>videos</code> to <strong>public</strong>. Keep <code>resumes</code> as <strong>private</strong>.</li>
+          <li>Go to <strong>Authentication &rarr; Providers</strong> &mdash; confirm <strong>Email</strong> is enabled. Optionally enable <strong>Google</strong> (requires a Google Cloud Console OAuth client &mdash; can do later).</li>
+          <li>Go to <strong>Authentication &rarr; URL Configuration</strong> &mdash; set Redirect URL to: <code>https://talent.stlucia.studio/dashboard.html</code></li>
+          <li>Go to <strong>Settings &rarr; API</strong> &mdash; your <strong>Project URL</strong> and <strong>anon key</strong> should match what's in <code>assets/js/supabase.js</code></li>
+        </ol>
+
+        <div class="callout callout--gold">
+          <strong>When to upgrade:</strong> Free tier gives you 500MB database + 1GB storage + 50K auth users. Upgrade to Pro ($25/mo) when you hit ~500 video uploads or need daily backups.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 2. CLOUDFLARE =================== -->
+<section id="cloudflare">
+  <div class="container">
+    <div class="guide">
+      <div class="guide__header">
+        <div class="guide__icon">&#9729;</div>
+        <div class="guide__meta">
+          <h3>2. Cloudflare (DNS, CDN, Security)</h3>
+          <p>Free CDN, SSL management, DDoS protection, caching, edge rules</p>
+        </div>
+        <span class="guide__status guide__status--todo">Set Up Now</span>
+      </div>
+      <div class="guide__body">
+        <div class="guide__time">&#9201; ~15 minutes + up to 24 hours for DNS propagation</div>
+
+        <ol class="steps">
+          <li>Go to <a href="https://dash.cloudflare.com/sign-up">dash.cloudflare.com/sign-up</a> and create a free account</li>
+          <li>Click <strong>"Add a site"</strong> and enter <strong>stlucia.studio</strong> (the parent domain, not the subdomain)</li>
+          <li>Select the <strong>Free plan</strong> and click Continue</li>
+          <li>Cloudflare will scan your existing DNS records. Review them and click Continue. It will show you <strong>two nameservers</strong> (e.g., <code>ada.ns.cloudflare.com</code> and <code>bob.ns.cloudflare.com</code>)</li>
+          <li>Go to your <strong>domain registrar</strong> (wherever you bought stlucia.studio) and replace the current nameservers with Cloudflare's two nameservers. Save.</li>
+          <li>Back in Cloudflare, click <strong>"Check nameservers"</strong>. It may take a few hours to propagate. You'll get an email when it's active.</li>
+          <li>Once active, go to <strong>DNS &rarr; Records</strong> and add/verify this CNAME:
+            <div class="code">Type: CNAME
+Name: talent
+Target: ibak-app.github.io
+Proxy status: <span class="hl">Proxied (orange cloud ON)</span></div>
+          </li>
+          <li>Go to <strong>SSL/TLS</strong> and set encryption mode to <strong>Full</strong></li>
+          <li>Go to <strong>Speed &rarr; Optimization</strong> and enable <strong>Brotli</strong> compression</li>
+          <li>Go to <strong>Caching &rarr; Configuration</strong> and set <strong>Browser Cache TTL</strong> to <strong>1 month</strong></li>
+          <li>Go to <strong>Rules &rarr; Page Rules</strong> and add:
+            <div class="code"><span class="dim">Rule 1:</span> talent.stlucia.studio/assets/*
+  Cache Level: Cache Everything
+  Edge Cache TTL: 1 month
+
+<span class="dim">Rule 2:</span> talent.stlucia.studio/*
+  Always Use HTTPS</div>
+          </li>
+        </ol>
+
+        <div class="paste"><strong>What you get:</strong> Free global CDN, automatic SSL renewal, DDoS protection, Brotli compression, browser caching, and HTTPS enforcement. Zero cost.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 3. PLAUSIBLE =================== -->
+<section id="plausible">
+  <div class="container">
+    <div class="guide">
+      <div class="guide__header">
+        <div class="guide__icon">&#128200;</div>
+        <div class="guide__meta">
+          <h3>3. Plausible Analytics</h3>
+          <p>Privacy-friendly web analytics &mdash; page views, referrers, geography, devices</p>
+        </div>
+        <span class="guide__status guide__status--todo">Week 1</span>
+      </div>
+      <div class="guide__body">
+        <div class="guide__time">&#9201; ~5 minutes</div>
+
+        <ol class="steps">
+          <li>Go to <a href="https://plausible.io/register">plausible.io/register</a> and create an account (30-day free trial, then $9/mo)</li>
+          <li>Add a new site with domain: <strong>talent.stlucia.studio</strong></li>
+          <li>The tracking script is <strong>already installed</strong> in all your HTML pages. Verify it looks like:
+            <div class="code">&lt;script defer data-domain="talent.stlucia.studio"
+  src="https://plausible.io/js/script.js"&gt;&lt;/script&gt;</div>
+          </li>
+          <li>Go to your Plausible dashboard &rarr; <strong>Site Settings &rarr; Goals</strong> and add these custom goals:
+            <div class="code"><span class="grn">Signup</span>         (tracks: signup_complete events)
+<span class="grn">VideoRecord</span>    (tracks: video resume recordings)
+<span class="grn">ProfileComplete</span> (tracks: profile completeness = 100%)</div>
+          </li>
+          <li>Visit <strong>talent.stlucia.studio</strong> in your browser, then check the Plausible dashboard &mdash; you should see 1 visitor appear within a minute</li>
+        </ol>
+
+        <div class="callout callout--teal">
+          <strong>Your dashboard:</strong> Once live, visit <code>plausible.io/talent.stlucia.studio</code> to see real-time analytics. No cookies needed, GDPR-compliant out of the box.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 4. META BUSINESS =================== -->
+<section id="meta">
+  <div class="container">
+    <div class="guide">
+      <div class="guide__header">
+        <div class="guide__icon">&#128101;</div>
+        <div class="guide__meta">
+          <h3>4. Meta Business Suite (Facebook Page + Ads + Pixel)</h3>
+          <p>Facebook page, ad account, Facebook Pixel for conversion tracking</p>
+        </div>
+        <span class="guide__status guide__status--todo">Week 1</span>
+      </div>
+      <div class="guide__body">
+        <div class="guide__time">&#9201; ~20 minutes</div>
+
+        <h4>Step A: Create Facebook Page</h4>
+        <ol class="steps">
+          <li>Go to <a href="https://www.facebook.com/pages/create">facebook.com/pages/create</a> (log in with your personal account)</li>
+          <li>Choose <strong>Business or Brand</strong></li>
+          <li>Page name: <strong>talent.stlucia</strong></li>
+          <li>Username: <strong>@TalentStLucia</strong> (check availability &mdash; if taken, try @TalentSLU or @TalentStLuciaStudio)</li>
+          <li>Category: select <strong>Employment Agency</strong> or <strong>Internet Company</strong></li>
+          <li>Add a profile photo (use your app icon or generate one with the image workflow) and a cover photo (use the hero image from workflow #4d)</li>
+          <li>Fill in the About section:
+            <div class="code">Saint Lucia's talent platform. Create your free profile and video resume
+in 2 minutes. Get discovered by top employers. Free forever.
+
+<span class="hl">talent.stlucia.studio</span></div>
+          </li>
+          <li>Add website: <strong>https://talent.stlucia.studio</strong></li>
+          <li>Add a CTA button: <strong>Sign Up</strong> &rarr; link to <code>https://talent.stlucia.studio/signup.html?utm_source=facebook&amp;utm_medium=page&amp;utm_campaign=cta</code></li>
+        </ol>
+
+        <h4>Step B: Set Up Meta Business Suite</h4>
+        <ol class="steps">
+          <li>Go to <a href="https://business.facebook.com">business.facebook.com</a></li>
+          <li>Click <strong>Create Account</strong> (or add your page to an existing business account)</li>
+          <li>Business name: <strong>St. Lucia Studio</strong></li>
+          <li>Add your Facebook page to this business account</li>
+          <li>Go to <strong>Business Settings &rarr; Ad Accounts</strong> &rarr; Create a new ad account</li>
+          <li>Set up payment method (credit card) &mdash; you won't be charged until you launch ads</li>
+        </ol>
+
+        <h4>Step C: Create Facebook Pixel</h4>
+        <ol class="steps">
+          <li>In Meta Business Suite, go to <strong>Events Manager</strong> (<a href="https://business.facebook.com/events_manager2">business.facebook.com/events_manager2</a>)</li>
+          <li>Click <strong>Connect Data Sources &rarr; Web &rarr; Facebook Pixel</strong></li>
+          <li>Name it: <strong>Talent SLU Pixel</strong></li>
+          <li>Choose <strong>Install code manually</strong></li>
+          <li>Copy your <strong>Pixel ID</strong> (a 15-16 digit number like <code>123456789012345</code>)</li>
+          <li>This is the value you'll paste into your app code. See <a href="#connect">Section 14</a> for where to put it.</li>
+        </ol>
+
+        <div class="paste"><strong>Save this:</strong> Your Facebook Pixel ID: <code>_______________</code> (write it down &mdash; you'll need it in Section 14)</div>
+
+        <h4>Step D: Set Up Conversions</h4>
+        <ol class="steps">
+          <li>In Events Manager, click your pixel &rarr; <strong>Settings &rarr; Custom Conversions</strong></li>
+          <li>Create 3 custom conversions:
+            <div class="code"><span class="grn">CompleteRegistration</span> &mdash; fires when someone finishes signup
+<span class="grn">Lead</span>                 &mdash; fires when profile is completed (75%+)
+<span class="grn">ViewContent</span>          &mdash; fires when someone records a video resume</div>
+          </li>
+          <li>These will automatically track conversions from your Facebook ads once the pixel is connected</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 5. INSTAGRAM =================== -->
+<section id="instagram">
+  <div class="container">
+    <div class="guide">
+      <div class="guide__header">
+        <div class="guide__icon">&#128247;</div>
+        <div class="guide__meta">
+          <h3>5. Instagram Business Account</h3>
+          <p>Visual content, Reels, Stories, linked to Meta ad account</p>
+        </div>
+        <span class="guide__status guide__status--todo">Week 1</span>
+      </div>
+      <div class="guide__body">
+        <div class="guide__time">&#9201; ~10 minutes</div>
+
+        <ol class="steps">
+          <li>Download Instagram app (or use web) and create a new account</li>
+          <li>Username: <strong>@talent.stlucia</strong> (if taken, try @talentstlucia or @talent.slu)</li>
+          <li>Display name: <strong>talent.stlucia</strong></li>
+          <li>Go to <strong>Settings &rarr; Account &rarr; Switch to Professional Account &rarr; Business</strong></li>
+          <li>Select category: <strong>Employment Agency</strong> or <strong>Website</strong></li>
+          <li>Link to your Facebook Page (talent.stlucia) &mdash; this connects it to Meta Business Suite for unified ad management</li>
+          <li>Add bio (max 150 chars):
+            <div class="code">Saint Lucia's talent platform &#127473;&#127464;
+Free profile + video resume in 2 minutes
+Get discovered by top employers &#11015;</div>
+          </li>
+          <li>Add website link: <strong>https://talent.stlucia.studio?utm_source=instagram&amp;utm_medium=bio</strong></li>
+          <li>Add profile photo (same as Facebook page for brand consistency)</li>
+          <li>Create 1 highlight: <strong>"How It Works"</strong> (you'll fill this with Stories later)</li>
+        </ol>
+
+        <div class="callout callout--teal">
+          <strong>Tip:</strong> Once linked to your Facebook page, you can manage Instagram ads directly from Meta Business Suite and schedule posts from there too.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 6. TIKTOK =================== -->
+<section id="tiktok">
+  <div class="container">
+    <div class="guide">
+      <div class="guide__header">
+        <div class="guide__icon">&#127916;</div>
+        <div class="guide__meta">
+          <h3>6. TikTok Business Account</h3>
+          <p>Short-form video, career tips, organic discovery + paid boosts</p>
+        </div>
+        <span class="guide__status guide__status--todo">Week 1</span>
+      </div>
+      <div class="guide__body">
+        <div class="guide__time">&#9201; ~10 minutes</div>
+
+        <ol class="steps">
+          <li>Download TikTok app and create a new account with your email</li>
+          <li>Username: <strong>@talent.stlucia</strong> (if taken: @talentstlucia or @talentslu)</li>
+          <li>Display name: <strong>Talent St. Lucia</strong></li>
+          <li>Go to <strong>Settings &rarr; Manage Account &rarr; Switch to Business Account</strong></li>
+          <li>Select category: <strong>Education</strong> or <strong>Professional Services</strong></li>
+          <li>Add bio (max 80 chars):
+            <div class="code">Free talent platform &#127473;&#127464; Video resume in 2 min
+&#128073; talent.stlucia.studio</div>
+          </li>
+          <li>Add website: <strong>https://talent.stlucia.studio?utm_source=tiktok&amp;utm_medium=bio</strong></li>
+          <li>Profile photo: same brand icon as other platforms</li>
+        </ol>
+
+        <h4>Optional: TikTok Ads Manager</h4>
+        <ol class="steps">
+          <li>Go to <a href="https://ads.tiktok.com/i18n/signup">ads.tiktok.com</a> and create a TikTok Ads Manager account</li>
+          <li>Business name: <strong>St. Lucia Studio</strong></li>
+          <li>You can use this to boost organic posts ($5-20 per boost) or create formal ad campaigns</li>
+          <li>This can wait until Week 2 &mdash; organic content first</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 7. GOOGLE ADS =================== -->
+<section id="google-ads">
+  <div class="container">
+    <div class="guide">
+      <div class="guide__header">
+        <div class="guide__icon">&#128270;</div>
+        <div class="guide__meta">
+          <h3>7. Google Ads</h3>
+          <p>Search ads targeting "jobs saint lucia", "work in saint lucia", etc.</p>
+        </div>
+        <span class="guide__status guide__status--todo">Week 1</span>
+      </div>
+      <div class="guide__body">
+        <div class="guide__time">&#9201; ~15 minutes</div>
+
+        <ol class="steps">
+          <li>Go to <a href="https://ads.google.com/home/">ads.google.com</a> and sign in with your Google account</li>
+          <li>Click <strong>New Campaign</strong> &mdash; but you can skip setting one up now. First you need the account created.</li>
+          <li>If it forces you to create a campaign: choose <strong>Search</strong>, set a $1/day budget (pause it immediately after creation). Name it "Setup - pause".</li>
+          <li>Once your account is created, go to <strong>Tools &rarr; Conversions</strong></li>
+          <li>Click <strong>+ New conversion action &rarr; Website</strong></li>
+          <li>Enter your domain: <strong>talent.stlucia.studio</strong></li>
+          <li>Create a conversion action:
+            <div class="code">Name: <span class="hl">Signup</span>
+Category: Sign-up
+Value: Don't use a value
+Count: One conversion per click</div>
+          </li>
+          <li>Choose <strong>Install tag manually</strong>. Copy the <strong>Google Ads tag (gtag.js)</strong> snippet &mdash; it looks like:
+            <div class="code">&lt;script async src="https://www.googletagmanager.com/gtag/js?id=<span class="hl">AW-XXXXXXXXX</span>"&gt;&lt;/script&gt;
+&lt;script&gt;
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '<span class="hl">AW-XXXXXXXXX</span>');
+&lt;/script&gt;</div>
+          </li>
+          <li>Copy the <strong>conversion ID</strong> (the <code>AW-XXXXXXXXX</code> part). Save it &mdash; you'll need it in Section 14.</li>
+        </ol>
+
+        <div class="paste"><strong>Save this:</strong> Your Google Ads tag ID: <code>AW-_______________</code></div>
+
+        <h4>Campaign Setup (do this on Launch Day)</h4>
+        <ol class="steps">
+          <li>Create a new <strong>Search</strong> campaign</li>
+          <li>Campaign name: <strong>SLU Jobs - Search</strong></li>
+          <li>Budget: <strong>$5/day</strong> ($100 for 20 days)</li>
+          <li>Location: <strong>Saint Lucia</strong> + <strong>United States</strong> + <strong>United Kingdom</strong> + <strong>Canada</strong></li>
+          <li>Keywords (paste these):
+            <div class="code">jobs in saint lucia
+saint lucia jobs
+work in saint lucia
+saint lucia employment
+saint lucia careers
+caribbean jobs
+hotel jobs saint lucia
+tourism jobs saint lucia</div>
+          </li>
+          <li>Write 3 responsive search ads with headlines like "Jobs in Saint Lucia", "Free Video Resume Platform", "Get Hired in Saint Lucia" and descriptions about the platform</li>
+          <li>Final URL: <code>https://talent.stlucia.studio?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=jobs_stlucia</code></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 8. GOOGLE SEARCH CONSOLE =================== -->
+<section id="gsc">
+  <div class="container">
+    <div class="guide">
+      <div class="guide__header">
+        <div class="guide__icon">&#128203;</div>
+        <div class="guide__meta">
+          <h3>8. Google Search Console</h3>
+          <p>SEO monitoring, search appearance, indexing status</p>
+        </div>
+        <span class="guide__status guide__status--todo">Week 1</span>
+      </div>
+      <div class="guide__body">
+        <div class="guide__time">&#9201; ~5 minutes</div>
+
+        <ol class="steps">
+          <li>Go to <a href="https://search.google.com/search-console">search.google.com/search-console</a> and sign in with your Google account</li>
+          <li>Click <strong>Add Property</strong> &rarr; choose <strong>URL Prefix</strong></li>
+          <li>Enter: <strong>https://talent.stlucia.studio</strong></li>
+          <li>For verification, choose <strong>HTML tag</strong> method. Copy the meta tag (looks like <code>&lt;meta name="google-site-verification" content="XXXX" /&gt;</code>). Save the content value &mdash; you'll add it to your HTML in Section 14.</li>
+          <li>After verification is confirmed, go to <strong>Sitemaps</strong> &rarr; submit: <code>https://talent.stlucia.studio/sitemap.xml</code> (you may need to create this file &mdash; ask Claude Code to generate it)</li>
+          <li>Go to <strong>URL Inspection</strong> and request indexing for your homepage</li>
+        </ol>
+
+        <div class="paste"><strong>Save this:</strong> Your Google verification code: <code>_______________</code></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 9. WHATSAPP =================== -->
+<section id="whatsapp">
+  <div class="container">
+    <div class="guide">
+      <div class="guide__header">
+        <div class="guide__icon">&#128172;</div>
+        <div class="guide__meta">
+          <h3>9. WhatsApp Business</h3>
+          <p>Direct outreach, broadcast lists by area, automated greeting</p>
+        </div>
+        <span class="guide__status guide__status--todo">Week 1</span>
+      </div>
+      <div class="guide__body">
+        <div class="guide__time">&#9201; ~10 minutes</div>
+
+        <ol class="steps">
+          <li>Download <strong>WhatsApp Business</strong> app (separate from regular WhatsApp) from App Store or Google Play</li>
+          <li>Register with a <strong>dedicated phone number</strong> for the business (can be a second SIM or a virtual number). If you only have one number, you can migrate your regular WhatsApp to WhatsApp Business.</li>
+          <li>Business name: <strong>talent.stlucia</strong></li>
+          <li>Category: <strong>Employment Agency</strong></li>
+          <li>Add business description:
+            <div class="code">Saint Lucia's free talent platform. Create your profile and video resume in 2 minutes. Get discovered by top employers.
+
+talent.stlucia.studio</div>
+          </li>
+          <li>Add business address (optional), email, and website: <strong>https://talent.stlucia.studio</strong></li>
+          <li>Set up <strong>Auto-greeting message</strong> (Business Tools &rarr; Greeting Message):
+            <div class="code">Hey! &#127473;&#127464; Thanks for reaching out to talent.stlucia.
+
+We help you get discovered by top employers. Create your free profile and video resume in just 2 minutes:
+
+&#128073; talent.stlucia.studio
+
+Questions? Just reply here!</div>
+          </li>
+          <li>Set up <strong>Away message</strong> for off-hours</li>
+          <li>Create <strong>Broadcast Lists</strong> by area:
+            <div class="code">List 1: <span class="hl">Castries Area</span>
+List 2: <span class="hl">Gros Islet / Rodney Bay</span>
+List 3: <span class="hl">Vieux Fort / South</span>
+List 4: <span class="hl">Soufriere / West Coast</span>
+List 5: <span class="hl">General / All</span></div>
+          </li>
+          <li>Start adding contacts from your network. You need people to have your number saved to receive broadcasts.</li>
+        </ol>
+
+        <div class="callout callout--gold">
+          <strong>Important:</strong> WhatsApp broadcasts only reach people who have your number saved in their phone. In your launch-day personal outreach, ask contacts to save the Talent number. Include it on your Facebook page and printed materials.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 10. UPTIMEROBOT =================== -->
+<section id="uptimerobot">
+  <div class="container">
+    <div class="guide">
+      <div class="guide__header">
+        <div class="guide__icon">&#128994;</div>
+        <div class="guide__meta">
+          <h3>10. UptimeRobot (Uptime Monitoring)</h3>
+          <p>Pings your site every 5 minutes, alerts you if it goes down</p>
+        </div>
+        <span class="guide__status guide__status--todo">Week 1</span>
+      </div>
+      <div class="guide__body">
+        <div class="guide__time">&#9201; ~3 minutes</div>
+
+        <ol class="steps">
+          <li>Go to <a href="https://uptimerobot.com/signUp">uptimerobot.com</a> and create a free account</li>
+          <li>Click <strong>+ Add New Monitor</strong></li>
+          <li>Monitor type: <strong>HTTPS</strong></li>
+          <li>Friendly name: <strong>Talent SLU</strong></li>
+          <li>URL: <strong>https://talent.stlucia.studio</strong></li>
+          <li>Monitoring interval: <strong>5 minutes</strong></li>
+          <li>Alert contacts: add your email (and optionally SMS)</li>
+          <li>Click <strong>Create Monitor</strong> &mdash; done!</li>
+        </ol>
+
+        <div class="callout callout--mint">
+          <strong>That's it.</strong> UptimeRobot will now check your site every 5 minutes and email you immediately if it goes down. Free plan allows 50 monitors.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 11. RESEND =================== -->
+<section id="resend">
+  <div class="container">
+    <div class="guide">
+      <div class="guide__header">
+        <div class="guide__icon">&#128231;</div>
+        <div class="guide__meta">
+          <h3>11. Resend (Transactional Email)</h3>
+          <p>Send welcome emails, profile nudges, notifications from talent@stlucia.studio</p>
+        </div>
+        <span class="guide__status guide__status--later">Week 2</span>
+      </div>
+      <div class="guide__body">
+        <div class="guide__time">&#9201; ~15 minutes (includes DNS verification)</div>
+
+        <div class="callout callout--gold">
+          <strong>Not urgent for launch.</strong> You don't need transactional emails on Day 1. Set this up in Week 2 once sign-ups are flowing and you want to start sending welcome emails and profile completion nudges.
+        </div>
+
+        <ol class="steps">
+          <li>Go to <a href="https://resend.com/signup">resend.com/signup</a> and create a free account (100 emails/day free)</li>
+          <li>Go to <strong>Domains</strong> &rarr; click <strong>Add Domain</strong></li>
+          <li>Enter: <strong>stlucia.studio</strong></li>
+          <li>Resend will show you <strong>DNS records to add</strong>. Go to your <strong>Cloudflare DNS</strong> dashboard and add each record:
+            <div class="code"><span class="dim">Record 1 (SPF):</span>
+Type: TXT | Name: @ | Value: <span class="hl">(provided by Resend)</span>
+
+<span class="dim">Record 2 (DKIM):</span>
+Type: CNAME | Name: resend._domainkey | Value: <span class="hl">(provided by Resend)</span>
+
+<span class="dim">Record 3 (DMARC, optional but recommended):</span>
+Type: TXT | Name: _dmarc | Value: v=DMARC1; p=none</div>
+          </li>
+          <li>Back in Resend, click <strong>Verify</strong> &mdash; it may take a few minutes for DNS to propagate</li>
+          <li>Once verified, go to <strong>API Keys</strong> &rarr; create a new key with <strong>Sending access</strong> permission</li>
+          <li>Copy the API key (starts with <code>re_</code>). <strong>You'll store this in Supabase Edge Function environment variables, never in frontend code.</strong></li>
+          <li>Go to Supabase Dashboard &rarr; <strong>Edge Functions &rarr; Secrets</strong> &rarr; add: <code>RESEND_API_KEY = re_your_key_here</code></li>
+        </ol>
+
+        <div class="paste"><strong>Save this:</strong> Your Resend API key: <code>re________________</code> (store securely, never in frontend code)</div>
+
+        <div class="callout callout--teal">
+          <strong>Sending from:</strong> Once configured, you can send emails from <code>talent@stlucia.studio</code>. Your welcome emails, nudges, and notifications will come from this address.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 12. LINKEDIN =================== -->
+<section id="linkedin">
+  <div class="container">
+    <div class="guide">
+      <div class="guide__header">
+        <div class="guide__icon">&#128188;</div>
+        <div class="guide__meta">
+          <h3>12. LinkedIn Company Page</h3>
+          <p>Employer outreach, professional content, B2B credibility</p>
+        </div>
+        <span class="guide__status guide__status--later">Week 2</span>
+      </div>
+      <div class="guide__body">
+        <div class="guide__time">&#9201; ~10 minutes</div>
+
+        <div class="callout callout--gold">
+          <strong>Not urgent for talent acquisition.</strong> LinkedIn is primarily for employer outreach (Phase 2). Set it up in Week 2 to establish presence before you start pitching employers.
+        </div>
+
+        <ol class="steps">
+          <li>Go to <a href="https://www.linkedin.com/company/setup/new/">linkedin.com/company/setup/new</a></li>
+          <li>Company name: <strong>talent.stlucia</strong></li>
+          <li>LinkedIn URL: <strong>linkedin.com/company/talent-stlucia</strong></li>
+          <li>Industry: <strong>Staffing and Recruiting</strong></li>
+          <li>Company size: <strong>1-10 employees</strong></li>
+          <li>Type: <strong>Privately Held</strong></li>
+          <li>Add tagline: <strong>Saint Lucia's talent platform &mdash; free profiles &amp; video resumes</strong></li>
+          <li>Add description (About section):
+            <div class="code">talent.stlucia is Saint Lucia's first dedicated talent marketplace. We help professionals create profiles and video resumes, and connect them with top employers across the island.
+
+For talent: Create your free profile at talent.stlucia.studio
+For employers: Access Saint Lucia's largest pre-screened talent pool with video profiles.
+
+Free forever for talent. Employer plans starting at $99/mo.</div>
+          </li>
+          <li>Add website: <strong>https://talent.stlucia.studio</strong></li>
+          <li>Add logo and cover image (same as other platforms)</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 13. STRIPE =================== -->
+<section id="stripe">
+  <div class="container">
+    <div class="guide">
+      <div class="guide__header">
+        <div class="guide__icon">&#128179;</div>
+        <div class="guide__meta">
+          <h3>13. Stripe (Payments)</h3>
+          <p>Employer subscription billing &mdash; $99/249/499 per month tiers</p>
+        </div>
+        <span class="guide__status guide__status--later">Phase 2 (Week 8+)</span>
+      </div>
+      <div class="guide__body">
+        <div class="guide__time">&#9201; ~20 minutes (+ identity verification may take 1-2 days)</div>
+
+        <div class="callout callout--gold">
+          <strong>Don't set this up until Week 8.</strong> Stripe is only needed when you start charging employers. Focus on collecting talent profiles first. When you're ready:
+        </div>
+
+        <ol class="steps">
+          <li>Go to <a href="https://dashboard.stripe.com/register">dashboard.stripe.com/register</a> and create an account</li>
+          <li>Complete identity verification (ID + business info &mdash; may take 1-2 business days)</li>
+          <li>Go to <strong>Products</strong> and create 3 products:
+            <div class="code"><span class="grn">Starter</span>      &mdash; $99/mo  (annual: $999/yr)
+<span class="grn">Professional</span> &mdash; $249/mo (annual: $2,499/yr)
+<span class="grn">Enterprise</span>   &mdash; $499/mo (annual: $4,999/yr)</div>
+          </li>
+          <li>For each product, add a monthly recurring price and an annual recurring price</li>
+          <li>Go to <strong>Developers &rarr; API Keys</strong> and copy your:
+            <ul style="margin:.3rem 0 .3rem 1.2rem;font-size:.85rem">
+              <li><strong>Publishable key</strong> (starts with <code>pk_</code>) &mdash; safe for frontend</li>
+              <li><strong>Secret key</strong> (starts with <code>sk_</code>) &mdash; Supabase Edge Function only, NEVER in frontend</li>
+            </ul>
+          </li>
+          <li>Go to <strong>Developers &rarr; Webhooks</strong> &rarr; Add endpoint:
+            <div class="code">Endpoint URL: https://edybhgkuttsyoouizwcw.supabase.co/functions/v1/stripe-webhook
+Events: checkout.session.completed, customer.subscription.updated, customer.subscription.deleted</div>
+          </li>
+          <li>Copy the <strong>webhook signing secret</strong> (starts with <code>whsec_</code>)</li>
+          <li>Add both keys to Supabase Edge Function secrets:
+            <div class="code">STRIPE_SECRET_KEY = sk_live_...
+STRIPE_WEBHOOK_SECRET = whsec_...</div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 14. CONNECT IDS =================== -->
+<section id="connect">
+  <div class="container">
+    <h2><span class="num">14</span> Connect Everything to Your App</h2>
+    <p class="subtitle">After creating all accounts, plug the IDs and keys into your codebase.</p>
+
+    <div class="guide">
+      <div class="guide__header">
+        <div class="guide__icon">&#128268;</div>
+        <div class="guide__meta">
+          <h3>Replace Placeholder IDs in Code</h3>
+          <p>Tell Claude Code to do this for you &mdash; just provide the IDs</p>
+        </div>
+        <span class="guide__status guide__status--todo">After account setup</span>
+      </div>
+      <div class="guide__body">
+        <p style="font-size:.88rem;color:var(--text-muted);margin-bottom:1rem">Once you have all your IDs collected, paste this single prompt into Claude Code and it will update all your files at once:</p>
+
+        <div class="code"><span class="dim"># Paste this into Claude Code with your real values filled in:</span>
+
+Update all HTML files in the project with these tracking IDs:
+
+1. Replace <span class="hl">YOUR_PIXEL_ID</span> with my Facebook Pixel ID: <span class="hl">[paste your pixel ID]</span>
+   This appears in all HTML files in the fbq('init',...) call.
+
+2. Add Google Ads gtag.js snippet to all HTML &lt;head&gt; sections:
+   Google Ads ID: <span class="hl">AW-[paste your ID]</span>
+
+3. Add Google Search Console verification meta tag to index.html:
+   Content value: <span class="hl">[paste your verification code]</span>
+
+4. Commit the changes with message "Add tracking IDs (FB Pixel, Google Ads, GSC)"</div>
+
+        <h4>What Gets Updated</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ID / Key</th><th>Where It Goes</th><th>File(s)</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Facebook Pixel ID</strong></td><td><code>fbq('init', 'YOUR_PIXEL_ID')</code></td><td>All 10 HTML files</td></tr>
+              <tr><td><strong>Google Ads tag</strong></td><td><code>&lt;head&gt;</code> section</td><td>All 10 HTML files</td></tr>
+              <tr><td><strong>Google verification</strong></td><td><code>&lt;meta name="google-site-verification"&gt;</code></td><td>index.html only</td></tr>
+              <tr><td><strong>Supabase URL + key</strong></td><td><code>SUPABASE_URL</code> / <code>SUPABASE_ANON_KEY</code></td><td>assets/js/supabase.js (already done)</td></tr>
+              <tr><td><strong>Plausible domain</strong></td><td><code>data-domain</code> attribute</td><td>All HTML files (already done)</td></tr>
+              <tr><td><strong>Resend API key</strong></td><td>Supabase Edge Function env vars</td><td>Supabase dashboard (not in code)</td></tr>
+              <tr><td><strong>Stripe keys</strong></td><td>Supabase Edge Function env vars</td><td>Supabase dashboard (not in code)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout--coral">
+          <strong>Security reminder:</strong> Only Supabase URL, anon key, Plausible domain, Facebook Pixel ID, and Google Ads tag go in frontend code (these are public and safe). Resend API key, Stripe secret key, and Supabase service role key must ONLY go in Supabase Edge Function environment variables. Never put secret keys in HTML or JS files.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 15. VERIFY =================== -->
+<section id="verify">
+  <div class="container">
+    <h2><span class="num">15</span> Verification Checklist</h2>
+    <p class="subtitle">After everything is connected, run through this checklist to confirm it all works.</p>
+
+    <div class="two-col">
+      <div>
+        <h3>Infrastructure</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Check</th><th>How to Verify</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Site loads over HTTPS</strong></td><td>Visit talent.stlucia.studio &mdash; padlock icon in browser</td></tr>
+              <tr><td><strong>Cloudflare active</strong></td><td>Check response headers for <code>cf-ray</code></td></tr>
+              <tr><td><strong>PWA installable</strong></td><td>Visit on phone &rarr; "Add to Home Screen" prompt appears</td></tr>
+              <tr><td><strong>Signup flow works</strong></td><td>Create a test account &mdash; verify it appears in Supabase</td></tr>
+              <tr><td><strong>Video recording works</strong></td><td>Record a test video &mdash; check Supabase Storage</td></tr>
+              <tr><td><strong>UptimeRobot active</strong></td><td>Check dashboard &mdash; should show "Up" status</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Social Accounts</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Check</th><th>How to Verify</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Facebook page live</strong></td><td>Visit facebook.com/TalentStLucia</td></tr>
+              <tr><td><strong>Instagram live</strong></td><td>Visit instagram.com/talent.stlucia</td></tr>
+              <tr><td><strong>TikTok live</strong></td><td>Visit tiktok.com/@talent.stlucia</td></tr>
+              <tr><td><strong>WhatsApp greeting</strong></td><td>Message your business number &mdash; auto-reply works</td></tr>
+              <tr><td><strong>LinkedIn page live</strong></td><td>Visit linkedin.com/company/talent-stlucia</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <h3>Analytics &amp; Tracking</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Check</th><th>How to Verify</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Plausible tracking</strong></td><td>Visit site &rarr; check plausible.io dashboard for your visit</td></tr>
+              <tr><td><strong>Facebook Pixel firing</strong></td><td>Install <a href="https://chrome.google.com/webstore/detail/meta-pixel-helper">Meta Pixel Helper</a> Chrome extension &rarr; visit site &rarr; check green icon</td></tr>
+              <tr><td><strong>Google Ads tag</strong></td><td>Install <a href="https://chrome.google.com/webstore/detail/google-tag-assistant">Google Tag Assistant</a> Chrome extension &rarr; verify tag fires</td></tr>
+              <tr><td><strong>Search Console</strong></td><td>Go to GSC dashboard &rarr; should show "Verified" status</td></tr>
+              <tr><td><strong>Custom events</strong></td><td>Do a test signup &rarr; check Supabase <code>events</code> table</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>OG / Social Sharing</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Check</th><th>How to Verify</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Facebook share preview</strong></td><td>Paste URL into <a href="https://developers.facebook.com/tools/debug/">Facebook Debugger</a></td></tr>
+              <tr><td><strong>Twitter/X preview</strong></td><td>Paste URL into <a href="https://cards-dev.twitter.com/validator">Twitter Card Validator</a></td></tr>
+              <tr><td><strong>LinkedIn preview</strong></td><td>Paste URL into <a href="https://www.linkedin.com/post-inspector/">LinkedIn Post Inspector</a></td></tr>
+              <tr><td><strong>WhatsApp preview</strong></td><td>Send link in WhatsApp &mdash; should show title + image + description</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout callout--mint">
+      <strong>All green?</strong> You're ready to launch. Go to <a href="index.html">the Launch Plan</a> and start Day 1. Post your first 3 Facebook and Instagram posts, launch your first ad campaign, and send your first WhatsApp broadcast. Use the <a href="workflows.html">Content Workflows</a> to generate everything.
+    </div>
+
+    <h3>Quick Links to All Dashboards</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Service</th><th>Dashboard URL</th><th>What to Check</th></tr></thead>
+        <tbody>
+          <tr><td>Supabase</td><td><a href="https://supabase.com/dashboard">supabase.com/dashboard</a></td><td>Profiles count, storage usage, auth users</td></tr>
+          <tr><td>Cloudflare</td><td><a href="https://dash.cloudflare.com">dash.cloudflare.com</a></td><td>Requests, bandwidth, cache hit ratio</td></tr>
+          <tr><td>Plausible</td><td><a href="https://plausible.io/talent.stlucia.studio">plausible.io/talent.stlucia.studio</a></td><td>Visitors, sources, pages, goals</td></tr>
+          <tr><td>Meta Business</td><td><a href="https://business.facebook.com">business.facebook.com</a></td><td>Ad performance, page insights, pixel events</td></tr>
+          <tr><td>Google Ads</td><td><a href="https://ads.google.com">ads.google.com</a></td><td>Clicks, CTR, CPC, conversions</td></tr>
+          <tr><td>Search Console</td><td><a href="https://search.google.com/search-console">search.google.com/search-console</a></td><td>Impressions, clicks, indexing</td></tr>
+          <tr><td>UptimeRobot</td><td><a href="https://dashboard.uptimerobot.com">dashboard.uptimerobot.com</a></td><td>Uptime %, response time</td></tr>
+          <tr><td>Resend</td><td><a href="https://resend.com/emails">resend.com/emails</a></td><td>Emails sent, deliverability, bounces</td></tr>
+          <tr><td>Stripe</td><td><a href="https://dashboard.stripe.com">dashboard.stripe.com</a></td><td>Revenue, subscriptions, payouts</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =================== FOOTER =================== -->
+<footer class="footer">
+  <div class="container">
+    <p><strong>talent.stlucia</strong> &mdash; Account Setup Guide</p>
+    <p><a href="index.html">&larr; Launch Plan</a> &nbsp;|&nbsp; <a href="workflows.html">Content Workflows</a> &nbsp;|&nbsp; <a href="https://talent.stlucia.studio">talent.stlucia.studio</a></p>
+    <p>13 accounts | ~2 hours total setup | Prepared February 2026</p>
+  </div>
+</footer>
+
+<!-- =================== SCRIPTS =================== -->
+<script>
+// Sticky TOC active state
+(function(){
+  const tocLinks = document.querySelectorAll('.toc__inner a');
+  const sections = [];
+  tocLinks.forEach(a => {
+    const id = a.getAttribute('href').replace('#','');
+    const el = document.getElementById(id);
+    if(el) sections.push({ el, a });
+  });
+  function update(){
+    let current = sections[0];
+    for(const s of sections){
+      if(s.el.getBoundingClientRect().top <= 80) current = s;
+    }
+    tocLinks.forEach(a => a.classList.remove('active'));
+    if(current) current.a.classList.add('active');
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
+// Fade-in
+(function(){
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.guide, .callout, .ov-card').forEach(el => {
+    el.classList.add('fade-in');
+    observer.observe(el);
+  });
+})();
+
+// Copy buttons on code blocks
+(function(){
+  document.querySelectorAll('.code').forEach(block => {
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.textContent = 'Copy';
+    btn.addEventListener('click', () => {
+      const text = block.textContent.replace('Copy','').replace('Copied!','').trim();
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+      });
+    });
+    block.appendChild(btn);
+  });
+})();
+</script>
+
+</body>
+</html>
