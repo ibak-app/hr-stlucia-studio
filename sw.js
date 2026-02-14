@@ -1,5 +1,5 @@
 // Service Worker — Talent by St. Lucia Studio
-var CACHE_NAME = 'talent-sl-v1';
+var CACHE_NAME = 'talent-sl-v2';
 var OFFLINE_URL = '/index.html';
 
 var PRECACHE_URLS = [
@@ -9,13 +9,21 @@ var PRECACHE_URLS = [
   '/login.html',
   '/dashboard.html',
   '/profile.html',
+  '/video.html',
   '/success.html',
+  '/browse.html',
+  '/talent.html',
+  '/forgot-password.html',
+  '/reset-password.html',
+  '/employers.html',
   '/privacy.html',
   '/terms.html',
   '/assets/css/style.css',
   '/assets/js/app.js',
   '/assets/js/supabase.js',
   '/assets/js/auth.js',
+  '/assets/js/analytics.js',
+  '/assets/js/video.js',
   '/assets/icons/favicon.svg'
 ];
 

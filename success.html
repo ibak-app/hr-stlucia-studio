@@ -173,6 +173,7 @@
         Record Video Resume
       </a>
       <a href="profile.html" class="btn btn--outline-white btn--full">Edit Your Profile</a>
+      <a href="#" class="btn btn--outline-white btn--full" id="view-public-btn" style="display:none;">View Your Public Profile</a>
       <a href="dashboard.html" class="btn btn--ghost btn--full" style="color: rgba(255,255,255,0.7);">Go to Dashboard</a>
     </div>
   </main>
@@ -189,6 +190,13 @@
         var refCode = (profile && profile.referral_code) ? profile.referral_code : 'share';
         var url = 'https://talent.stlucia.studio?ref=' + refCode;
         document.getElementById('share-url').value = url;
+
+        // Show public profile link
+        if (profile && profile.id) {
+          var pubBtn = document.getElementById('view-public-btn');
+          pubBtn.href = 'talent.html?id=' + profile.id;
+          pubBtn.style.display = '';
+        }
 
         // Track event
         DB.trackEvent('success_page_view', {});

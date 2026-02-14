@@ -116,6 +116,7 @@
       <div class="nav__links">
         <a href="profile.html">Profile</a>
         <a href="video.html">Video Resume</a>
+        <a href="browse.html">Browse Talent</a>
       </div>
       <div class="nav__cta">
         <a href="profile.html" class="btn btn--primary btn--sm">Edit Profile</a>
@@ -187,8 +188,21 @@
           </div>
         </a>
 
-        <a href="success.html" class="action-card" id="action-share">
+        <a href="#" class="action-card" id="action-public">
           <div class="action-card__icon action-card__icon--coral">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div class="action-card__body">
+            <div class="action-card__title">View Public Profile</div>
+            <div class="action-card__desc">See how employers see your profile.</div>
+          </div>
+          <div class="action-card__arrow">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </a>
+
+        <a href="success.html" class="action-card" id="action-share">
+          <div class="action-card__icon" style="background:rgba(239,71,111,0.1);color:var(--error);">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
           </div>
           <div class="action-card__body">
@@ -258,6 +272,11 @@
           else if (score >= 75) msg.textContent = 'Almost there! Add a few more details.';
           else if (score >= 50) msg.textContent = "You're halfway. Keep building your profile.";
           else msg.textContent = 'Complete your profile to get noticed by employers.';
+
+          // Set public profile link
+          if (profile.id) {
+            document.getElementById('action-public').href = 'talent.html?id=' + profile.id;
+          }
 
           // Mark completed actions
           if (profile.headline && profile.skills && profile.skills.length > 0) {

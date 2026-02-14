@@ -91,6 +91,22 @@ const Auth = {
     return await sb.auth.getUser();
   },
 
+  async resetPassword(email) {
+    var sb = getSupabase();
+    if (!sb) return { error: { message: 'Supabase not initialized' } };
+
+    return await sb.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + '/reset-password.html'
+    });
+  },
+
+  async updatePassword(newPassword) {
+    var sb = getSupabase();
+    if (!sb) return { error: { message: 'Supabase not initialized' } };
+
+    return await sb.auth.updateUser({ password: newPassword });
+  },
+
   onAuthStateChange(callback) {
     var sb = getSupabase();
     if (!sb) return { data: { subscription: { unsubscribe: function() {} } } };
@@ -210,6 +226,68 @@ const DB = {
       source: localStorage.getItem('talent_utm') || localStorage.getItem('talent_ref') || 'direct',
       user_agent: navigator.userAgent
     });
+  },
+
+  // Public profile (by profile ID)
+  async getPublicProfile(profileId) {
+    var sb = getSupabase();
+    if (!sb) return { data: null, error: { message: 'Not initialized' } };
+
+    return await sb
+      .from('profiles')
+      .select('id, first_name, last_name, headline, summary, skills, sectors, experience_years, education_level, location, nationality, wants_to_relocate, photo_url, video_url, video_duration, availability, work_type, created_at')
+      .eq('id', profileId)
+      .eq('status', 'active')
+      .single();
+  },
+
+  // Browse profiles with optional filters
+  async browseProfiles(options) {
+    var sb = getSupabase();
+    if (!sb) return { data: [], error: null, count: 0 };
+
+    options = options || {};
+    var query = sb
+      .from('profiles')
+      .select('id, first_name, last_name, headline, skills, sectors, photo_url, video_url, location, availability, experience_years, created_at', { count: 'exact' })
+      .eq('status', 'active')
+      .order('created_at', { ascending: false });
+
+    if (options.sector) query = query.contains('sectors', [options.sector]);
+    if (options.skill) query = query.contains('skills', [options.skill]);
+    if (options.search) query = query.or('first_name.ilike.%' + options.search + '%,last_name.ilike.%' + options.search + '%,headline.ilike.%' + options.search + '%');
+    if (options.availability) query = query.eq('availability', options.availability);
+    if (options.has_video) query = query.not('video_url', 'is', null);
+
+    var limit = options.limit || 24;
+    var offset = options.offset || 0;
+    query = query.range(offset, offset + limit - 1);
+
+    return await query;
+  },
+
+  // Get experiences for a public profile
+  async getPublicExperiences(profileId) {
+    var sb = getSupabase();
+    if (!sb) return { data: [], error: null };
+
+    return await sb
+      .from('experiences')
+      .select('company, role, start_date, end_date, description, location, is_current')
+      .eq('profile_id', profileId)
+      .order('start_date', { ascending: false });
+  },
+
+  // Get education for a public profile
+  async getPublicEducation(profileId) {
+    var sb = getSupabase();
+    if (!sb) return { data: [], error: null };
+
+    return await sb
+      .from('education')
+      .select('institution, degree, field, start_year, end_year, location')
+      .eq('profile_id', profileId)
+      .order('start_year', { ascending: false });
   },
 
   // Waitlist

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Talent Profile — talent.stlucia</title>
+  <meta name="description" content="View talent profile on talent.stlucia — Saint Lucia's talent platform.">
+  <meta name="theme-color" content="#0D7377">
+  <meta property="og:type" content="profile">
+  <meta property="og:site_name" content="talent.stlucia">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .tp {
+      padding-top: calc(var(--nav-height) + var(--spacing-lg));
+      padding-bottom: var(--spacing-3xl);
+      min-height: 100vh;
+      background: var(--bg-alt);
+    }
+    .tp__card {
+      max-width: 620px;
+      margin: 0 auto;
+    }
+    .tp__header {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-xl);
+      text-align: center;
+      margin-bottom: var(--spacing-md);
+    }
+    .tp__avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: rgba(13,115,119,0.1);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      font-weight: 700;
+      margin: 0 auto var(--spacing-md);
+      overflow: hidden;
+    }
+    .tp__avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .tp__name {
+      font-size: 24px;
+      font-weight: 800;
+    }
+    .tp__headline {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-top: 4px;
+    }
+    .tp__meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--spacing-sm) var(--spacing-md);
+      margin-top: var(--spacing-md);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .tp__meta span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tp__section {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-lg);
+      margin-bottom: var(--spacing-md);
+    }
+    .tp__section h3 {
+      margin-bottom: var(--spacing-md);
+      font-size: 17px;
+    }
+    .tp__about {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      white-space: pre-line;
+    }
+    .tp__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-sm);
+    }
+    .tp__entry {
+      border-bottom: 1px solid var(--border);
+      padding: var(--spacing-md) 0;
+    }
+    .tp__entry:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .tp__entry:first-child {
+      padding-top: 0;
+    }
+    .tp__entry-title {
+      font-weight: 600;
+      font-size: 15px;
+    }
+    .tp__entry-sub {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .tp__entry-dates {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .tp__entry-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: var(--spacing-sm);
+      line-height: 1.5;
+    }
+    .tp__video {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: #000;
+      aspect-ratio: 16/9;
+    }
+    .tp__video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .tp__cta {
+      text-align: center;
+      padding: var(--spacing-xl);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+    .tp__cta p {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: var(--spacing-md);
+    }
+    .tp__loading {
+      text-align: center;
+      padding: var(--spacing-3xl) 0;
+      color: var(--text-muted);
+    }
+    .tp__notfound {
+      text-align: center;
+      padding: var(--spacing-3xl) var(--spacing-md);
+    }
+    .tp__notfound h2 { margin-bottom: var(--spacing-sm); }
+    .tp__notfound p { color: var(--text-muted); margin-bottom: var(--spacing-lg); }
+  </style>
+  <script defer data-domain="talent.stlucia.studio" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="/" class="nav__logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <rect width="28" height="28" rx="6" fill="#0D7377"/>
+          <text x="14" y="19" text-anchor="middle" font-size="16" font-weight="800" fill="#FFD166">T</text>
+        </svg>
+        talent<span>.stlucia</span>
+      </a>
+      <div class="nav__cta">
+        <a href="browse.html" class="btn btn--ghost btn--sm">Browse Talent</a>
+        <a href="signup.html" class="btn btn--primary btn--sm">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="tp">
+    <div class="container">
+      <div class="tp__card">
+        <div id="loading" class="tp__loading">Loading profile...</div>
+        <div id="notfound" class="tp__notfound hidden">
+          <h2>Profile not found</h2>
+          <p>This profile may have been removed or is no longer active.</p>
+          <a href="browse.html" class="btn btn--primary">Browse Talent</a>
+        </div>
+        <div id="profile-content" class="hidden"></div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="assets/js/supabase.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/analytics.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+      var profileId = App.getUrlParam('id');
+      var loading = document.getElementById('loading');
+      var notfound = document.getElementById('notfound');
+      var content = document.getElementById('profile-content');
+
+      if (!profileId) {
+        loading.classList.add('hidden');
+        notfound.classList.remove('hidden');
+        return;
+      }
+
+      var result = await DB.getPublicProfile(profileId);
+
+      if (result.error || !result.data) {
+        loading.classList.add('hidden');
+        notfound.classList.remove('hidden');
+        return;
+      }
+
+      var p = result.data;
+
+      // Update page title and meta
+      var fullName = (p.first_name || '') + ' ' + (p.last_name || '');
+      document.title = fullName.trim() + ' — talent.stlucia';
+
+      // Fetch experiences & education in parallel
+      var expResult = DB.getPublicExperiences(profileId);
+      var eduResult = DB.getPublicEducation(profileId);
+      var results = await Promise.all([expResult, eduResult]);
+      var experiences = results[0].data || [];
+      var education = results[1].data || [];
+
+      // Build HTML
+      var html = '';
+
+      // Header
+      var initials = (p.first_name || '?')[0] + (p.last_name || '')[0];
+      html += '<div class="tp__header">';
+      html += '<div class="tp__avatar">';
+      if (p.photo_url) {
+        html += '<img src="' + App.escapeHtml(p.photo_url) + '" alt="' + App.escapeHtml(fullName) + '">';
+      } else {
+        html += initials.toUpperCase();
+      }
+      html += '</div>';
+      html += '<div class="tp__name">' + App.escapeHtml(fullName) + '</div>';
+      if (p.headline) html += '<div class="tp__headline">' + App.escapeHtml(p.headline) + '</div>';
+
+      // Meta info
+      var metaItems = [];
+      if (p.location) metaItems.push('<span>' + App.escapeHtml(p.location) + '</span>');
+      if (p.availability) {
+        var avail = App.AVAILABILITY_OPTIONS.find(function(a) { return a.value === p.availability; });
+        if (avail) metaItems.push('<span>Available ' + avail.label.toLowerCase() + '</span>');
+      }
+      if (p.experience_years !== null) {
+        metaItems.push('<span>' + p.experience_years + '+ years experience</span>');
+      }
+      if (p.video_url) metaItems.push('<span>Video resume</span>');
+      if (metaItems.length) html += '<div class="tp__meta">' + metaItems.join('') + '</div>';
+      html += '</div>';
+
+      // About
+      if (p.summary) {
+        html += '<div class="tp__section"><h3>About</h3><div class="tp__about">' + App.escapeHtml(p.summary) + '</div></div>';
+      }
+
+      // Video
+      if (p.video_url) {
+        html += '<div class="tp__section"><h3>Video Resume</h3><div class="tp__video"><video src="' + App.escapeHtml(p.video_url) + '" controls playsinline></video></div></div>';
+      }
+
+      // Skills
+      if (p.skills && p.skills.length) {
+        html += '<div class="tp__section"><h3>Skills</h3><div class="tp__tags">';
+        p.skills.forEach(function(s) { html += '<span class="tag">' + App.escapeHtml(s) + '</span>'; });
+        html += '</div></div>';
+      }
+
+      // Sectors
+      if (p.sectors && p.sectors.length) {
+        html += '<div class="tp__section"><h3>Industries</h3><div class="tp__tags">';
+        p.sectors.forEach(function(s) { html += '<span class="tag">' + App.escapeHtml(s) + '</span>'; });
+        html += '</div></div>';
+      }
+
+      // Work type
+      if (p.work_type && p.work_type.length) {
+        var wtLabels = { full_time: 'Full-time', part_time: 'Part-time', contract: 'Contract', remote: 'Remote', hybrid: 'Hybrid' };
+        html += '<div class="tp__section"><h3>Work Preferences</h3><div class="tp__tags">';
+        p.work_type.forEach(function(wt) { html += '<span class="tag">' + (wtLabels[wt] || wt) + '</span>'; });
+        html += '</div></div>';
+      }
+
+      // Experience
+      if (experiences.length) {
+        html += '<div class="tp__section"><h3>Experience</h3>';
+        experiences.forEach(function(exp) {
+          html += '<div class="tp__entry">';
+          html += '<div class="tp__entry-title">' + App.escapeHtml(exp.role) + '</div>';
+          html += '<div class="tp__entry-sub">' + App.escapeHtml(exp.company) + (exp.location ? ' &middot; ' + App.escapeHtml(exp.location) : '') + '</div>';
+          var dates = '';
+          if (exp.start_date) dates = App.formatDate(exp.start_date);
+          if (exp.is_current) dates += ' — Present';
+          else if (exp.end_date) dates += ' — ' + App.formatDate(exp.end_date);
+          if (dates) html += '<div class="tp__entry-dates">' + dates + '</div>';
+          if (exp.description) html += '<div class="tp__entry-desc">' + App.escapeHtml(exp.description) + '</div>';
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+
+      // Education
+      if (education.length) {
+        html += '<div class="tp__section"><h3>Education</h3>';
+        education.forEach(function(edu) {
+          html += '<div class="tp__entry">';
+          html += '<div class="tp__entry-title">' + App.escapeHtml(edu.institution) + '</div>';
+          if (edu.degree) html += '<div class="tp__entry-sub">' + App.escapeHtml(edu.degree) + (edu.field ? ' in ' + App.escapeHtml(edu.field) : '') + '</div>';
+          var years = '';
+          if (edu.start_year) years = edu.start_year.toString();
+          if (edu.end_year) years += ' — ' + edu.end_year.toString();
+          if (years) html += '<div class="tp__entry-dates">' + years + '</div>';
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+
+      // CTA
+      html += '<div class="tp__cta">';
+      html += '<p>Interested in hiring ' + App.escapeHtml(p.first_name || 'this talent') + '?</p>';
+      html += '<a href="employers.html" class="btn btn--primary">Join as Employer</a>';
+      html += '</div>';
+
+      loading.classList.add('hidden');
+      content.innerHTML = html;
+      content.classList.remove('hidden');
+
+      // Track view
+      if (typeof DB !== 'undefined' && DB.trackEvent) {
+        DB.trackEvent('profile_view', { profile_id: profileId });
+      }
+    });
+  </script>
+</body>
+</html>
